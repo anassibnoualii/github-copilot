@@ -15,7 +15,8 @@
     "playground": "Playground",
     "cheatSheet": "Cheat Sheet",
     "featureIndex": "Feature Index",
-    "references": "References"
+    "references": "References",
+    "configBuilder": "Config Builder"
   },
   "topbar": {
     "findMyLevel": "Find My Level",
@@ -39,10 +40,11 @@
     "referenceLabel": "Reference",
     "referenceTitle": "Tools & Reference",
     "quickLinks": {
-      "playground": { "title": "Playground", "desc": "Try Copilot CLI commands interactively" },
-      "cheatsheet": { "title": "Cheat Sheet", "desc": "All shortcuts, commands & context variables" },
-      "features": { "title": "Feature Index", "desc": "Search 60+ features by level and category" },
-      "quiz": { "title": "Quiz", "desc": "Find the right starting module for you" }
+      "playground":     { "title": "Playground",      "desc": "Try Copilot CLI commands interactively" },
+      "cheatsheet":     { "title": "Cheat Sheet",     "desc": "All shortcuts, commands & context variables" },
+      "features":       { "title": "Feature Index",   "desc": "Search 60+ features by level and category" },
+      "quiz":           { "title": "Quiz",            "desc": "Find the right starting module for you" },
+      "configBuilder":  { "title": "Config Builder",  "desc": "Generate your VS Code settings.json visually" }
     }
   },
   "module": {
@@ -53,7 +55,9 @@
     "next": "Next",
     "progress": "Module {{current}} of {{total}}",
     "loading": "Loading…",
-    "comingSoon": "Content coming soon."
+    "comingSoon": "Content coming soon.",
+    "markDone": "Mark as Complete",
+    "markedDone": "Completed"
   },
   "quiz": {
     "badge": "Assessment",
@@ -94,7 +98,19 @@
   "references": {
     "badge": "Reference",
     "title": "References",
-    "description": "Official documentation, changelogs, learning resources, and IDE extensions — everything you need to go deeper."
+    "description": "Official documentation, changelogs, learning resources, and IDE extensions — everything you need to go deeper.",
+    "allTypes": "All Types",
+    "type": {
+      "doc": "Docs",
+      "blog": "Blog",
+      "repo": "Repo",
+      "video": "Video"
+    }
+  },
+  "configBuilder": {
+    "badge": "Tools",
+    "title": "Config Builder",
+    "description": "Toggle features and copy the generated VS Code settings.json — no manual JSON editing needed."
   },
   "playground": {
     "title": "Copilot CLI Simulator",

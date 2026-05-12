@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 import LevelBadge from '@/components/shared/LevelBadge'
 import PageHeader from '@/components/shared/PageHeader'
 import SearchInput from '@/components/shared/SearchInput'
@@ -11,6 +13,7 @@ export default function FeaturesPage() {
   const localisedFeatures = useLocalisedFeatures()
   const { query, setQuery, activeLevel, setActiveLevel, activeCategory, setActiveCategory, filtered } =
     useFeaturesFilter(localisedFeatures)
+  const [expandedIdx, setExpandedIdx] = useState<number | null>(null)
 
   const LEVELS = [
     { value: 'all',          label: t('features.allLevels') },
@@ -27,6 +30,10 @@ export default function FeaturesPage() {
     { value: 'Extensions', label: t('features.categories.extensions') },
     { value: 'Enterprise', label: t('features.categories.enterprise') },
   ]
+
+  function toggleExpand(i: number) {
+    setExpandedIdx(prev => (prev === i ? null : i))
+  }
 
   return (
     <div className="page">
@@ -51,19 +58,37 @@ export default function FeaturesPage() {
       </div>
 
       <div className="feature-list">
-        {filtered.map((f, i) => (
-          <div key={i} className="feature-item">
-            <div className="feature-item-icon">{f.icon}</div>
-            <div className="feature-item-body">
-              <div className="feature-item-name">{f.name}</div>
-              <div className="feature-item-desc">{f.desc}</div>
+        {filtered.map((f, i) => {
+          const isExpanded = expandedIdx === i
+          const hasExample = Boolean(f.example)
+          return (
+            <div
+              key={i}
+              className={`feature-item ${hasExample ? 'feature-item-clickable' : ''} ${isExpanded ? 'feature-item-expanded' : ''}`}
+              onClick={() => hasExample && toggleExpand(i)}
+            >
+              <div className="feature-item-row">
+                <div className="feature-item-icon">{f.icon}</div>
+                <div className="feature-item-body">
+                  <div className="feature-item-name">{f.name}</div>
+                  <div className="feature-item-desc">{f.desc}</div>
+                </div>
+                <div className="feature-item-tags">
+                  <LevelBadge level={f.level} />
+                  <span className="badge badge-purple">{f.category}</span>
+                  {hasExample && (
+                    <span className="feature-expand-icon">
+                      {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                    </span>
+                  )}
+                </div>
+              </div>
+              {isExpanded && f.example && (
+                <pre className="feature-example">{f.example}</pre>
+              )}
             </div>
-            <div className="feature-item-tags">
-              <LevelBadge level={f.level} />
-              <span className="badge badge-purple">{f.category}</span>
-            </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )

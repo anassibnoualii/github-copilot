@@ -122,3 +122,24 @@ The most powerful prompts combine a slash command, a participant, and context va
   'Combine commands + participants + context variables for precision prompts',
   '/new can scaffold entire components, routes, and project structures',
 ]} />
+
+<ModuleQuiz questions={[
+  {
+    q: "Which slash command generates unit tests for selected code?",
+    opts: ["/tests", "/test", "/generate", "/unittest"],
+    correct: 0,
+    explanation: "/tests is the correct command. It analyzes your selected function and generates test cases covering typical inputs, edge cases, and error scenarios."
+  },
+  {
+    q: "How do you reference a specific file in a chat prompt?",
+    opts: ["#file:path/to/file.ts", "@file:path/to/file.ts", "/file path/to/file.ts", "#ref:path/to/file.ts"],
+    correct: 0,
+    explanation: "#file is a context variable. You can type #file and VS Code will show an autocomplete picker for your workspace files. The selected file's content is attached to your prompt."
+  },
+  {
+    q: "What is the difference between /explain and @workspace?",
+    opts: ["/explain works on selected code; @workspace searches the whole project", "They do the same thing", "@workspace only reads package.json", "/explain requires a file to be open"],
+    correct: 0,
+    explanation: "/explain provides a plain-English explanation of selected code or a referenced file. @workspace lets Copilot search and index your entire project to answer broader architectural questions."
+  }
+]} />

@@ -15,7 +15,8 @@
     "playground": "Bac à sable",
     "cheatSheet": "Aide-mémoire",
     "featureIndex": "Index des fonctionnalités",
-    "references": "Références"
+    "references": "Références",
+    "configBuilder": "Constructeur de config"
   },
   "topbar": {
     "findMyLevel": "Mon niveau",
@@ -42,7 +43,8 @@
       "playground": { "title": "Bac à sable", "desc": "Essayez les commandes Copilot CLI interactivement" },
       "cheatsheet": { "title": "Aide-mémoire", "desc": "Tous les raccourcis, commandes et variables de contexte" },
       "features": { "title": "Index des fonctionnalités", "desc": "Recherchez 60+ fonctionnalités par niveau et catégorie" },
-      "quiz": { "title": "Quiz", "desc": "Trouvez le bon module de départ pour vous" }
+      "quiz":          { "title": "Quiz",                   "desc": "Trouvez le bon module de départ pour vous" },
+      "configBuilder": { "title": "Constructeur de config", "desc": "Générez votre settings.json VS Code visuellement" }
     }
   },
   "module": {
@@ -53,7 +55,9 @@
     "next": "Suivant",
     "progress": "Module {{current}} sur {{total}}",
     "loading": "Chargement…",
-    "comingSoon": "Contenu à venir."
+    "comingSoon": "Contenu à venir.",
+    "markDone": "Marquer comme terminé",
+    "markedDone": "Terminé"
   },
   "quiz": {
     "badge": "Évaluation",
@@ -94,7 +98,19 @@
   "references": {
     "badge": "Référence",
     "title": "Références",
-    "description": "Documentation officielle, journaux de modifications, ressources d'apprentissage et extensions IDE — tout ce dont vous avez besoin pour aller plus loin."
+    "description": "Documentation officielle, journaux de modifications, ressources d'apprentissage et extensions IDE — tout ce dont vous avez besoin pour aller plus loin.",
+    "allTypes": "Tous les types",
+    "type": {
+      "doc": "Docs",
+      "blog": "Blog",
+      "repo": "Dépôt",
+      "video": "Vidéo"
+    }
+  },
+  "configBuilder": {
+    "badge": "Outils",
+    "title": "Constructeur de config",
+    "description": "Activez les fonctionnalités et copiez le settings.json VS Code généré — sans édition manuelle de JSON."
   },
   "playground": {
     "title": "Simulateur Copilot CLI",

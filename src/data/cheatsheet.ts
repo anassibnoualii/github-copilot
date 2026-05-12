@@ -7,11 +7,23 @@ const cheatsheetGroups: CheatsheetGroup[] = [
     items: [
       { cmd: 'Tab', desc: 'Accept the current inline suggestion' },
       { cmd: 'Esc', desc: 'Dismiss the current suggestion' },
-      { cmd: 'Alt + ]', desc: 'Show next suggestion' },
-      { cmd: 'Alt + [', desc: 'Show previous suggestion' },
+      { cmd: 'Alt + ]', desc: 'Show next suggestion', platforms: { mac: 'Option + ]', win: 'Alt + ]' } },
+      { cmd: 'Alt + [', desc: 'Show previous suggestion', platforms: { mac: 'Option + [', win: 'Alt + [' } },
       { cmd: 'Ctrl + Enter', desc: 'Open the Copilot suggestion panel (10 options)' },
-      { cmd: 'Alt + \\', desc: 'Trigger inline suggestion manually' },
-      { cmd: 'Ctrl + →', desc: 'Accept next word of suggestion' },
+      { cmd: 'Alt + \\', desc: 'Trigger inline suggestion manually', platforms: { mac: 'Option + \\', win: 'Alt + \\' } },
+      { cmd: 'Ctrl + →', desc: 'Accept next word of suggestion', platforms: { mac: 'Cmd + →', win: 'Ctrl + →' } },
+    ]
+  },
+  {
+    title: 'Chat & Inline Chat',
+    icon: '💬',
+    items: [
+      { cmd: 'Ctrl+Alt+I', desc: 'Open Copilot Chat panel', platforms: { mac: 'Cmd+Shift+I', win: 'Ctrl+Alt+I' } },
+      { cmd: 'Ctrl+I', desc: 'Open inline chat at cursor', platforms: { mac: 'Cmd+I', win: 'Ctrl+I' } },
+      { cmd: 'Escape', desc: 'Close inline chat / dismiss suggestion' },
+      { cmd: 'Enter', desc: 'Send message in chat panel' },
+      { cmd: 'Shift+Enter', desc: 'Add newline without sending' },
+      { cmd: 'Up / Down', desc: 'Navigate message history in chat input' },
     ]
   },
   {

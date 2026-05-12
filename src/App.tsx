@@ -7,6 +7,7 @@ import CheatSheetPage from '@/pages/CheatSheetPage'
 import FeaturesPage from '@/pages/FeaturesPage'
 import QuizPage from '@/pages/QuizPage'
 import ReferencesPage from '@/pages/ReferencesPage'
+import ConfigBuilderPage from '@/pages/ConfigBuilderPage'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="features" element={<FeaturesPage />} />
         <Route path="quiz" element={<QuizPage />} />
         <Route path="references" element={<ReferencesPage />} />
+        <Route path="config-builder" element={<ConfigBuilderPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

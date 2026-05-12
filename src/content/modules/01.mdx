@@ -71,3 +71,25 @@ def validate_email(email: str) -> bool:
   'Open related files as tabs to give Copilot more context',
   'Premium requests are limited per plan — default model is always free',
 ]} />
+
+
+<ModuleQuiz questions={[
+  {
+    q: "Which key accepts a Copilot inline suggestion?",
+    opts: ["Tab", "Enter", "Space", "Escape"],
+    correct: 0,
+    explanation: "Tab accepts the full suggestion. Enter only works in some editors. Escape dismisses the suggestion instead."
+  },
+  {
+    q: "What does Alt+] do in VS Code?",
+    opts: ["Show next suggestion", "Show previous suggestion", "Open suggestion panel", "Dismiss suggestion"],
+    correct: 0,
+    explanation: "Alt+] (Option+] on Mac) cycles to the next alternative suggestion. Alt+[ goes to the previous one. Ctrl+Enter opens the full suggestion panel with up to 10 options."
+  },
+  {
+    q: "What context does Copilot primarily use to generate suggestions?",
+    opts: ["Your current file and open tabs", "Your git history", "Your package.json only", "Your VS Code settings"],
+    correct: 0,
+    explanation: "Copilot uses your current file content, open tabs, imports, and cursor position as context. The more relevant context visible, the better the suggestions."
+  }
+]} />

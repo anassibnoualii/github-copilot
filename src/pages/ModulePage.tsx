@@ -2,11 +2,13 @@ import { lazy, Suspense, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { MDXProvider } from '@mdx-js/react'
-import { Clock, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Clock, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react'
 import mdxComponents from '@/components/mdx/mdx-components'
 import LevelBadge from '@/components/shared/LevelBadge'
 import ProgressBar from '@/components/shared/ProgressBar'
+import ModuleTerminal from '@/components/module/ModuleTerminal'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
+import { useProgress } from '@/hooks/useProgress'
 import { LEVEL_PANEL_COLORS, calculateProgress } from '@/lib/utils'
 
 const mdxGlob = import.meta.glob('../content/modules/*.mdx')
@@ -21,11 +23,13 @@ export default function ModulePage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const modules = useLocalisedModules()
+  const { completed, markDone } = useProgress()
 
   const idx = modules.findIndex(m => m.id === id)
   const mod = idx !== -1 ? modules[idx] : null
   const prev = idx > 0 ? modules[idx - 1] : null
   const next = idx !== -1 && idx < modules.length - 1 ? modules[idx + 1] : null
+  const isDone = id ? completed.includes(id) : false
 
   useEffect(() => { window.scrollTo(0, 0) }, [id])
 
@@ -65,7 +69,17 @@ export default function ModulePage() {
           <div className="module-panel-section-label panel-level-tryit">
             {t('module.tryItYourself')}
           </div>
-          <p className="module-tryit-text">{mod.tryIt}</p>
+          <ModuleTerminal tutorial={mod.tutorial} moduleId={mod.id} />
+        </div>
+
+        <div className="module-panel-section">
+          <button
+            className={`module-done-btn ${isDone ? 'done' : ''}`}
+            onClick={() => id && markDone(id)}
+          >
+            <CheckCircle2 size={14} />
+            {isDone ? t('module.markedDone') : t('module.markDone')}
+          </button>
         </div>
 
         <div className="module-panel-nav">

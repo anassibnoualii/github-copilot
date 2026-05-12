@@ -22,12 +22,13 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
       return modules.find(m => m.id === id)?.title ?? id
     }
     const map: Record<string, string> = {
-      '/':           t('nav.home'),
-      '/playground': t('nav.playground'),
-      '/cheatsheet': t('nav.cheatSheet'),
-      '/features':   t('nav.featureIndex'),
-      '/quiz':       t('nav.findYourLevel'),
-      '/references': t('nav.references'),
+      '/':               t('nav.home'),
+      '/playground':     t('nav.playground'),
+      '/cheatsheet':     t('nav.cheatSheet'),
+      '/features':       t('nav.featureIndex'),
+      '/quiz':           t('nav.findYourLevel'),
+      '/references':     t('nav.references'),
+      '/config-builder': t('nav.configBuilder'),
     }
     return map[pathname] ?? t('app.breadcrumbRoot')
   }

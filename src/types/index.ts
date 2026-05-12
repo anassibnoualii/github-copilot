@@ -2,6 +2,20 @@ export type Level = 'beginner' | 'intermediate' | 'advanced'
 export type CalloutVariant = 'tip' | 'warning' | 'info' | 'success'
 export type PlaygroundMode = 'normal' | 'autopilot'
 export type FeatureCategory = 'IDE' | 'CLI' | 'GitHub.com' | 'Extensions' | 'Enterprise'
+export type ReferenceType = 'doc' | 'blog' | 'repo' | 'video'
+export type OS = 'mac' | 'win' | 'linux'
+
+export interface TutorialStep {
+  input: string
+  output: string
+}
+
+export interface ModuleQuizQuestion {
+  q: string
+  opts: string[]
+  correct: number
+  explanation: string
+}
 
 export interface ModuleMeta {
   id: string
@@ -11,6 +25,7 @@ export interface ModuleMeta {
   description: string
   outcomes: string[]
   tryIt: string
+  tutorial: TutorialStep[]
 }
 
 export interface Feature {
@@ -19,11 +34,13 @@ export interface Feature {
   desc: string
   level: Level
   category: FeatureCategory
+  example?: string
 }
 
 export interface CheatsheetItem {
   cmd: string
   desc: string
+  platforms?: { mac: string; win: string }
 }
 
 export interface CheatsheetGroup {
@@ -74,6 +91,7 @@ export interface ReferenceLink {
   title: string
   url: string
   desc: string
+  type: ReferenceType
 }
 
 export interface ReferenceSection {

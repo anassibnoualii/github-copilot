@@ -1,24 +1,34 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked } from 'lucide-react'
+import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked, Settings2, CheckCircle2 } from 'lucide-react'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
+import { useProgress } from '@/hooks/useProgress'
 import { navLinkClass, LEVEL_NAV_BADGE, LEVEL_SHORT_LABEL } from '@/lib/utils'
 
-function ModuleLinks({ modules, onClose }: { modules: ReturnType<typeof useLocalisedModules>; onClose: () => void }) {
+function ModuleLinks({ modules, completed, onClose }: {
+  modules: ReturnType<typeof useLocalisedModules>
+  completed: string[]
+  onClose: () => void
+}) {
   return (
     <>
-      {modules.map(m => (
-        <NavLink
-          key={m.id}
-          to={`/module/${m.id}`}
-          className={({ isActive }) => navLinkClass(isActive)}
-          onClick={onClose}
-        >
-          <span className="nav-icon nav-num">{m.id}</span>
-          {m.title}
-          <span className={`nav-badge ${LEVEL_NAV_BADGE[m.level]}`}>{LEVEL_SHORT_LABEL[m.level]}</span>
-        </NavLink>
-      ))}
+      {modules.map(m => {
+        const done = completed.includes(m.id)
+        return (
+          <NavLink
+            key={m.id}
+            to={`/module/${m.id}`}
+            className={({ isActive }) => navLinkClass(isActive)}
+            onClick={onClose}
+          >
+            <span className="nav-icon nav-num">{m.id}</span>
+            {m.title}
+            {done
+              ? <CheckCircle2 size={12} className="nav-done-icon" />
+              : <span className={`nav-badge ${LEVEL_NAV_BADGE[m.level]}`}>{LEVEL_SHORT_LABEL[m.level]}</span>}
+          </NavLink>
+        )
+      })}
     </>
   )
 }
@@ -31,10 +41,14 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { t } = useTranslation()
   const modules = useLocalisedModules()
+  const { completed } = useProgress()
 
   const beginners     = modules.filter(m => m.level === 'beginner')
   const intermediates = modules.filter(m => m.level === 'intermediate')
   const advanceds     = modules.filter(m => m.level === 'advanced')
+
+  const doneCount = completed.length
+  const totalCount = modules.length
 
   const NAV_SECTIONS = [
     { label: t('nav.startHere'), links: [
@@ -43,9 +57,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       { to: '/playground',   icon: <Terminal size={14} />,   label: t('nav.playground') },
     ]},
     { label: t('nav.reference'), links: [
-      { to: '/cheatsheet',   icon: <BookOpen size={14} />,   label: t('nav.cheatSheet') },
-      { to: '/features',     icon: <LayoutGrid size={14} />, label: t('nav.featureIndex') },
-      { to: '/references',   icon: <BookMarked size={14} />, label: t('nav.references') },
+      { to: '/cheatsheet',     icon: <BookOpen size={14} />,   label: t('nav.cheatSheet') },
+      { to: '/features',       icon: <LayoutGrid size={14} />, label: t('nav.featureIndex') },
+      { to: '/references',     icon: <BookMarked size={14} />, label: t('nav.references') },
+      { to: '/config-builder', icon: <Settings2 size={14} />,  label: t('nav.configBuilder') },
     ]},
   ]
 
@@ -56,6 +71,19 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <h2>{t('app.name')}</h2>
           <span>{t('app.subtitle')}</span>
         </div>
+
+        {totalCount > 0 && (
+          <div className="sidebar-progress">
+            <div className="sidebar-progress-bar">
+              <div
+                className="sidebar-progress-fill"
+                style={{ width: `${Math.round((doneCount / totalCount) * 100)}%` }}
+              />
+            </div>
+            <span className="sidebar-progress-label">{doneCount}/{totalCount} done</span>
+          </div>
+        )}
+
         <nav>
           <div className="nav-section">
             <div className="nav-section-label">{NAV_SECTIONS[0].label}</div>
@@ -73,7 +101,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           ].map(({ label, modules: mods }) => (
             <div key={label} className="nav-section">
               <div className="nav-section-label">{label}</div>
-              <ModuleLinks modules={mods} onClose={onClose} />
+              <ModuleLinks modules={mods} completed={completed} onClose={onClose} />
             </div>
           ))}
 
