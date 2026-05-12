@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BookOpen, FileText, Github, Video } from 'lucide-react'
+import { BookOpen, FileText, GitBranch, Video } from 'lucide-react'
 import PageHeader from '@/components/shared/PageHeader'
 import FilterBar from '@/components/shared/FilterBar'
 import { useLocalisedReferences } from '@/hooks/useLocalisedData'
@@ -9,7 +9,7 @@ import type { ReferenceType } from '@/types'
 const TYPE_ICONS: Record<ReferenceType, React.ReactNode> = {
   doc:   <BookOpen size={11} />,
   blog:  <FileText size={11} />,
-  repo:  <Github size={11} />,
+  repo:  <GitBranch size={11} />,
   video: <Video size={11} />,
 }
 
