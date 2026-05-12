@@ -1132,11 +1132,31 @@ section { margin-bottom: 48px; }
 .cli-task-wrap {
   display: flex;
   flex-direction: column;
-  padding: 12px;
-  border-bottom: none;
+  gap: 8px;
+  padding: 14px;
 }
-.cli-task-wrap textarea { resize: vertical; }
-.cli-run-btn { display: flex; align-items: center; gap: 6px; margin-top: 8px; align-self: flex-end; }
+.cli-task-wrap textarea {
+  width: 100%;
+  background: var(--gh-surface2);
+  border: 1px solid var(--gh-border);
+  border-radius: var(--radius);
+  color: var(--gh-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.83rem;
+  padding: 10px 12px;
+  resize: vertical;
+  line-height: 1.75;
+  min-height: 96px;
+  box-sizing: border-box;
+  transition: border-color .15s;
+}
+.cli-task-wrap textarea:focus {
+  outline: none;
+  border-color: var(--gh-purple);
+  box-shadow: 0 0 0 2px rgba(137, 87, 229, 0.15);
+}
+.cli-task-wrap textarea::placeholder { color: var(--gh-muted); }
+.cli-run-btn { display: flex; align-items: center; gap: 6px; align-self: flex-end; }
 .playground-panel-header-sep { border-top: 1px solid var(--gh-border); }
 .cli-output-empty { opacity: 0.4; }
 
