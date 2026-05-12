@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import cheatsheetGroups from '@/data/cheatsheet'
 import PageHeader from '@/components/shared/PageHeader'
 import SearchInput from '@/components/shared/SearchInput'
 import { useCheatsheetSearch } from '@/hooks/useCheatsheetSearch'
+import { useLocalisedCheatsheet } from '@/hooks/useLocalisedData'
 
 export default function CheatSheetPage() {
   const { t } = useTranslation()
-  const { query, setQuery, filtered, highlight } = useCheatsheetSearch(cheatsheetGroups)
+  const localisedGroups = useLocalisedCheatsheet()
+  const { query, setQuery, filtered, highlight } = useCheatsheetSearch(localisedGroups)
 
   return (
     <div className="page">

@@ -1,15 +1,16 @@
 import { useTranslation } from 'react-i18next'
-import features from '@/data/features'
 import LevelBadge from '@/components/shared/LevelBadge'
 import PageHeader from '@/components/shared/PageHeader'
 import SearchInput from '@/components/shared/SearchInput'
 import FilterBar from '@/components/shared/FilterBar'
 import { useFeaturesFilter } from '@/hooks/useFeaturesFilter'
+import { useLocalisedFeatures } from '@/hooks/useLocalisedData'
 
 export default function FeaturesPage() {
   const { t } = useTranslation()
+  const localisedFeatures = useLocalisedFeatures()
   const { query, setQuery, activeLevel, setActiveLevel, activeCategory, setActiveCategory, filtered } =
-    useFeaturesFilter(features)
+    useFeaturesFilter(localisedFeatures)
 
   const LEVELS = [
     { value: 'all',          label: t('features.allLevels') },
@@ -50,8 +51,8 @@ export default function FeaturesPage() {
       </div>
 
       <div className="feature-list">
-        {filtered.map(f => (
-          <div key={f.name} className="feature-item">
+        {filtered.map((f, i) => (
+          <div key={i} className="feature-item">
             <div className="feature-item-icon">{f.icon}</div>
             <div className="feature-item-body">
               <div className="feature-item-name">{f.name}</div>

@@ -1,14 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked } from 'lucide-react'
-import modulesMeta from '@/data/modules-meta'
+import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { navLinkClass, LEVEL_NAV_BADGE, LEVEL_SHORT_LABEL } from '@/lib/utils'
 
-const beginners     = modulesMeta.filter(m => m.level === 'beginner')
-const intermediates = modulesMeta.filter(m => m.level === 'intermediate')
-const advanceds     = modulesMeta.filter(m => m.level === 'advanced')
-
-function ModuleLinks({ modules, onClose }: { modules: typeof modulesMeta; onClose: () => void }) {
+function ModuleLinks({ modules, onClose }: { modules: ReturnType<typeof useLocalisedModules>; onClose: () => void }) {
   return (
     <>
       {modules.map(m => (
@@ -34,6 +30,11 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { t } = useTranslation()
+  const modules = useLocalisedModules()
+
+  const beginners     = modules.filter(m => m.level === 'beginner')
+  const intermediates = modules.filter(m => m.level === 'intermediate')
+  const advanceds     = modules.filter(m => m.level === 'advanced')
 
   const NAV_SECTIONS = [
     { label: t('nav.startHere'), links: [
@@ -69,10 +70,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             { label: t('nav.beginner'),     modules: beginners },
             { label: t('nav.intermediate'), modules: intermediates },
             { label: t('nav.advanced'),     modules: advanceds },
-          ].map(({ label, modules }) => (
+          ].map(({ label, modules: mods }) => (
             <div key={label} className="nav-section">
               <div className="nav-section-label">{label}</div>
-              <ModuleLinks modules={modules} onClose={onClose} />
+              <ModuleLinks modules={mods} onClose={onClose} />
             </div>
           ))}
 

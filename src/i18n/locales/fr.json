@@ -122,5 +122,484 @@
   },
   "lang": {
     "switcher": "Langue"
+  },
+  "data": {
+    "cheatsheet": {
+      "groups": [
+        {
+          "title": "Complétions en ligne — Raccourcis clavier",
+          "items": [
+            { "desc": "Accepter la suggestion en ligne actuelle" },
+            { "desc": "Ignorer la suggestion actuelle" },
+            { "desc": "Afficher la suggestion suivante" },
+            { "desc": "Afficher la suggestion précédente" },
+            { "desc": "Ouvrir le panneau de suggestions Copilot (10 options)" },
+            { "desc": "Déclencher manuellement une suggestion en ligne" },
+            { "desc": "Accepter le mot suivant de la suggestion" }
+          ]
+        },
+        {
+          "title": "Commandes slash du Chat",
+          "items": [
+            { "desc": "Expliquer le code ou fichier sélectionné" },
+            { "desc": "Proposer une correction pour les problèmes dans le code" },
+            { "desc": "Générer des tests unitaires pour la sélection" },
+            { "desc": "Ajouter des commentaires de documentation au code" },
+            { "desc": "Créer un nouveau fichier ou squelette de projet" },
+            { "desc": "Effacer l'historique de la conversation du chat" },
+            { "desc": "Afficher les commandes et participants disponibles" },
+            { "desc": "Demander une revue de code des modifications" }
+          ]
+        },
+        {
+          "title": "Variables de contexte",
+          "items": [
+            { "desc": "Référencer un fichier spécifique de votre espace de travail" },
+            { "desc": "Référencer le code actuellement sélectionné" },
+            { "desc": "Laisser Copilot chercher dans toute la base de code" },
+            { "desc": "Référencer la dernière commande terminal exécutée" },
+            { "desc": "Référencer le texte sélectionné dans le terminal" },
+            { "desc": "Référencer le contenu de l'éditeur actuel" }
+          ]
+        },
+        {
+          "title": "Participants du Chat",
+          "items": [
+            { "desc": "Poser des questions sur l'ensemble de votre projet" },
+            { "desc": "Obtenir de l'aide sur les paramètres et commandes VS Code" },
+            { "desc": "Expliquer la sortie du terminal ou proposer des commandes" },
+            { "desc": "Interroger GitHub — issues, PRs, recherche de code" },
+            { "desc": "Extension Docker pour l'aide aux conteneurs" }
+          ]
+        },
+        {
+          "title": "Commandes Copilot CLI",
+          "items": [
+            { "desc": "Installer le nouveau Copilot CLI globalement" },
+            { "desc": "Démarrer une session interactive Copilot CLI" },
+            { "desc": "Basculer entre le mode Normal et Autopilote dans le CLI" },
+            { "desc": "Changer le modèle d'IA dans une session CLI" },
+            { "desc": "Reprendre une session CLI précédente" },
+            { "desc": "Déléguer une tâche à un agent cloud dans le CLI" }
+          ]
+        },
+        {
+          "title": "Actions du Mode Agent",
+          "items": [
+            { "desc": "Approuver et poursuivre l'exécution de l'agent" },
+            { "desc": "Examiner les modifications de fichiers avant de les accepter" },
+            { "desc": "Accepter ou rejeter les modifications de fichiers individuels" },
+            { "desc": "Annuler toutes les modifications de l'agent dans l'ensemble de travail" }
+          ]
+        },
+        {
+          "title": "Fichiers d'instructions personnalisées",
+          "items": [
+            { "desc": "Instructions de niveau dépôt pour toutes les interactions Copilot" },
+            { "desc": "Instructions spécifiques au mode agent/autonome" },
+            { "desc": "Tout répertoire — s'applique aux fichiers de ce sous-arbre" },
+            { "desc": "Chaînes d'instructions au niveau utilisateur ou espace de travail" }
+          ]
+        }
+      ]
+    },
+    "features": [
+      { "name": "Complétions en ligne", "desc": "Suggestions en texte fantôme pendant la frappe, acceptées avec Tab" },
+      { "name": "Suggestions multi-lignes", "desc": "Complète des fonctions, classes et blocs en une seule suggestion" },
+      { "name": "Suggestions alternatives", "desc": "Parcourir plusieurs options avec Alt+] / Alt+[" },
+      { "name": "Panneau de suggestions", "desc": "Ouvrir 10 suggestions en parallèle avec Ctrl+Entrée" },
+      { "name": "Panneau Chat Copilot", "desc": "Barre latérale de chat persistante pour les questions et explications de code" },
+      { "name": "Chat en ligne", "desc": "Chat directement dans l'éditeur à la position du curseur avec Ctrl+I" },
+      { "name": "Commande /explain", "desc": "Obtenir une explication en langage simple du code sélectionné" },
+      { "name": "Commande /fix", "desc": "Proposer des corrections pour les bugs, erreurs et problèmes de code" },
+      { "name": "Commande /tests", "desc": "Générer automatiquement des tests unitaires pour les fonctions sélectionnées" },
+      { "name": "Commande /doc", "desc": "Ajouter automatiquement des JSDoc, docstrings ou commentaires en ligne" },
+      { "name": "Contexte #file", "desc": "Référencer un fichier spécifique dans votre invite de chat" },
+      { "name": "Contexte #selection", "desc": "Joindre le code sélectionné comme contexte dans le chat" },
+      { "name": "Participant @workspace", "desc": "Laisser Copilot chercher et raisonner sur l'ensemble de votre projet" },
+      { "name": "Participant @vscode", "desc": "Obtenir de l'aide sur les paramètres, raccourcis et extensions VS Code" },
+      { "name": "Participant @terminal", "desc": "Expliquer la sortie terminal et proposer des commandes shell dans l'IDE" },
+      { "name": "Contexte #codebase", "desc": "Recherche sémantique sur toute la base de code comme contexte" },
+      { "name": "Copilot Edits", "desc": "Effectuer des modifications coordonnées sur plusieurs fichiers à partir d'une seule invite" },
+      { "name": "Ensemble de travail", "desc": "Ajouter des fichiers spécifiques à l'ensemble de travail d'édition pour des modifications ciblées" },
+      { "name": "Revue de bloc", "desc": "Examiner, accepter ou rejeter des blocs de code individuels depuis Edits" },
+      { "name": "Mode Agent", "desc": "Exécution autonome de tâches multi-étapes avec utilisation d'outils" },
+      { "name": "Approbation d'appel d'outil", "desc": "Examiner et approuver chaque appel d'outil avant que l'agent l'exécute" },
+      { "name": "Annulation de l'agent", "desc": "Annuler toutes les modifications apportées par l'agent en un seul clic" },
+      { "name": "Commande /new", "desc": "Générer de nouveaux fichiers, composants ou structures de projet entières" },
+      { "name": "Commande /review", "desc": "Demander une revue de code Copilot des modifications actuelles" },
+      { "name": "#terminalLastCommand", "desc": "Référencer la dernière commande terminal dans une invite de chat" },
+      { "name": "Saisie vocale", "desc": "Dicter des invites de chat avec votre microphone (VS Code)" },
+      { "name": "Copilot pour Jupyter", "desc": "Complétions en ligne et chat dans les notebooks Jupyter" },
+      { "name": "Copilot CLI", "desc": "Nouveau CLI terminal agentique basé sur npm (remplace gh copilot)" },
+      { "name": "Mode Normal", "desc": "Agent interactif de type chat dans le terminal" },
+      { "name": "Mode Autopilote", "desc": "Exécution autonome — l'agent agit sans approbation étape par étape" },
+      { "name": "Agent cloud (&)", "desc": "Déléguer des tâches longues à un agent cloud avec le préfixe &" },
+      { "name": "Commande /resume", "desc": "Reprendre une session CLI précédente par son ID" },
+      { "name": "Commande /model", "desc": "Changer de modèle d'IA dans une session CLI active" },
+      { "name": "Modèle de sécurité CLI", "desc": "Lit uniquement les fichiers du répertoire courant ; affiche les modifications avant de les appliquer" },
+      { "name": "Résumés de PR", "desc": "Descriptions de pull request générées automatiquement à partir de l'analyse des différences" },
+      { "name": "Revue de code Copilot", "desc": "Commentaires de revue alimentés par l'IA sur les différences de pull request" },
+      { "name": "Recherche de code Copilot", "desc": "Recherche en langage naturel dans les dépôts sur github.com" },
+      { "name": "Copilot Workspace", "desc": "Planifier et implémenter des fonctionnalités entières à partir d'une description d'issue" },
+      { "name": "Copilot Mobile", "desc": "Copilot Chat dans l'application mobile GitHub pour une assistance en déplacement" },
+      { "name": "Commentaires d'issue", "desc": "Utiliser Copilot directement dans les commentaires d'issues et de PRs GitHub" },
+      { "name": "Extension @docker", "desc": "Gestion des conteneurs Docker et génération de Dockerfile via Copilot" },
+      { "name": "Extension @sentry", "desc": "Analyser les erreurs Sentry et obtenir des suggestions de correction dans Copilot Chat" },
+      { "name": "Extension @datadog", "desc": "Interroger les métriques et journaux Datadog depuis Copilot Chat" },
+      { "name": "Extension @mongodb", "desc": "Écrire et expliquer des requêtes MongoDB avec l'aide de Copilot" },
+      { "name": "Intégration MCP", "desc": "Connecter n'importe quel serveur MCP comme source d'outils pour les agents Copilot" },
+      { "name": "Marketplace d'extensions", "desc": "Installer des extensions Copilot tierces depuis GitHub Marketplace" },
+      { "name": "Extensions personnalisées", "desc": "Créer sa propre extension Copilot avec le framework GitHub Apps" },
+      { "name": "Politiques d'organisation", "desc": "Activer/désactiver les fonctionnalités Copilot au niveau de l'organisation" },
+      { "name": "Exclusions de contenu", "desc": "Empêcher Copilot d'indexer des fichiers ou répertoires sensibles" },
+      { "name": "Journaux d'audit", "desc": "Suivre l'utilisation de Copilot dans votre organisation à des fins de conformité" },
+      { "name": "Intégration SSO", "desc": "Imposer le SSO SAML pour tous les utilisateurs Copilot de votre organisation" },
+      { "name": "Indemnité IP", "desc": "Protection juridique contre les réclamations de propriété intellectuelle pour les suggestions Copilot (Business+)" },
+      { "name": "Bases de connaissances organisationnelles", "desc": "Indexer la documentation interne et les wikis pour le contexte Copilot Enterprise" },
+      { "name": "Analytique d'utilisation", "desc": "Tableau de bord affichant l'adoption de Copilot et les statistiques d'utilisation par équipe" },
+      { "name": "Filtre de code public", "desc": "Bloquer les suggestions correspondant au code public pour réduire le risque IP" },
+      { "name": "copilot-instructions.md", "desc": "Fichier markdown de niveau dépôt qui personnalise tout le comportement de Copilot" },
+      { "name": "AGENTS.md", "desc": "Fichier d'instructions spécifiques à l'agent lu par les agents de codage autonomes" },
+      { "name": "Instructions utilisateur", "desc": "Paramètre VS Code pour les instructions Copilot personnelles multi-projets" },
+      { "name": "Instructions par langue", "desc": "Instructions spécifiques à un langage appliquées uniquement aux types de fichiers correspondants" }
+    ],
+    "modules": [
+      {
+        "title": "Premiers pas",
+        "description": "Installez GitHub Copilot, comprenez son fonctionnement et obtenez vos premières suggestions en ligne.",
+        "outcomes": [
+          "Installer et authentifier Copilot dans VS Code",
+          "Accepter et parcourir les suggestions en ligne",
+          "Comprendre le contexte utilisé par Copilot pour générer du code",
+          "Choisir le bon abonnement selon vos besoins"
+        ],
+        "tryIt": "Ouvrez n'importe quel fichier, tapez un commentaire comme # Fonction pour analyser un fichier de configuration JSON, et appuyez sur Tab pour voir Copilot compléter l'implémentation."
+      },
+      {
+        "title": "Copilot Chat",
+        "description": "Utilisez le panneau Chat, le chat en ligne et les participants workspace pour obtenir des réponses sur votre code.",
+        "outcomes": [
+          "Ouvrir et utiliser le panneau Chat pour les questions de code",
+          "Déclencher le chat en ligne avec Cmd+I / Ctrl+I",
+          "Utiliser @workspace pour poser des questions sur l'ensemble de votre projet",
+          "Référencer des fichiers et sélections avec #file et #selection"
+        ],
+        "tryIt": "Sélectionnez une fonction dans votre éditeur, appuyez sur Cmd+I (Mac) ou Ctrl+I (Windows), et demandez à Copilot d'ajouter une gestion des erreurs."
+      },
+      {
+        "title": "Commandes slash",
+        "description": "Maîtrisez /explain, /fix, /tests, /doc et les variables de contexte comme #file et #selection.",
+        "outcomes": [
+          "Expliquer du code complexe avec /explain",
+          "Corriger automatiquement les bugs et erreurs avec /fix",
+          "Générer des tests unitaires avec /tests",
+          "Créer de la documentation avec /doc"
+        ],
+        "tryIt": "Sélectionnez une fonction complexe, ouvrez Copilot Chat, tapez /explain pour la comprendre, puis utilisez /tests pour générer des tests unitaires."
+      },
+      {
+        "title": "Copilot CLI",
+        "description": "Installez et utilisez le nouveau Copilot CLI agentique pour des tâches autonomes dans le terminal.",
+        "outcomes": [
+          "Installer le Copilot CLI via l'extension GitHub CLI",
+          "Utiliser gh copilot suggest pour obtenir des suggestions de commandes shell",
+          "Utiliser gh copilot explain pour comprendre des commandes complexes",
+          "Exécuter des tâches autonomes dans le terminal en langage naturel"
+        ],
+        "tryIt": "Exécutez gh copilot suggest \"comment trouver tous les fichiers de plus de 100 Mo et les trier par taille\" dans votre terminal."
+      },
+      {
+        "title": "Copilot Edits",
+        "description": "Effectuez des modifications multi-fichiers, examinez les blocs et utilisez efficacement les ensembles de travail.",
+        "outcomes": [
+          "Créer et gérer des ensembles de travail de fichiers",
+          "Appliquer des modifications multi-fichiers avec une seule invite",
+          "Examiner et accepter ou rejeter des blocs de modifications individuels",
+          "Comprendre le flux de revue de différences en streaming"
+        ],
+        "tryIt": "Ouvrez 3 fichiers liés dans votre ensemble de travail, puis demandez à Copilot Edits de renommer une variable ou de mettre à jour un motif dans tous ces fichiers."
+      },
+      {
+        "title": "Instructions personnalisées",
+        "description": "Configurez .github/copilot-instructions.md, AGENTS.md et les paramètres au niveau utilisateur.",
+        "outcomes": [
+          "Écrire un .github/copilot-instructions.md pour votre dépôt",
+          "Configurer des instructions personnelles au niveau utilisateur",
+          "Définir des règles de style de code applicables à toutes les suggestions",
+          "Utiliser des instructions par fichier pour des contextes spécialisés"
+        ],
+        "tryIt": "Créez un .github/copilot-instructions.md qui demande à Copilot de « toujours utiliser async/await au lieu des chaînes .then() » et vérifiez que les suggestions changent."
+      },
+      {
+        "title": "Mode Agent",
+        "description": "Utilisez le mode agent autonome pour des tâches complexes multi-étapes avec utilisation d'outils et approbation.",
+        "outcomes": [
+          "Activer et passer en mode agent dans Copilot Chat",
+          "Comprendre l'utilisation des outils : système de fichiers, terminal et navigateur",
+          "Utiliser les workflows d'approbation pour les opérations potentiellement destructives",
+          "Composer des tâches multi-étapes avec une seule invite de haut niveau"
+        ],
+        "tryIt": "Activez le mode agent et demandez : « Ajoutez des commentaires JSDoc à toutes les fonctions exportées de src/ qui n'en ont pas actuellement. »"
+      },
+      {
+        "title": "GitHub.com",
+        "description": "Résumés de PR, revue de code, Copilot Workspace et Copilot sur github.com.",
+        "outcomes": [
+          "Générer des résumés et descriptions de PR avec Copilot",
+          "Utiliser Copilot pour la revue de code assistée par IA sur les pull requests",
+          "Naviguer dans Copilot Workspace pour des modifications de fonctionnalités plus larges",
+          "Poser des questions à Copilot directement sur github.com"
+        ],
+        "tryIt": "Ouvrez une pull request sur GitHub et cliquez sur le bouton Copilot pour générer un résumé. Demandez ensuite à Copilot de passer en revue les différences pour détecter d'éventuels problèmes."
+      },
+      {
+        "title": "Extensions & MCP",
+        "description": "Installez des extensions Copilot, connectez des serveurs MCP et créez des extensions personnalisées.",
+        "outcomes": [
+          "Installer et utiliser des extensions Copilot depuis le marketplace",
+          "Connecter des serveurs MCP pour étendre Copilot avec des outils externes",
+          "Appeler des extensions avec @nom-extension dans le chat",
+          "Créer une extension Copilot personnalisée de base"
+        ],
+        "tryIt": "Installez le serveur MCP GitHub et connectez-le à Copilot Chat. Demandez à @github de rechercher des issues dans un dépôt."
+      },
+      {
+        "title": "Configuration Enterprise",
+        "description": "Politiques d'organisation, exclusions de contenu, journaux d'audit, SSO et différences entre les offres Business et Enterprise.",
+        "outcomes": [
+          "Configurer les politiques Copilot au niveau de l'organisation pour votre équipe",
+          "Configurer des exclusions de contenu pour protéger les fichiers sensibles",
+          "Surveiller l'utilisation via les journaux d'audit et les rapports d'activité",
+          "Comprendre la différence entre Business et Enterprise"
+        ],
+        "tryIt": "Dans les paramètres de votre organisation, ajoutez une exclusion de contenu pour **/.env* et **/secrets/** et vérifiez que Copilot ne propose plus de complétions dans ces fichiers."
+      },
+      {
+        "title": "Ingénierie des invites",
+        "description": "Rédigez des invites très efficaces en utilisant des exemples few-shot, le chain-of-thought et des contraintes.",
+        "outcomes": [
+          "Structurer les invites avec contexte, tâche et contraintes",
+          "Utiliser des exemples few-shot pour guider le format et le style de sortie",
+          "Appliquer le chain-of-thought pour un raisonnement complexe en plusieurs étapes",
+          "Diagnostiquer et corriger les anti-modèles d'invitation courants"
+        ],
+        "tryIt": "Reformulez une invite vague comme « améliore ça » en une invite structurée qui spécifie le langage, les contraintes, le format de sortie et inclut un exemple."
+      }
+    ],
+    "quiz": {
+      "questions": [
+        {
+          "q": "Avez-vous déjà utilisé les suggestions en ligne Copilot (texte fantôme) ?",
+          "opts": [
+            { "text": "Non, je n'ai jamais utilisé GitHub Copilot" },
+            { "text": "Je l'ai installé mais je l'utilise rarement" },
+            { "text": "Oui, je l'utilise quotidiennement pour les complétions" },
+            { "text": "Oui, et je comprends comment le contexte influence les suggestions" }
+          ]
+        },
+        {
+          "q": "Savez-vous ce que fait @workspace dans Copilot Chat ?",
+          "opts": [
+            { "text": "Aucune idée" },
+            { "text": "J'ai utilisé le Chat mais pas ce participant" },
+            { "text": "Oui — il permet à Copilot de chercher dans l'ensemble du projet" },
+            { "text": "Oui, et j'utilise régulièrement des commandes slash comme /explain et /fix" }
+          ]
+        },
+        {
+          "q": "Avez-vous utilisé le nouveau GitHub Copilot CLI (pas gh copilot) ?",
+          "opts": [
+            { "text": "C'est quoi le Copilot CLI ?" },
+            { "text": "J'ai utilisé l'ancienne extension gh copilot" },
+            { "text": "Oui, j'ai installé et exécuté `copilot` dans mon terminal" },
+            { "text": "Oui, et j'ai utilisé les modes Normal et Autopilote" }
+          ]
+        },
+        {
+          "q": "Avez-vous rédigé des instructions personnalisées pour Copilot ?",
+          "opts": [
+            { "text": "Non, je ne savais pas que c'était possible" },
+            { "text": "J'ai entendu parler de copilot-instructions.md mais je ne l'ai pas configuré" },
+            { "text": "Oui, j'ai un fichier .github/copilot-instructions.md" },
+            { "text": "Oui, dont AGENTS.md et des instructions spécifiques à un langage" }
+          ]
+        },
+        {
+          "q": "Avez-vous utilisé le Mode Agent ou Copilot Edits pour des tâches multi-fichiers ?",
+          "opts": [
+            { "text": "Non, qu'est-ce que c'est ?" },
+            { "text": "J'en ai entendu parler mais je n'ai pas encore essayé" },
+            { "text": "Oui, j'ai utilisé Copilot Edits pour des modifications multi-fichiers" },
+            { "text": "Oui, et j'ai utilisé le Mode Agent avec les approbations d'outils" }
+          ]
+        }
+      ],
+      "results": [
+        {
+          "name": "Premiers pas",
+          "label": "Commencer depuis le début",
+          "desc": "Installez Copilot, découvrez les suggestions en ligne et apprenez les raccourcis clavier."
+        },
+        {
+          "name": "Copilot Chat",
+          "label": "Apprendre le Chat et les commandes",
+          "desc": "Vous connaissez les bases — maîtrisez maintenant le Chat, les commandes slash et les variables de contexte."
+        },
+        {
+          "name": "Copilot CLI",
+          "label": "Explorer le CLI",
+          "desc": "Vous êtes à l'aise avec les fonctionnalités IDE. Essayez le nouveau CLI terminal agentique."
+        },
+        {
+          "name": "Instructions personnalisées",
+          "label": "Personnaliser votre configuration",
+          "desc": "Excellentes bases. Passez au niveau supérieur avec les instructions personnalisées et la personnalisation."
+        },
+        {
+          "name": "Extensions & MCP",
+          "label": "Passer au niveau avancé",
+          "desc": "Vous êtes déjà un utilisateur avancé. Plongez dans les extensions, MCP et la configuration enterprise."
+        }
+      ]
+    },
+    "references": {
+      "sections": [
+        {
+          "label": "Documentation officielle",
+          "links": [
+            { "title": "Documentation GitHub Copilot (Accueil)", "desc": "La documentation officielle complète de toutes les fonctionnalités Copilot." },
+            { "title": "Abonnements disponibles", "desc": "Gratuit, Pro, Pro+, Business, Enterprise — fonctionnalités et tarifs." },
+            { "title": "Copilot dans VS Code", "desc": "Complétions en ligne, raccourcis et détails d'intégration à l'IDE." },
+            { "title": "Copilot Chat", "desc": "Panneau de chat, chat en ligne, commandes slash et variables de contexte." },
+            { "title": "Copilot Edits", "desc": "Édition multi-fichiers, ensembles de travail et revue de différences." },
+            { "title": "Instructions personnalisées", "desc": ".github/copilot-instructions.md, instructions contextuelles, AGENTS.md." },
+            { "title": "Mode Agent", "desc": "Exécution autonome de tâches, utilisation d'outils et workflow d'approbation." },
+            { "title": "Extensions Copilot", "desc": "@docker, @sentry, @datadog et autres extensions du Marketplace." },
+            { "title": "Serveurs MCP", "desc": "Connexion d'outils externes à Copilot via le Model Context Protocol." },
+            { "title": "Configuration Enterprise", "desc": "Politiques d'organisation, exclusions de contenu, journaux d'audit et déploiement." },
+            { "title": "Copilot CLI (Nouveau)", "desc": "Le nouveau CLI terminal agentique basé sur npm." },
+            { "title": "GitHub Copilot sur GitHub.com", "desc": "Résumés de PR, revue de code, Copilot Workspace et recherche de code." }
+          ]
+        },
+        {
+          "label": "Blog & Journal des modifications GitHub",
+          "links": [
+            { "title": "Copilot CLI est disponible en GA", "desc": "Le nouveau Copilot CLI basé sur npm est en disponibilité générale (fév. 2026)." },
+            { "title": "Aperçu public du Copilot CLI", "desc": "Annonce initiale du nouveau Copilot CLI agentique (sept. 2025)." },
+            { "title": "Extension gh copilot dépréciée", "desc": "L'ancienne extension gh copilot suggest/explain (dépréciée oct. 2025)." },
+            { "title": "Aperçu des fonctionnalités GitHub Copilot", "desc": "Page d'accueil officielle des fonctionnalités avec les offres et tarifs." },
+            { "title": "Offres et tarifs Copilot", "desc": "Comparaison des offres côte à côte avec les tarifs actuels." },
+            { "title": "Dépôt Copilot CLI GitHub", "desc": "Code source, journal des modifications et versions du nouveau Copilot CLI." }
+          ]
+        },
+        {
+          "label": "Model Context Protocol",
+          "links": [
+            { "title": "Site officiel MCP", "desc": "Le standard ouvert pour connecter les modèles d'IA aux outils et données externes." },
+            { "title": "SDK TypeScript MCP", "desc": "Créer des serveurs MCP en TypeScript/JavaScript." },
+            { "title": "SDK Python MCP", "desc": "Créer des serveurs MCP en Python." },
+            { "title": "Exemples de serveurs MCP", "desc": "Implémentations de référence : système de fichiers, GitHub, PostgreSQL, et plus." }
+          ]
+        },
+        {
+          "label": "Ressources d'apprentissage",
+          "links": [
+            { "title": "GitHub Skills : Copilot", "desc": "Cours interactifs gratuits sur GitHub Copilot proposés par GitHub." },
+            { "title": "Conseils Copilot pour VS Code", "desc": "Guide officiel VS Code couvrant le Chat, Edits et le Mode Agent." },
+            { "title": "Ingénierie des invites pour Copilot", "desc": "Conseils officiels pour rédiger des invites efficaces et obtenir de meilleurs résultats." },
+            { "title": "Centre de confiance Copilot", "desc": "Informations sur la confidentialité, la sécurité, la politique IP et la conformité." },
+            { "title": "Retours sur GitHub Copilot", "desc": "Discussions communautaires, demandes de fonctionnalités et rapports de bugs." }
+          ]
+        },
+        {
+          "label": "IDE pris en charge",
+          "links": [
+            { "title": "Extension VS Code", "desc": "L'extension principale GitHub Copilot pour Visual Studio Code." },
+            { "title": "Plugin JetBrains", "desc": "Copilot pour IntelliJ IDEA, PyCharm, WebStorm, GoLand et autres." },
+            { "title": "Extension Visual Studio", "desc": "Copilot pour Visual Studio 2022." },
+            { "title": "Plugin Neovim", "desc": "Intégration Copilot pour Neovim et Vim." },
+            { "title": "Extension Xcode", "desc": "Copilot pour Xcode — développement Apple." }
+          ]
+        }
+      ]
+    },
+    "playground": {
+      "examples": [
+        { "task": "Corriger les tests en échec dans le module d'authentification" },
+        { "task": "Trouver tous les fichiers qui font des appels API vers /users" },
+        { "task": "Expliquer l'architecture globale de ce projet" },
+        { "task": "Ajouter une validation des entrées à tous les composants de formulaire" },
+        { "task": "Configurer Docker pour cette application Node.js" },
+        { "task": "Ajouter des tests unitaires pour tous les fichiers de service" },
+        { "task": "Refactoriser les requêtes de base de données pour utiliser async/await" },
+        { "task": "Créer une route API REST pour les mises à jour du profil utilisateur" }
+      ],
+      "responses": [
+        {
+          "plan": [
+            "Lire les fichiers de test dans le module d'authentification",
+            "Exécuter la suite de tests pour voir les échecs actuels",
+            "Identifier les causes racines — mocks manquants, assertions incorrectes, changements d'API",
+            "Appliquer les corrections aux fichiers de test",
+            "Exécuter à nouveau les tests pour confirmer qu'ils passent"
+          ]
+        },
+        {
+          "plan": [
+            "Rechercher dans la base de code les appels fetch/axios contenant /users",
+            "Vérifier les modèles d'URL de base selon l'environnement",
+            "Lister les résultats groupés par fichier"
+          ]
+        },
+        {
+          "plan": [
+            "Lire le package.json et les points d'entrée",
+            "Scanner la structure des répertoires",
+            "Identifier les couches : UI, services, données, configuration",
+            "Résumer les relations"
+          ]
+        },
+        {
+          "plan": [
+            "Trouver tous les composants de formulaire",
+            "Identifier les entrées non validées",
+            "Ajouter des schémas Zod et la validation react-hook-form",
+            "Afficher les messages d'erreur en ligne"
+          ]
+        },
+        {
+          "plan": [
+            "Détecter la version Node.js depuis le champ engines de package.json",
+            "Écrire un Dockerfile multi-étapes",
+            "Écrire docker-compose.yml avec l'application et la base de données",
+            "Ajouter .dockerignore"
+          ]
+        },
+        {
+          "plan": [
+            "Lister tous les fichiers dans services/",
+            "Générer des fichiers de test Vitest pour chaque service",
+            "Mocker les dépendances externes",
+            "Couvrir les cas nominaux et les cas d'erreur"
+          ]
+        },
+        {
+          "plan": [
+            "Trouver les appels de base de données de style callback ou .then()/.catch()",
+            "Convertir chacun en async/await avec try/catch",
+            "Préserver le comportement de gestion des erreurs"
+          ]
+        },
+        {
+          "plan": [
+            "Définir la route : PATCH /users/:id",
+            "Écrire le middleware de validation des requêtes",
+            "Implémenter le contrôleur et la méthode de service",
+            "Ajouter un test d'intégration"
+          ]
+        }
+      ]
+    }
   }
 }

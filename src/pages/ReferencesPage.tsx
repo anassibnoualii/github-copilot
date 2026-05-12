@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next'
-import references from '@/data/references'
 import PageHeader from '@/components/shared/PageHeader'
+import { useLocalisedReferences } from '@/hooks/useLocalisedData'
 
 export default function ReferencesPage() {
   const { t } = useTranslation()
+  const references = useLocalisedReferences()
 
   return (
     <div className="page">

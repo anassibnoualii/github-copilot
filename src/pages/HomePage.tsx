@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
-import modulesMeta from '@/data/modules-meta'
 import LevelBadge from '@/components/shared/LevelBadge'
+import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { FIRST_MODULE_ID } from '@/lib/utils'
 
 const QUICK_LINK_KEYS = [
@@ -15,6 +15,7 @@ const QUICK_LINK_KEYS = [
 export default function HomePage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const modules = useLocalisedModules()
 
   return (
     <div className="page">
@@ -29,9 +30,9 @@ export default function HomePage() {
       </div>
 
       <div className="section-label">{t('home.curriculumLabel')}</div>
-      <h2>{t('home.modulesTitle', { count: modulesMeta.length })}</h2>
+      <h2>{t('home.modulesTitle', { count: modules.length })}</h2>
       <div className="module-grid grid-3 mt-4">
-        {modulesMeta.map(m => (
+        {modules.map(m => (
           <div key={m.id} className="module-card" onClick={() => navigate(`/module/${m.id}`)}>
             <span className="card-num">{m.id}</span>
             <div className="card-title">{m.title}</div>

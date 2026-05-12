@@ -3,24 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Menu, Target, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
-import modulesMeta from '@/data/modules-meta'
+import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { FIRST_MODULE_ID } from '@/lib/utils'
-
-function getBreadcrumb(pathname: string, t: (key: string) => string): string {
-  if (pathname.startsWith('/module/')) {
-    const id = pathname.replace('/module/', '')
-    return modulesMeta.find(m => m.id === id)?.title ?? id
-  }
-  const map: Record<string, string> = {
-    '/':           t('nav.home'),
-    '/playground': t('nav.playground'),
-    '/cheatsheet': t('nav.cheatSheet'),
-    '/features':   t('nav.featureIndex'),
-    '/quiz':       t('nav.findYourLevel'),
-    '/references': t('nav.references'),
-  }
-  return map[pathname] ?? t('app.breadcrumbRoot')
-}
 
 interface TopbarProps {
   onMenuClick: () => void
@@ -30,7 +14,23 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
   const { t } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
-  const label = getBreadcrumb(location.pathname, t)
+  const modules = useLocalisedModules()
+
+  function getBreadcrumb(pathname: string): string {
+    if (pathname.startsWith('/module/')) {
+      const id = pathname.replace('/module/', '')
+      return modules.find(m => m.id === id)?.title ?? id
+    }
+    const map: Record<string, string> = {
+      '/':           t('nav.home'),
+      '/playground': t('nav.playground'),
+      '/cheatsheet': t('nav.cheatSheet'),
+      '/features':   t('nav.featureIndex'),
+      '/quiz':       t('nav.findYourLevel'),
+      '/references': t('nav.references'),
+    }
+    return map[pathname] ?? t('app.breadcrumbRoot')
+  }
 
   return (
     <header id="topbar">
@@ -40,7 +40,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
       <div className="breadcrumb">
         <span>{t('app.breadcrumbRoot')}</span>
         <span className="sep">/</span>
-        <span className="current">{label}</span>
+        <span className="current">{getBreadcrumb(location.pathname)}</span>
       </div>
       <div className="topbar-actions">
         <LanguageSwitcher />

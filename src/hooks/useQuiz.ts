@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import quizData from '@/data/quiz'
+import { useLocalisedQuiz } from '@/hooks/useLocalisedData'
 import { QUIZ_TRANSITION_DELAY } from '@/lib/utils'
 
 export function useQuiz() {
@@ -10,7 +10,7 @@ export function useQuiz() {
 
   useEffect(() => () => { mountedRef.current = false }, [])
 
-  const { questions, results } = quizData
+  const { questions, results } = useLocalisedQuiz()
 
   function selectOption(score: number) {
     const next = [...answers, score]

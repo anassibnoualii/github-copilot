@@ -3,10 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { MDXProvider } from '@mdx-js/react'
 import { Clock, ChevronLeft, ChevronRight } from 'lucide-react'
-import modulesMeta from '@/data/modules-meta'
 import mdxComponents from '@/components/mdx/mdx-components'
 import LevelBadge from '@/components/shared/LevelBadge'
 import ProgressBar from '@/components/shared/ProgressBar'
+import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { LEVEL_PANEL_COLORS, calculateProgress } from '@/lib/utils'
 
 const mdxGlob = import.meta.glob('../content/modules/*.mdx')
@@ -20,11 +20,12 @@ export default function ModulePage() {
   const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const modules = useLocalisedModules()
 
-  const idx = modulesMeta.findIndex(m => m.id === id)
-  const mod = idx !== -1 ? modulesMeta[idx] : null
-  const prev = idx > 0 ? modulesMeta[idx - 1] : null
-  const next = idx !== -1 && idx < modulesMeta.length - 1 ? modulesMeta[idx + 1] : null
+  const idx = modules.findIndex(m => m.id === id)
+  const mod = idx !== -1 ? modules[idx] : null
+  const prev = idx > 0 ? modules[idx - 1] : null
+  const next = idx !== -1 && idx < modules.length - 1 ? modules[idx + 1] : null
 
   useEffect(() => { window.scrollTo(0, 0) }, [id])
 
@@ -34,7 +35,7 @@ export default function ModulePage() {
 
   const key = `../content/modules/${id}.mdx`
   const Content = lazyModules[key] ?? null
-  const progress = calculateProgress(idx + 1, modulesMeta.length)
+  const progress = calculateProgress(idx + 1, modules.length)
 
   return (
     <div className="module-layout">
@@ -91,7 +92,7 @@ export default function ModulePage() {
         <div className="module-panel-progress">
           <ProgressBar
             value={progress}
-            label={t('module.progress', { current: idx + 1, total: modulesMeta.length })}
+            label={t('module.progress', { current: idx + 1, total: modules.length })}
           />
         </div>
       </aside>
