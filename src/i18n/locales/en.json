@@ -144,17 +144,19 @@
     }
   },
   "playground": {
-    "title": "Copilot CLI Simulator",
-    "installHint": "Install:",
-    "installCmd": "npm install -g @github/copilot",
+    "freeType": "Free Type",
+    "guided": "Guided",
     "normal": "Normal",
     "autopilot": "Autopilot",
-    "task": "Task",
-    "taskPlaceholder": "Describe a task for Copilot CLI…",
-    "run": "Run",
+    "reset": "Reset Playground",
+    "welcome1": "Welcome to Copilot CLI Simulator! Running in ~/my-project",
+    "welcome2": "Type a task and press Enter, or pick an example below.",
+    "inputPlaceholder": "Type a task for Copilot…",
     "examples": "Examples",
-    "output": "Output",
-    "outputEmpty": "Select an example or type a task and click Run…"
+    "step": "Step {{current}} of {{total}}",
+    "prev": "Prev",
+    "next": "Next",
+    "runThis": "Run this"
   },
   "mdx": {
     "callout": {
