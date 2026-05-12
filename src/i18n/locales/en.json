@@ -1,0 +1,111 @@
+{
+  "app": {
+    "name": "GitHub Copilot",
+    "subtitle": "Interactive Workshop",
+    "breadcrumbRoot": "Copilot Workshop"
+  },
+  "nav": {
+    "startHere": "Start Here",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "reference": "Reference",
+    "home": "Home",
+    "findYourLevel": "Find Your Level",
+    "playground": "Playground",
+    "cheatSheet": "Cheat Sheet",
+    "featureIndex": "Feature Index",
+    "references": "References"
+  },
+  "topbar": {
+    "findMyLevel": "Find My Level",
+    "start": "Start"
+  },
+  "levels": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "all": "All Levels"
+  },
+  "home": {
+    "welcomeLabel": "Welcome",
+    "title": "GitHub Copilot Workshop",
+    "description": "A hands-on guide to mastering GitHub Copilot — from inline completions and Chat to Agent Mode, extensions, and enterprise configuration.",
+    "startLearning": "Start Learning",
+    "findYourLevel": "Find Your Level",
+    "curriculumLabel": "Curriculum",
+    "modulesTitle": "{{count}} Learning Modules",
+    "referenceLabel": "Reference",
+    "referenceTitle": "Tools & Reference",
+    "quickLinks": {
+      "playground": { "title": "Playground", "desc": "Try Copilot CLI commands interactively" },
+      "cheatsheet": { "title": "Cheat Sheet", "desc": "All shortcuts, commands & context variables" },
+      "features": { "title": "Feature Index", "desc": "Search 60+ features by level and category" },
+      "quiz": { "title": "Quiz", "desc": "Find the right starting module for you" }
+    }
+  },
+  "module": {
+    "notFound": "Module not found.",
+    "whatYouWillLearn": "What You'll Learn",
+    "tryItYourself": "Try It Yourself",
+    "previous": "Previous",
+    "next": "Next",
+    "progress": "Module {{current}} of {{total}}",
+    "loading": "Loading…",
+    "comingSoon": "Content coming soon."
+  },
+  "quiz": {
+    "badge": "Assessment",
+    "title": "Find Your Level",
+    "description": "5 questions to find the best starting module for you.",
+    "questionOf": "Question {{current}} of {{total}}",
+    "result": {
+      "heading": "Your recommended starting point",
+      "basedOn": "Based on your answers (score: {{score}})",
+      "goToModule": "Go to Module {{id}}",
+      "retake": "Retake Quiz"
+    }
+  },
+  "cheatsheet": {
+    "badge": "Reference",
+    "title": "Cheat Sheet",
+    "description": "Every shortcut, slash command, context variable, and CLI command — searchable.",
+    "searchPlaceholder": "Search shortcuts, commands…",
+    "noResults": "No results for \"{{query}}\""
+  },
+  "features": {
+    "badge": "Reference",
+    "title": "Feature Index",
+    "description": "Every GitHub Copilot feature, searchable and filterable by level and category.",
+    "searchPlaceholder": "Search features…",
+    "count_one": "{{count}} feature",
+    "count_other": "{{count}} features",
+    "allLevels": "All Levels",
+    "allCategories": "All Categories",
+    "categories": {
+      "IDE": "IDE",
+      "CLI": "CLI",
+      "githubCom": "GitHub.com",
+      "extensions": "Extensions",
+      "enterprise": "Enterprise"
+    }
+  },
+  "references": {
+    "badge": "Reference",
+    "title": "References",
+    "description": "Official documentation, changelogs, learning resources, and IDE extensions — everything you need to go deeper."
+  },
+  "playground": {
+    "title": "Copilot CLI Simulator",
+    "installHint": "Install:",
+    "installCmd": "npm install -g @github/copilot",
+    "normal": "Normal",
+    "autopilot": "Autopilot",
+    "task": "Task",
+    "taskPlaceholder": "Describe a task for Copilot CLI…",
+    "run": "Run",
+    "examples": "Examples",
+    "output": "Output",
+    "outputEmpty": "Select an example or type a task and click Run…"
+  }
+}

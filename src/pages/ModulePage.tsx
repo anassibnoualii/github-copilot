@@ -1,11 +1,13 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { MDXProvider } from '@mdx-js/react'
 import { Clock, ChevronLeft, ChevronRight } from 'lucide-react'
 import modulesMeta from '@/data/modules-meta'
 import mdxComponents from '@/components/mdx/mdx-components'
 import LevelBadge from '@/components/shared/LevelBadge'
-import { LEVEL_PANEL_COLORS } from '@/lib/utils'
+import ProgressBar from '@/components/shared/ProgressBar'
+import { LEVEL_PANEL_COLORS, calculateProgress } from '@/lib/utils'
 
 const mdxGlob = import.meta.glob('../content/modules/*.mdx')
 
@@ -15,6 +17,7 @@ for (const path in mdxGlob) {
 }
 
 export default function ModulePage() {
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
@@ -26,11 +29,12 @@ export default function ModulePage() {
   useEffect(() => { window.scrollTo(0, 0) }, [id])
 
   if (!mod) {
-    return <div className="page"><p>Module not found.</p></div>
+    return <div className="page"><p>{t('module.notFound')}</p></div>
   }
 
   const key = `../content/modules/${id}.mdx`
   const Content = lazyModules[key] ?? null
+  const progress = calculateProgress(idx + 1, modulesMeta.length)
 
   return (
     <div className="module-layout">
@@ -47,7 +51,7 @@ export default function ModulePage() {
 
         <div className="module-panel-section">
           <div className={`module-panel-section-label ${LEVEL_PANEL_COLORS[mod.level]}`}>
-            What You'll Learn
+            {t('module.whatYouWillLearn')}
           </div>
           <ul className="module-outcomes">
             {mod.outcomes.map((outcome, i) => (
@@ -58,7 +62,7 @@ export default function ModulePage() {
 
         <div className="module-panel-section">
           <div className="module-panel-section-label panel-level-tryit">
-            Try It Yourself
+            {t('module.tryItYourself')}
           </div>
           <p className="module-tryit-text">{mod.tryIt}</p>
         </div>
@@ -68,7 +72,7 @@ export default function ModulePage() {
             <button className="panel-nav-btn" onClick={() => navigate(`/module/${prev.id}`)}>
               <ChevronLeft size={16} className="panel-nav-arrow" />
               <span className="panel-nav-info">
-                <span className="panel-nav-label">Previous</span>
+                <span className="panel-nav-label">{t('module.previous')}</span>
                 <span className="panel-nav-title">{prev.title}</span>
               </span>
             </button>
@@ -76,7 +80,7 @@ export default function ModulePage() {
           {next ? (
             <button className="panel-nav-btn panel-nav-btn-next" onClick={() => navigate(`/module/${next.id}`)}>
               <span className="panel-nav-info">
-                <span className="panel-nav-label">Next</span>
+                <span className="panel-nav-label">{t('module.next')}</span>
                 <span className="panel-nav-title">{next.title}</span>
               </span>
               <ChevronRight size={16} className="panel-nav-arrow" />
@@ -85,20 +89,17 @@ export default function ModulePage() {
         </div>
 
         <div className="module-panel-progress">
-          <span className="progress-label">Module {id} of {modulesMeta.length}</span>
-          <div className="progress-bar">
-            <div
-              className="progress-fill"
-              style={{ width: `${(idx + 1) / modulesMeta.length * 100}%` }}
-            />
-          </div>
+          <ProgressBar
+            value={progress}
+            label={t('module.progress', { current: idx + 1, total: modulesMeta.length })}
+          />
         </div>
       </aside>
 
       <div className="module-content">
         <MDXProvider components={mdxComponents}>
-          <Suspense fallback={<p className="muted module-content-loading">Loading…</p>}>
-            {Content ? <Content /> : <p className="muted module-content-loading">Content coming soon.</p>}
+          <Suspense fallback={<p className="muted module-content-loading">{t('module.loading')}</p>}>
+            {Content ? <Content /> : <p className="muted module-content-loading">{t('module.comingSoon')}</p>}
           </Suspense>
         </MDXProvider>
       </div>

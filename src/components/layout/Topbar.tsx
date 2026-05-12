@@ -1,24 +1,24 @@
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Menu, Target, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import modulesMeta from '@/data/modules-meta'
 import { FIRST_MODULE_ID } from '@/lib/utils'
 
-const BREADCRUMBS: Record<string, string> = {
-  '/':           'Home',
-  '/playground': 'Playground',
-  '/cheatsheet': 'Cheat Sheet',
-  '/features':   'Feature Index',
-  '/quiz':       'Find Your Level',
-  '/references': 'References',
-}
-
-function getBreadcrumb(pathname: string): string {
+function getBreadcrumb(pathname: string, t: (key: string) => string): string {
   if (pathname.startsWith('/module/')) {
     const id = pathname.replace('/module/', '')
     return modulesMeta.find(m => m.id === id)?.title ?? id
   }
-  return BREADCRUMBS[pathname] ?? 'Workshop'
+  const map: Record<string, string> = {
+    '/':           t('nav.home'),
+    '/playground': t('nav.playground'),
+    '/cheatsheet': t('nav.cheatSheet'),
+    '/features':   t('nav.featureIndex'),
+    '/quiz':       t('nav.findYourLevel'),
+    '/references': t('nav.references'),
+  }
+  return map[pathname] ?? t('app.breadcrumbRoot')
 }
 
 interface TopbarProps {
@@ -26,9 +26,10 @@ interface TopbarProps {
 }
 
 export default function Topbar({ onMenuClick }: TopbarProps) {
+  const { t } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
-  const label = getBreadcrumb(location.pathname)
+  const label = getBreadcrumb(location.pathname, t)
 
   return (
     <header id="topbar">
@@ -36,16 +37,16 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
         <Menu size={18} />
       </button>
       <div className="breadcrumb">
-        <span>Copilot Workshop</span>
+        <span>{t('app.breadcrumbRoot')}</span>
         <span className="sep">/</span>
         <span className="current">{label}</span>
       </div>
       <div className="topbar-actions">
         <Button variant="ghost" size="sm" onClick={() => navigate('/quiz')}>
-          <Target size={13} /> Find My Level
+          <Target size={13} /> {t('topbar.findMyLevel')}
         </Button>
         <Button size="sm" onClick={() => navigate(`/module/${FIRST_MODULE_ID}`)}>
-          Start <ArrowRight size={13} />
+          {t('topbar.start')} <ArrowRight size={13} />
         </Button>
       </div>
     </header>

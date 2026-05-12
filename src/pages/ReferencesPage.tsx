@@ -1,13 +1,16 @@
+import { useTranslation } from 'react-i18next'
 import references from '@/data/references'
 import PageHeader from '@/components/shared/PageHeader'
 
 export default function ReferencesPage() {
+  const { t } = useTranslation()
+
   return (
     <div className="page">
       <PageHeader
-        badge="Reference"
-        title="References"
-        desc="Official documentation, changelogs, learning resources, and IDE extensions — everything you need to go deeper."
+        badge={t('references.badge')}
+        title={t('references.title')}
+        desc={t('references.description')}
       />
 
       {references.map(section => (

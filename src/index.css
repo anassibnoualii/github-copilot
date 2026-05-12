@@ -437,6 +437,8 @@ nav { flex: 1; padding: 10px 0 20px; }
   gap: 6px;
 }
 
+.progress-bar-wrap { display: flex; flex-direction: column; gap: 4px; }
+
 .progress-label {
   font-size: 0.69rem;
   color: var(--gh-muted);
@@ -864,6 +866,8 @@ tr:hover td { background: rgba(255,255,255,.015); }
 .cli-cmd    { color: var(--gh-green); }
 .cli-result { color: var(--gh-text2); }
 .cli-explain { color: var(--gh-text2); opacity: .8; }
+.cli-autopilot-badge { color: var(--gh-orange); }
+.cli-success { color: var(--gh-green); }
 
 .cli-examples { padding: 0 16px 16px; }
 .cli-example-item {

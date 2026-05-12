@@ -1,33 +1,35 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import modulesMeta from '@/data/modules-meta'
 import LevelBadge from '@/components/shared/LevelBadge'
 import { FIRST_MODULE_ID } from '@/lib/utils'
 
-const QUICK_LINKS = [
-  { to: '/playground', title: 'Playground',    desc: 'Try Copilot CLI commands interactively' },
-  { to: '/cheatsheet', title: 'Cheat Sheet',   desc: 'All shortcuts, commands & context variables' },
-  { to: '/features',   title: 'Feature Index', desc: 'Search 60+ features by level and category' },
-  { to: '/quiz',       title: 'Quiz',          desc: 'Find the right starting module for you' },
-]
+const QUICK_LINK_KEYS = [
+  { to: '/playground', key: 'playground' },
+  { to: '/cheatsheet', key: 'cheatsheet' },
+  { to: '/features',   key: 'features' },
+  { to: '/quiz',       key: 'quiz' },
+] as const
 
 export default function HomePage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   return (
     <div className="page">
       <div className="hero">
-        <div className="section-label">Welcome</div>
-        <h1>GitHub Copilot Workshop</h1>
-        <p>A hands-on guide to mastering GitHub Copilot — from inline completions and Chat to Agent Mode, extensions, and enterprise configuration.</p>
+        <div className="section-label">{t('home.welcomeLabel')}</div>
+        <h1>{t('home.title')}</h1>
+        <p>{t('home.description')}</p>
         <div className="hero-actions">
-          <Button onClick={() => navigate(`/module/${FIRST_MODULE_ID}`)}>Start Learning</Button>
-          <Button variant="outline" onClick={() => navigate('/quiz')}>Find Your Level</Button>
+          <Button onClick={() => navigate(`/module/${FIRST_MODULE_ID}`)}>{t('home.startLearning')}</Button>
+          <Button variant="outline" onClick={() => navigate('/quiz')}>{t('home.findYourLevel')}</Button>
         </div>
       </div>
 
-      <div className="section-label">Curriculum</div>
-      <h2>11 Learning Modules</h2>
+      <div className="section-label">{t('home.curriculumLabel')}</div>
+      <h2>{t('home.modulesTitle', { count: modulesMeta.length })}</h2>
       <div className="module-grid grid-3 mt-4">
         {modulesMeta.map(m => (
           <div key={m.id} className="module-card" onClick={() => navigate(`/module/${m.id}`)}>
@@ -42,13 +44,13 @@ export default function HomePage() {
       </div>
 
       <div className="section-spacer">
-        <div className="section-label">Reference</div>
-        <h2>Tools &amp; Reference</h2>
+        <div className="section-label">{t('home.referenceLabel')}</div>
+        <h2>{t('home.referenceTitle')}</h2>
         <div className="quick-links">
-          {QUICK_LINKS.map(link => (
-            <div key={link.to} className="quick-link" onClick={() => navigate(link.to)}>
-              <h3>{link.title}</h3>
-              <p>{link.desc}</p>
+          {QUICK_LINK_KEYS.map(({ to, key }) => (
+            <div key={to} className="quick-link" onClick={() => navigate(to)}>
+              <h3>{t(`home.quickLinks.${key}.title`)}</h3>
+              <p>{t(`home.quickLinks.${key}.desc`)}</p>
             </div>
           ))}
         </div>

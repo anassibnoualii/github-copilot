@@ -1,29 +1,8 @@
 import { NavLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked } from 'lucide-react'
 import modulesMeta from '@/data/modules-meta'
-import { navLinkClass } from '@/lib/utils'
-
-const LEVEL_BADGE: Record<string, string> = {
-  beginner:     'badge-b',
-  intermediate: 'badge-i',
-  advanced:     'badge-a',
-}
-const LEVEL_LABEL: Record<string, string> = {
-  beginner: 'B', intermediate: 'I', advanced: 'A',
-}
-
-const NAV_SECTIONS = [
-  { label: 'Start Here', links: [
-    { to: '/', end: true,  icon: <Home size={14} />,       label: 'Home' },
-    { to: '/quiz',         icon: <Target size={14} />,     label: 'Find Your Level' },
-    { to: '/playground',   icon: <Terminal size={14} />,   label: 'Playground' },
-  ]},
-  { label: 'Reference', links: [
-    { to: '/cheatsheet',   icon: <BookOpen size={14} />,   label: 'Cheat Sheet' },
-    { to: '/features',     icon: <LayoutGrid size={14} />, label: 'Feature Index' },
-    { to: '/references',   icon: <BookMarked size={14} />, label: 'References' },
-  ]},
-]
+import { navLinkClass, LEVEL_NAV_BADGE, LEVEL_SHORT_LABEL } from '@/lib/utils'
 
 const beginners     = modulesMeta.filter(m => m.level === 'beginner')
 const intermediates = modulesMeta.filter(m => m.level === 'intermediate')
@@ -41,7 +20,7 @@ function ModuleLinks({ modules, onClose }: { modules: typeof modulesMeta; onClos
         >
           <span className="nav-icon nav-num">{m.id}</span>
           {m.title}
-          <span className={`nav-badge ${LEVEL_BADGE[m.level]}`}>{LEVEL_LABEL[m.level]}</span>
+          <span className={`nav-badge ${LEVEL_NAV_BADGE[m.level]}`}>{LEVEL_SHORT_LABEL[m.level]}</span>
         </NavLink>
       ))}
     </>
@@ -54,12 +33,27 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const { t } = useTranslation()
+
+  const NAV_SECTIONS = [
+    { label: t('nav.startHere'), links: [
+      { to: '/', end: true,  icon: <Home size={14} />,       label: t('nav.home') },
+      { to: '/quiz',         icon: <Target size={14} />,     label: t('nav.findYourLevel') },
+      { to: '/playground',   icon: <Terminal size={14} />,   label: t('nav.playground') },
+    ]},
+    { label: t('nav.reference'), links: [
+      { to: '/cheatsheet',   icon: <BookOpen size={14} />,   label: t('nav.cheatSheet') },
+      { to: '/features',     icon: <LayoutGrid size={14} />, label: t('nav.featureIndex') },
+      { to: '/references',   icon: <BookMarked size={14} />, label: t('nav.references') },
+    ]},
+  ]
+
   return (
     <>
       <aside id="sidebar" className={isOpen ? 'open' : ''}>
         <div className="sidebar-logo">
-          <h2>GitHub Copilot</h2>
-          <span>Interactive Workshop</span>
+          <h2>{t('app.name')}</h2>
+          <span>{t('app.subtitle')}</span>
         </div>
         <nav>
           <div className="nav-section">
@@ -72,9 +66,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
 
           {[
-            { label: 'Beginner',     modules: beginners },
-            { label: 'Intermediate', modules: intermediates },
-            { label: 'Advanced',     modules: advanceds },
+            { label: t('nav.beginner'),     modules: beginners },
+            { label: t('nav.intermediate'), modules: intermediates },
+            { label: t('nav.advanced'),     modules: advanceds },
           ].map(({ label, modules }) => (
             <div key={label} className="nav-section">
               <div className="nav-section-label">{label}</div>
