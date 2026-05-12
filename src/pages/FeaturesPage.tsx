@@ -1,18 +1,18 @@
 import { useState, useMemo } from 'react'
-import { Search } from 'lucide-react'
 import features from '@/data/features'
 import type { Level, FeatureCategory } from '@/types'
 import LevelBadge from '@/components/shared/LevelBadge'
-import { filterBtnClass } from '@/lib/utils'
+import SearchInput from '@/components/shared/SearchInput'
+import FilterBar from '@/components/shared/FilterBar'
 
-const LEVELS: Array<{ value: string; label: string }> = [
+const LEVELS = [
   { value: 'all',          label: 'All Levels' },
   { value: 'beginner',     label: 'Beginner' },
   { value: 'intermediate', label: 'Intermediate' },
   { value: 'advanced',     label: 'Advanced' },
 ]
 
-const CATEGORIES: Array<{ value: string; label: string }> = [
+const CATEGORIES = [
   { value: 'all',        label: 'All Categories' },
   { value: 'IDE',        label: 'IDE' },
   { value: 'CLI',        label: 'CLI' },
@@ -21,25 +21,9 @@ const CATEGORIES: Array<{ value: string; label: string }> = [
   { value: 'Enterprise', label: 'Enterprise' },
 ]
 
-function FilterBar({ options, active, onChange }: {
-  options: typeof LEVELS
-  active: string
-  onChange: (v: string) => void
-}) {
-  return (
-    <div className="feature-filters">
-      {options.map(o => (
-        <button key={o.value} className={filterBtnClass(active === o.value)} onClick={() => onChange(o.value)}>
-          {o.label}
-        </button>
-      ))}
-    </div>
-  )
-}
-
 export default function FeaturesPage() {
-  const [query, setQuery]               = useState('')
-  const [activeLevel, setActiveLevel]   = useState('all')
+  const [query, setQuery]                   = useState('')
+  const [activeLevel, setActiveLevel]       = useState('all')
   const [activeCategory, setActiveCategory] = useState('all')
 
   const filtered = useMemo(() => {
@@ -60,15 +44,12 @@ export default function FeaturesPage() {
         <p className="desc">Every GitHub Copilot feature, searchable and filterable by level and category.</p>
       </div>
 
-      <div className="feature-search">
-        <Search size={15} className="search-icon-svg" />
-        <input
-          type="text"
-          placeholder="Search features…"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-        />
-      </div>
+      <SearchInput
+        value={query}
+        onChange={setQuery}
+        placeholder="Search features…"
+        className="mb-4"
+      />
 
       <FilterBar options={LEVELS}      active={activeLevel}    onChange={setActiveLevel} />
       <FilterBar options={CATEGORIES}  active={activeCategory} onChange={setActiveCategory} />

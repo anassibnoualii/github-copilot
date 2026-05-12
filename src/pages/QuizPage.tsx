@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, RotateCcw } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import quizData from '@/data/quiz'
 import PageHeader from '@/components/shared/PageHeader'
 import { QUIZ_TRANSITION_DELAY } from '@/lib/utils'
@@ -52,12 +53,12 @@ export default function QuizPage() {
               <p className="quiz-result-desc">{result.desc}</p>
             </div>
             <div className="quiz-result-actions">
-              <button className="btn btn-primary" onClick={() => navigate(`/module/${result.module}`)}>
+              <Button onClick={() => navigate(`/module/${result.module}`)}>
                 Go to Module {result.module} <ArrowRight size={14} />
-              </button>
-              <button className="btn btn-ghost" onClick={retake}>
+              </Button>
+              <Button variant="outline" onClick={retake}>
                 <RotateCcw size={14} /> Retake Quiz
-              </button>
+              </Button>
             </div>
           </div>
         </div>

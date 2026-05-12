@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
 import modulesMeta from '@/data/modules-meta'
 import LevelBadge from '@/components/shared/LevelBadge'
 import { FIRST_MODULE_ID } from '@/lib/utils'
@@ -20,8 +21,8 @@ export default function HomePage() {
         <h1>GitHub Copilot Workshop</h1>
         <p>A hands-on guide to mastering GitHub Copilot — from inline completions and Chat to Agent Mode, extensions, and enterprise configuration.</p>
         <div className="hero-actions">
-          <button className="btn btn-primary" onClick={() => navigate(`/module/${FIRST_MODULE_ID}`)}>Start Learning</button>
-          <button className="btn btn-ghost" onClick={() => navigate('/quiz')}>Find Your Level</button>
+          <Button onClick={() => navigate(`/module/${FIRST_MODULE_ID}`)}>Start Learning</Button>
+          <Button variant="outline" onClick={() => navigate('/quiz')}>Find Your Level</Button>
         </div>
       </div>
 

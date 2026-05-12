@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Play } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import playgroundData from '@/data/playground'
 import type { PlaygroundMode } from '@/types'
 
@@ -66,9 +67,9 @@ export default function PlaygroundPage() {
               onChange={e => setTask(e.target.value)}
               rows={4}
             />
-            <button className="btn btn-primary btn-sm cli-run-btn" onClick={() => runTask(task)}>
+            <Button size="sm" className="cli-run-btn" onClick={() => runTask(task)}>
               <Play size={13} /> Run
-            </button>
+            </Button>
           </div>
 
           <div className="playground-panel-header playground-panel-header-sep">Examples</div>

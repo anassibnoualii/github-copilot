@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Menu, Target, ArrowRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import modulesMeta from '@/data/modules-meta'
 import { FIRST_MODULE_ID } from '@/lib/utils'
 
@@ -40,12 +41,12 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
         <span className="current">{label}</span>
       </div>
       <div className="topbar-actions">
-        <button className="btn btn-sm btn-ghost" onClick={() => navigate('/quiz')}>
+        <Button variant="ghost" size="sm" onClick={() => navigate('/quiz')}>
           <Target size={13} /> Find My Level
-        </button>
-        <button className="btn btn-sm btn-primary" onClick={() => navigate(`/module/${FIRST_MODULE_ID}`)}>
+        </Button>
+        <Button size="sm" onClick={() => navigate(`/module/${FIRST_MODULE_ID}`)}>
           Start <ArrowRight size={13} />
-        </button>
+        </Button>
       </div>
     </header>
   )
