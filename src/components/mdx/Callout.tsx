@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { CalloutVariant } from '@/types'
 
 interface CalloutProps {
@@ -6,15 +7,9 @@ interface CalloutProps {
   children: React.ReactNode
 }
 
-const VARIANT_LABELS: Record<CalloutVariant, string> = {
-  tip:     'Pro Tip',
-  warning: 'Warning',
-  info:    'Note',
-  success: 'Best Practice',
-}
-
 export default function Callout({ variant = 'tip', label, children }: CalloutProps) {
-  const displayLabel = label ?? VARIANT_LABELS[variant]
+  const { t } = useTranslation()
+  const displayLabel = label ?? t(`mdx.callout.${variant}`)
   return (
     <div className={`callout ${variant}`}>
       <div className="callout-label">{displayLabel}</div>

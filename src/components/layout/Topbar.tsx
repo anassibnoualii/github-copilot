@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Menu, Target, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 import modulesMeta from '@/data/modules-meta'
 import { FIRST_MODULE_ID } from '@/lib/utils'
 
@@ -33,7 +34,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
 
   return (
     <header id="topbar">
-      <button id="menu-btn" aria-label="Toggle menu" onClick={onMenuClick}>
+      <button id="menu-btn" aria-label={t('topbar.menuAriaLabel')} onClick={onMenuClick}>
         <Menu size={18} />
       </button>
       <div className="breadcrumb">
@@ -42,6 +43,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
         <span className="current">{label}</span>
       </div>
       <div className="topbar-actions">
+        <LanguageSwitcher />
         <Button variant="ghost" size="sm" onClick={() => navigate('/quiz')}>
           <Target size={13} /> {t('topbar.findMyLevel')}
         </Button>

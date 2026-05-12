@@ -1,0 +1,126 @@
+{
+  "app": {
+    "name": "GitHub Copilot",
+    "subtitle": "Atelier Interactif",
+    "breadcrumbRoot": "Atelier Copilot"
+  },
+  "nav": {
+    "startHere": "Commencer",
+    "beginner": "Débutant",
+    "intermediate": "Intermédiaire",
+    "advanced": "Avancé",
+    "reference": "Référence",
+    "home": "Accueil",
+    "findYourLevel": "Trouver mon niveau",
+    "playground": "Bac à sable",
+    "cheatSheet": "Aide-mémoire",
+    "featureIndex": "Index des fonctionnalités",
+    "references": "Références"
+  },
+  "topbar": {
+    "findMyLevel": "Mon niveau",
+    "start": "Commencer",
+    "menuAriaLabel": "Ouvrir le menu"
+  },
+  "levels": {
+    "beginner": "Débutant",
+    "intermediate": "Intermédiaire",
+    "advanced": "Avancé",
+    "all": "Tous les niveaux"
+  },
+  "home": {
+    "welcomeLabel": "Bienvenue",
+    "title": "Atelier GitHub Copilot",
+    "description": "Un guide pratique pour maîtriser GitHub Copilot — des complétions en ligne et le Chat jusqu'au Mode Agent, aux extensions et à la configuration enterprise.",
+    "startLearning": "Commencer",
+    "findYourLevel": "Trouver mon niveau",
+    "curriculumLabel": "Programme",
+    "modulesTitle": "{{count}} modules d'apprentissage",
+    "referenceLabel": "Référence",
+    "referenceTitle": "Outils & Référence",
+    "quickLinks": {
+      "playground": { "title": "Bac à sable", "desc": "Essayez les commandes Copilot CLI interactivement" },
+      "cheatsheet": { "title": "Aide-mémoire", "desc": "Tous les raccourcis, commandes et variables de contexte" },
+      "features": { "title": "Index des fonctionnalités", "desc": "Recherchez 60+ fonctionnalités par niveau et catégorie" },
+      "quiz": { "title": "Quiz", "desc": "Trouvez le bon module de départ pour vous" }
+    }
+  },
+  "module": {
+    "notFound": "Module introuvable.",
+    "whatYouWillLearn": "Ce que vous apprendrez",
+    "tryItYourself": "Essayez par vous-même",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "progress": "Module {{current}} sur {{total}}",
+    "loading": "Chargement…",
+    "comingSoon": "Contenu à venir."
+  },
+  "quiz": {
+    "badge": "Évaluation",
+    "title": "Trouver votre niveau",
+    "description": "5 questions pour trouver le meilleur module de départ pour vous.",
+    "questionOf": "Question {{current}} sur {{total}}",
+    "result": {
+      "heading": "Votre point de départ recommandé",
+      "basedOn": "Selon vos réponses (score : {{score}})",
+      "goToModule": "Aller au module {{id}}",
+      "retake": "Recommencer le quiz"
+    }
+  },
+  "cheatsheet": {
+    "badge": "Référence",
+    "title": "Aide-mémoire",
+    "description": "Tous les raccourcis, commandes slash, variables de contexte et commandes CLI — recherchables.",
+    "searchPlaceholder": "Rechercher des raccourcis, commandes…",
+    "noResults": "Aucun résultat pour « {{query}} »"
+  },
+  "features": {
+    "badge": "Référence",
+    "title": "Index des fonctionnalités",
+    "description": "Toutes les fonctionnalités GitHub Copilot, recherchables et filtrables par niveau et catégorie.",
+    "searchPlaceholder": "Rechercher des fonctionnalités…",
+    "count_one": "{{count}} fonctionnalité",
+    "count_other": "{{count}} fonctionnalités",
+    "allLevels": "Tous les niveaux",
+    "allCategories": "Toutes les catégories",
+    "categories": {
+      "IDE": "IDE",
+      "CLI": "CLI",
+      "githubCom": "GitHub.com",
+      "extensions": "Extensions",
+      "enterprise": "Entreprise"
+    }
+  },
+  "references": {
+    "badge": "Référence",
+    "title": "Références",
+    "description": "Documentation officielle, journaux de modifications, ressources d'apprentissage et extensions IDE — tout ce dont vous avez besoin pour aller plus loin."
+  },
+  "playground": {
+    "title": "Simulateur Copilot CLI",
+    "installHint": "Installer :",
+    "installCmd": "npm install -g @github/copilot",
+    "normal": "Normal",
+    "autopilot": "Autopilote",
+    "task": "Tâche",
+    "taskPlaceholder": "Décrivez une tâche pour Copilot CLI…",
+    "run": "Exécuter",
+    "examples": "Exemples",
+    "output": "Résultat",
+    "outputEmpty": "Sélectionnez un exemple ou saisissez une tâche et cliquez sur Exécuter…"
+  },
+  "mdx": {
+    "callout": {
+      "tip": "Conseil",
+      "warning": "Avertissement",
+      "info": "Remarque",
+      "success": "Bonne pratique"
+    },
+    "keyPoints": {
+      "heading": "Points clés"
+    }
+  },
+  "lang": {
+    "switcher": "Langue"
+  }
+}

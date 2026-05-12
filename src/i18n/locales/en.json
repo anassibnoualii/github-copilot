@@ -19,7 +19,8 @@
   },
   "topbar": {
     "findMyLevel": "Find My Level",
-    "start": "Start"
+    "start": "Start",
+    "menuAriaLabel": "Toggle menu"
   },
   "levels": {
     "beginner": "Beginner",
@@ -107,5 +108,19 @@
     "examples": "Examples",
     "output": "Output",
     "outputEmpty": "Select an example or type a task and click Run…"
+  },
+  "mdx": {
+    "callout": {
+      "tip": "Pro Tip",
+      "warning": "Warning",
+      "info": "Note",
+      "success": "Best Practice"
+    },
+    "keyPoints": {
+      "heading": "Key Takeaways"
+    }
+  },
+  "lang": {
+    "switcher": "Language"
   }
 }

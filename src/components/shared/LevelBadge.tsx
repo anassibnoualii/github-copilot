@@ -1,5 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import type { Level } from '@/types'
-import { LEVEL_BADGE_CLASSES, levelLabel } from '@/lib/utils'
+import { LEVEL_BADGE_CLASSES } from '@/lib/utils'
 
 interface LevelBadgeProps {
   level: Level
@@ -7,9 +8,10 @@ interface LevelBadgeProps {
 }
 
 export default function LevelBadge({ level, className }: LevelBadgeProps) {
+  const { t } = useTranslation()
   return (
     <span className={`badge ${LEVEL_BADGE_CLASSES[level]}${className ? ` ${className}` : ''}`}>
-      {levelLabel(level)}
+      {t(`levels.${level}`)}
     </span>
   )
 }
