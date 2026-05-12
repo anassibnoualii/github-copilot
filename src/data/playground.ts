@@ -34,7 +34,7 @@ const playgroundData: PlaygroundData = {
 <span class="cli-cmd">  }))</span>
 
 <span class="cli-label">Applying fix to session.test.ts...</span>
-<span class="cli-cmd">  beforeAll(() => { process.env.SESSION_SECRET = 'test-secret' })</span>
+<span class="cli-cmd">  beforeAll(() => { process.env.SESSION_SECRET = 'test-value' })</span>
 
 <span class="cli-result">  ✓ auth.test.ts — 8 tests passed</span>
 <span class="cli-result">  ✓ session.test.ts — 5 tests passed</span>`,
