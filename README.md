@@ -1,73 +1,61 @@
-# React + TypeScript + Vite
+# GitHub Copilot Interactive Workshop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A hands-on, interactive workshop for mastering GitHub Copilot — built with React 19, TypeScript, Tailwind CSS, shadcn/ui, and MDX.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **11 learning modules** covering inline completions, Chat, slash commands, CLI, Edits, custom instructions, Agent Mode, GitHub.com, Extensions & MCP, enterprise config, and prompt engineering
+- **Interactive terminal** with guided steps and free-play mode per module
+- **Progress tracking** persisted in localStorage
+- **Per-module knowledge checks** with explanations
+- **Copilot CLI Simulator** playground
+- **Cheat Sheet** with OS toggle (Mac / Windows / Linux) and search
+- **Feature Index** — 60+ features filterable by level and category
+- **Config Builder** — generate VS Code `settings.json` visually
+- **Quiz** — find your starting module
+- **References** — filtered by type (Docs / Blog / Repo / Video)
+- **EN / FR** — fully internationalised with react-i18next
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Concern | Choice |
+|---|---|
+| Build | Vite 6 + `@vitejs/plugin-react` |
+| UI | React 19, TypeScript |
+| Routing | React Router v6 `HashRouter` |
+| Styling | Tailwind CSS v3 + shadcn/ui |
+| Content | MDX via `@mdx-js/rollup` |
+| Syntax highlight | `rehype-pretty-code` + Shiki (github-dark) |
+| i18n | react-i18next |
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── content/modules/   # 01–11.mdx — one file per module
+├── data/              # Typed TypeScript data files
+├── components/
+│   ├── layout/        # Sidebar, Topbar, Layout
+│   ├── mdx/           # Callout, KeyPoints, ModuleQuiz, PromptList
+│   ├── module/        # ModuleTerminal
+│   └── shared/        # PageHeader, FilterBar, SearchInput, LevelBadge…
+├── pages/             # One file per route
+├── hooks/             # useProgress, usePlayground, useLocalisedData…
+├── i18n/locales/      # en.json, fr.json
+└── types/index.ts     # Shared TypeScript interfaces
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm install
+npm run dev
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Build & Deploy
+
+The project deploys to GitHub Pages via GitHub Actions on every push to `main`.
+
+```bash
+npm run build   # outputs to dist/
 ```

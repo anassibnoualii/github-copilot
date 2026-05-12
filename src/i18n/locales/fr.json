@@ -110,7 +110,38 @@
   "configBuilder": {
     "badge": "Outils",
     "title": "Constructeur de config",
-    "description": "Activez les fonctionnalités et copiez le settings.json VS Code généré — sans édition manuelle de JSON."
+    "description": "Activez les fonctionnalités et copiez le settings.json VS Code généré — sans édition manuelle de JSON.",
+    "copy": "Copier",
+    "copied": "Copié",
+    "previewTitle": ".vscode/settings.json",
+    "hint": "Collez ceci dans votre .vscode/settings.json ou dans les paramètres utilisateur VS Code pour appliquer ces préférences Copilot.",
+    "groups": {
+      "inlineCompletions": {
+        "label": "Complétions en ligne",
+        "completions":   { "label": "Activer Copilot",                 "desc": "Activer les complétions en ligne globalement" },
+        "autoTrigger":   { "label": "Suggestions automatiques",        "desc": "Afficher les suggestions pendant la frappe (désactiver pour le mode manuel)" },
+        "nextEdit":      { "label": "Suggestions de modification",     "desc": "Prédire votre prochaine modification selon les changements récents" },
+        "inlineSuggest": { "label": "Suggestion en ligne",             "desc": "Afficher le texte fantôme dans l'éditeur" }
+      },
+      "chat": {
+        "label": "Copilot Chat",
+        "chatEnabled": { "label": "Activer le Chat",             "desc": "Activer le panneau Copilot Chat dans l'IDE" },
+        "voiceInput":  { "label": "Saisie vocale",               "desc": "Dicter les invites de chat via le microphone" },
+        "followUp":    { "label": "Suggestions de suivi",        "desc": "Afficher les questions de suivi suggérées après les réponses" }
+      },
+      "security": {
+        "label": "Sécurité & Confidentialité",
+        "publicCode": { "label": "Filtre de code public",   "desc": "Bloquer les suggestions correspondant au code public (réduit le risque IP)" },
+        "telemetry":  { "label": "Partager les données",    "desc": "Envoyer des statistiques d'utilisation pour améliorer Copilot" }
+      },
+      "langExclusions": {
+        "label": "Exclusions par langage",
+        "exclMarkdown":  { "label": "Désactiver pour Markdown",    "desc": "Désactiver les complétions dans les fichiers .md" },
+        "exclPlaintext": { "label": "Désactiver pour Texte brut",  "desc": "Désactiver les complétions dans les fichiers .txt" },
+        "exclYaml":      { "label": "Désactiver pour YAML",        "desc": "Désactiver les complétions dans les fichiers .yaml/.yml" },
+        "exclEnv":       { "label": "Désactiver pour .env",        "desc": "Désactiver les complétions dans les .env (recommandé)" }
+      }
+    }
   },
   "playground": {
     "title": "Simulateur Copilot CLI",
@@ -135,6 +166,28 @@
     "keyPoints": {
       "heading": "Points clés"
     }
+  },
+  "moduleTerminal": {
+    "guided": "Guidé",
+    "tryIt": "Essayer",
+    "step": "Étape {{current}} / {{total}}",
+    "prev": "Préc.",
+    "next": "Suiv.",
+    "placeholder": "Tapez une tâche ou une question pour Copilot...",
+    "reset": "Réinitialiser",
+    "run": "Exécuter",
+    "hint": "Appuyez sur Entrée ou Exécuter — les réponses simulent le comportement de Copilot."
+  },
+  "moduleQuiz": {
+    "heading": "Vérification des connaissances",
+    "correct": "✓ Correct",
+    "incorrect": "✗ Incorrect",
+    "nextQuestion": "Question suivante",
+    "seeResults": "Voir les résultats",
+    "tryAgain": "Réessayer",
+    "scorePerfect": "Score parfait ! Prêt pour le module suivant.",
+    "scoreGood": "Bon travail — relisez les explications si nécessaire.",
+    "scoreRetry": "Révisez ce module avant de continuer."
   },
   "lang": {
     "switcher": "Langue"

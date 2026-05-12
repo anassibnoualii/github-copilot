@@ -110,7 +110,38 @@
   "configBuilder": {
     "badge": "Tools",
     "title": "Config Builder",
-    "description": "Toggle features and copy the generated VS Code settings.json — no manual JSON editing needed."
+    "description": "Toggle features and copy the generated VS Code settings.json — no manual JSON editing needed.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "previewTitle": ".vscode/settings.json",
+    "hint": "Paste this into your VS Code .vscode/settings.json or user settings to apply these Copilot preferences.",
+    "groups": {
+      "inlineCompletions": {
+        "label": "Inline Completions",
+        "completions":   { "label": "Enable Copilot",             "desc": "Enable inline completions globally" },
+        "autoTrigger":   { "label": "Auto-trigger suggestions",   "desc": "Show suggestions as you type (disable for manual-only)" },
+        "nextEdit":      { "label": "Next Edit Suggestions",      "desc": "Predict your next edit based on recent changes" },
+        "inlineSuggest": { "label": "Inline Suggest",             "desc": "Show ghost text in the editor" }
+      },
+      "chat": {
+        "label": "Copilot Chat",
+        "chatEnabled": { "label": "Enable Chat",              "desc": "Enable Copilot Chat panel in the IDE" },
+        "voiceInput":  { "label": "Voice Input",              "desc": "Allow dictating chat prompts via microphone" },
+        "followUp":    { "label": "Follow-up Suggestions",    "desc": "Show suggested follow-up questions after responses" }
+      },
+      "security": {
+        "label": "Security & Privacy",
+        "publicCode": { "label": "Public Code Filter",  "desc": "Block suggestions that match public code (reduces IP risk)" },
+        "telemetry":  { "label": "Share Usage Data",    "desc": "Send usage statistics to improve Copilot" }
+      },
+      "langExclusions": {
+        "label": "Language Exclusions",
+        "exclMarkdown":  { "label": "Disable for Markdown",    "desc": "Turn off completions in .md files" },
+        "exclPlaintext": { "label": "Disable for Plain Text",  "desc": "Turn off completions in .txt files" },
+        "exclYaml":      { "label": "Disable for YAML",        "desc": "Turn off completions in .yaml/.yml files" },
+        "exclEnv":       { "label": "Disable for .env files",  "desc": "Turn off completions in .env files (recommended)" }
+      }
+    }
   },
   "playground": {
     "title": "Copilot CLI Simulator",
@@ -135,6 +166,28 @@
     "keyPoints": {
       "heading": "Key Takeaways"
     }
+  },
+  "moduleTerminal": {
+    "guided": "Guided",
+    "tryIt": "Try It",
+    "step": "Step {{current}} / {{total}}",
+    "prev": "Prev",
+    "next": "Next",
+    "placeholder": "Type a task or question for Copilot...",
+    "reset": "Reset",
+    "run": "Run",
+    "hint": "Press Enter or Run — responses simulate Copilot behavior."
+  },
+  "moduleQuiz": {
+    "heading": "Knowledge Check",
+    "correct": "✓ Correct",
+    "incorrect": "✗ Incorrect",
+    "nextQuestion": "Next Question",
+    "seeResults": "See Results",
+    "tryAgain": "Try Again",
+    "scorePerfect": "Perfect score! Ready for the next module.",
+    "scoreGood": "Good work — review the explanations above if needed.",
+    "scoreRetry": "Review this module before moving on."
   },
   "lang": {
     "switcher": "Language"

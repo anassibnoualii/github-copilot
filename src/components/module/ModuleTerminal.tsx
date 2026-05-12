@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Play, RotateCcw, ChevronRight, ChevronLeft, Terminal } from 'lucide-react'
 import type { TutorialStep } from '@/types'
 
@@ -25,6 +26,7 @@ function simulateResponse(input: string): string {
 }
 
 export default function ModuleTerminal({ tutorial, moduleId: _ }: Props) {
+  const { t } = useTranslation()
   const [tab, setTab] = useState<'guided' | 'free'>('guided')
   const [step, setStep] = useState(0)
   const [freeInput, setFreeInput] = useState('')
@@ -53,20 +55,20 @@ export default function ModuleTerminal({ tutorial, moduleId: _ }: Props) {
           className={`mt-tab ${tab === 'guided' ? 'active' : ''}`}
           onClick={() => setTab('guided')}
         >
-          <Play size={11} /> Guided
+          <Play size={11} /> {t('moduleTerminal.guided')}
         </button>
         <button
           className={`mt-tab ${tab === 'free' ? 'active' : ''}`}
           onClick={() => setTab('free')}
         >
-          <Terminal size={11} /> Try It
+          <Terminal size={11} /> {t('moduleTerminal.tryIt')}
         </button>
       </div>
 
       {tab === 'guided' ? (
         <div className="mt-guided">
           <div className="mt-step-header">
-            <span className="mt-step-num">Step {step + 1} / {totalSteps}</span>
+            <span className="mt-step-num">{t('moduleTerminal.step', { current: step + 1, total: totalSteps })}</span>
             <div className="mt-step-dots">
               {tutorial.map((_, i) => (
                 <span key={i} className={`mt-dot ${i === step ? 'active' : i < step ? 'done' : ''}`} />
@@ -87,14 +89,14 @@ export default function ModuleTerminal({ tutorial, moduleId: _ }: Props) {
               onClick={() => setStep(s => s - 1)}
               disabled={step === 0}
             >
-              <ChevronLeft size={13} /> Prev
+              <ChevronLeft size={13} /> {t('moduleTerminal.prev')}
             </button>
             <button
               className="mt-nav-btn"
               onClick={() => setStep(s => s + 1)}
               disabled={step === totalSteps - 1}
             >
-              Next <ChevronRight size={13} />
+              {t('moduleTerminal.next')} <ChevronRight size={13} />
             </button>
           </div>
         </div>
@@ -104,25 +106,25 @@ export default function ModuleTerminal({ tutorial, moduleId: _ }: Props) {
             className="mt-free-input"
             value={freeInput}
             onChange={e => setFreeInput(e.target.value)}
-            placeholder="Type a task or question for Copilot..."
+            placeholder={t('moduleTerminal.placeholder')}
             rows={3}
             onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); runFree() } }}
           />
           <div className="mt-free-actions">
             {ran && (
               <button className="mt-reset-btn" onClick={reset}>
-                <RotateCcw size={11} /> Reset
+                <RotateCcw size={11} /> {t('moduleTerminal.reset')}
               </button>
             )}
             <button className="mt-run-btn" onClick={runFree} disabled={!freeInput.trim()}>
-              <Play size={11} /> Run
+              <Play size={11} /> {t('moduleTerminal.run')}
             </button>
           </div>
           {freeOutput && (
             <pre className="mt-step-output mt-free-output">{freeOutput}</pre>
           )}
           {!freeOutput && (
-            <p className="mt-free-hint">Press Enter or Run — responses simulate Copilot behavior.</p>
+            <p className="mt-free-hint">{t('moduleTerminal.hint')}</p>
           )}
         </div>
       )}

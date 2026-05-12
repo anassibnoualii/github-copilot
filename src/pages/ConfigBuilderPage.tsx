@@ -3,57 +3,60 @@ import { useTranslation } from 'react-i18next'
 import { Copy, Check, Settings, Shield, MessageSquare, Code2, Globe } from 'lucide-react'
 import PageHeader from '@/components/shared/PageHeader'
 
-interface Toggle {
+interface ToggleDef {
   key: string
-  label: string
-  desc: string
   settingKey: string
   settingVal: unknown
   defaultOn: boolean
 }
 
-interface Group {
+interface GroupDef {
+  id: string
   icon: React.ReactNode
-  label: string
-  toggles: Toggle[]
+  isLangGroup: boolean
+  toggles: ToggleDef[]
 }
 
-const GROUPS: Group[] = [
+const GROUPS: GroupDef[] = [
   {
+    id: 'inlineCompletions',
     icon: <Code2 size={14} />,
-    label: 'Inline Completions',
+    isLangGroup: false,
     toggles: [
-      { key: 'completions', label: 'Enable Copilot', desc: 'Enable inline completions globally', settingKey: '"github.copilot.enable"', settingVal: { '*': true }, defaultOn: true },
-      { key: 'autoTrigger', label: 'Auto-trigger suggestions', desc: 'Show suggestions as you type (disable for manual-only)', settingKey: '"github.copilot.editor.enableAutoCompletions"', settingVal: true, defaultOn: true },
-      { key: 'nextEdit', label: 'Next Edit Suggestions', desc: 'Predict your next edit based on recent changes', settingKey: '"github.copilot.nextEditSuggestions.enabled"', settingVal: true, defaultOn: true },
-      { key: 'inlineSuggest', label: 'Inline Suggest', desc: 'Show ghost text in the editor', settingKey: '"editor.inlineSuggest.enabled"', settingVal: true, defaultOn: true },
+      { key: 'completions',   settingKey: '"github.copilot.enable"',                           settingVal: { '*': true }, defaultOn: true  },
+      { key: 'autoTrigger',   settingKey: '"github.copilot.editor.enableAutoCompletions"',     settingVal: true,          defaultOn: true  },
+      { key: 'nextEdit',      settingKey: '"github.copilot.nextEditSuggestions.enabled"',      settingVal: true,          defaultOn: true  },
+      { key: 'inlineSuggest', settingKey: '"editor.inlineSuggest.enabled"',                   settingVal: true,          defaultOn: true  },
     ],
   },
   {
+    id: 'chat',
     icon: <MessageSquare size={14} />,
-    label: 'Copilot Chat',
+    isLangGroup: false,
     toggles: [
-      { key: 'chatEnabled', label: 'Enable Chat', desc: 'Enable Copilot Chat panel in the IDE', settingKey: '"github.copilot.chat.enabled"', settingVal: true, defaultOn: true },
-      { key: 'voiceInput', label: 'Voice Input', desc: 'Allow dictating chat prompts via microphone', settingKey: '"github.copilot.chat.voiceInput.enabled"', settingVal: true, defaultOn: false },
-      { key: 'followUp', label: 'Follow-up Suggestions', desc: 'Show suggested follow-up questions after responses', settingKey: '"github.copilot.chat.followUp"', settingVal: 'always', defaultOn: true },
+      { key: 'chatEnabled', settingKey: '"github.copilot.chat.enabled"',           settingVal: true,    defaultOn: true  },
+      { key: 'voiceInput',  settingKey: '"github.copilot.chat.voiceInput.enabled"',settingVal: true,    defaultOn: false },
+      { key: 'followUp',    settingKey: '"github.copilot.chat.followUp"',          settingVal: 'always',defaultOn: true  },
     ],
   },
   {
+    id: 'security',
     icon: <Shield size={14} />,
-    label: 'Security & Privacy',
+    isLangGroup: false,
     toggles: [
-      { key: 'publicCode', label: 'Public Code Filter', desc: 'Block suggestions that match public code (reduces IP risk)', settingKey: '"github.copilot.advanced.duplicationDetection"', settingVal: true, defaultOn: false },
-      { key: 'telemetry', label: 'Share Usage Data', desc: 'Send usage statistics to improve Copilot', settingKey: '"github.copilot.telemetry.enabled"', settingVal: true, defaultOn: true },
+      { key: 'publicCode', settingKey: '"github.copilot.advanced.duplicationDetection"', settingVal: true, defaultOn: false },
+      { key: 'telemetry',  settingKey: '"github.copilot.telemetry.enabled"',             settingVal: true, defaultOn: true  },
     ],
   },
   {
+    id: 'langExclusions',
     icon: <Globe size={14} />,
-    label: 'Language Exclusions',
+    isLangGroup: true,
     toggles: [
-      { key: 'exclMarkdown', label: 'Disable for Markdown', desc: 'Turn off completions in .md files', settingKey: '"markdown"', settingVal: false, defaultOn: false },
-      { key: 'exclPlaintext', label: 'Disable for Plain Text', desc: 'Turn off completions in .txt files', settingKey: '"plaintext"', settingVal: false, defaultOn: true },
-      { key: 'exclYaml', label: 'Disable for YAML', desc: 'Turn off completions in .yaml/.yml files', settingKey: '"yaml"', settingVal: false, defaultOn: false },
-      { key: 'exclEnv', label: 'Disable for .env files', desc: 'Turn off completions in .env files (recommended)', settingKey: '"dotenv"', settingVal: false, defaultOn: true },
+      { key: 'exclMarkdown',  settingKey: '"markdown"',  settingVal: false, defaultOn: false },
+      { key: 'exclPlaintext', settingKey: '"plaintext"', settingVal: false, defaultOn: true  },
+      { key: 'exclYaml',      settingKey: '"yaml"',      settingVal: false, defaultOn: false },
+      { key: 'exclEnv',       settingKey: '"dotenv"',    settingVal: false, defaultOn: true  },
     ],
   },
 ]
@@ -64,7 +67,7 @@ function buildJson(enabled: Record<string, boolean>): string {
 
   for (const group of GROUPS) {
     for (const t of group.toggles) {
-      if (group.label === 'Language Exclusions') {
+      if (group.isLangGroup) {
         if (enabled[t.key]) {
           langExclusions[t.settingKey.replace(/"/g, '')] = false
         }
@@ -121,16 +124,16 @@ export default function ConfigBuilderPage() {
       <div className="cb-layout">
         <div className="cb-controls">
           {GROUPS.map(group => (
-            <div key={group.label} className="cb-group">
+            <div key={group.id} className="cb-group">
               <div className="cb-group-title">
                 <span className="cb-group-icon">{group.icon}</span>
-                {group.label}
+                {t(`configBuilder.groups.${group.id}.label`)}
               </div>
               {group.toggles.map(toggle_ => (
                 <label key={toggle_.key} className="cb-toggle">
                   <div className="cb-toggle-info">
-                    <span className="cb-toggle-label">{toggle_.label}</span>
-                    <span className="cb-toggle-desc">{toggle_.desc}</span>
+                    <span className="cb-toggle-label">{t(`configBuilder.groups.${group.id}.${toggle_.key}.label`)}</span>
+                    <span className="cb-toggle-desc">{t(`configBuilder.groups.${group.id}.${toggle_.key}.desc`)}</span>
                   </div>
                   <button
                     className={`cb-switch ${enabled[toggle_.key] ? 'on' : 'off'}`}
@@ -149,16 +152,14 @@ export default function ConfigBuilderPage() {
         <div className="cb-preview">
           <div className="cb-preview-header">
             <div className="cb-preview-title">
-              <Settings size={13} /> .vscode/settings.json
+              <Settings size={13} /> {t('configBuilder.previewTitle')}
             </div>
             <button className="cb-copy-btn" onClick={copy}>
-              {copied ? <><Check size={12} /> Copied</> : <><Copy size={12} /> Copy</>}
+              {copied ? <><Check size={12} /> {t('configBuilder.copied')}</> : <><Copy size={12} /> {t('configBuilder.copy')}</>}
             </button>
           </div>
           <pre className="cb-json">{json}</pre>
-          <p className="cb-hint">
-            Paste this into your VS Code <code>.vscode/settings.json</code> or user settings to apply these Copilot preferences.
-          </p>
+          <p className="cb-hint">{t('configBuilder.hint')}</p>
         </div>
       </div>
     </div>

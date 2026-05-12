@@ -13,13 +13,6 @@ const TYPE_ICONS: Record<ReferenceType, React.ReactNode> = {
   video: <Video size={11} />,
 }
 
-const TYPE_LABELS: Record<ReferenceType, string> = {
-  doc:   'Doc',
-  blog:  'Blog',
-  repo:  'Repo',
-  video: 'Video',
-}
-
 const TYPE_CLASSES: Record<ReferenceType, string> = {
   doc:   'ref-type-doc',
   blog:  'ref-type-blog',
@@ -67,7 +60,7 @@ export default function ReferencesPage() {
                     <div className="ref-card-url">{link.url.replace('https://', '')}</div>
                     <span className={`ref-type-badge ${TYPE_CLASSES[link.type]}`}>
                       {TYPE_ICONS[link.type]}
-                      {TYPE_LABELS[link.type]}
+                      {t(`references.type.${link.type}`)}
                     </span>
                   </div>
                 </a>

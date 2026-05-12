@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CheckCircle, XCircle, RotateCcw, ChevronRight } from 'lucide-react'
 import type { ModuleQuizQuestion } from '@/types'
 
@@ -7,7 +8,9 @@ interface Props {
   heading?: string
 }
 
-export default function ModuleQuiz({ questions, heading = 'Knowledge Check' }: Props) {
+export default function ModuleQuiz({ questions, heading }: Props) {
+  const { t } = useTranslation()
+  const resolvedHeading = heading ?? t('moduleQuiz.heading')
   const [current, setCurrent] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
   const [answers, setAnswers] = useState<boolean[]>([])
@@ -43,7 +46,7 @@ export default function ModuleQuiz({ questions, heading = 'Knowledge Check' }: P
   return (
     <div className="mq-wrap">
       <div className="mq-header">
-        <span className="mq-label">{heading}</span>
+        <span className="mq-label">{resolvedHeading}</span>
         {phase !== 'done' && (
           <span className="mq-counter">{current + 1} / {questions.length}</span>
         )}
@@ -72,14 +75,14 @@ export default function ModuleQuiz({ questions, heading = 'Knowledge Check' }: P
           {phase === 'explain' && (
             <div className="mq-explanation">
               <div className="mq-explanation-label">
-                {selected === q.correct ? '✓ Correct' : '✗ Incorrect'}
+                {selected === q.correct ? t('moduleQuiz.correct') : t('moduleQuiz.incorrect')}
               </div>
               <p>{q.explanation}</p>
               <button className="mq-next-btn" onClick={next}>
                 {current + 1 < questions.length ? (
-                  <><ChevronRight size={14} /> Next Question</>
+                  <><ChevronRight size={14} /> {t('moduleQuiz.nextQuestion')}</>
                 ) : (
-                  <><ChevronRight size={14} /> See Results</>
+                  <><ChevronRight size={14} /> {t('moduleQuiz.seeResults')}</>
                 )}
               </button>
             </div>
@@ -92,13 +95,13 @@ export default function ModuleQuiz({ questions, heading = 'Knowledge Check' }: P
           </div>
           <p className="mq-result-label">
             {score === questions.length
-              ? 'Perfect score! Ready for the next module.'
+              ? t('moduleQuiz.scorePerfect')
               : score >= questions.length / 2
-              ? 'Good work — review the explanations above if needed.'
-              : 'Review this module before moving on.'}
+              ? t('moduleQuiz.scoreGood')
+              : t('moduleQuiz.scoreRetry')}
           </p>
           <button className="mq-restart-btn" onClick={restart}>
-            <RotateCcw size={13} /> Try Again
+            <RotateCcw size={13} /> {t('moduleQuiz.tryAgain')}
           </button>
         </div>
       )}
