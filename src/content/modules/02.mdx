@@ -17,11 +17,11 @@ Participants are specialized agents you call with the `@` prefix:
 | `@terminal` | Explain terminal output or suggest shell commands |
 | `@github` | Ask about GitHub — issues, PRs, repositories, code search |
 
-```
-@workspace What does the authentication flow look like in this project?
-@vscode How do I configure auto-save in this workspace?
-@terminal Why did my npm install fail with this error?
-```
+<PromptList items={[
+  '@workspace What does the authentication flow look like in this project?',
+  '@vscode How do I configure auto-save in this workspace?',
+  '@terminal Why did my npm install fail with this error?',
+]} />
 
 <Callout variant="tip" label="@workspace is powerful">
 @workspace can search and reason across your entire codebase. Use it to understand unfamiliar code, find where things are defined, and ask architectural questions.
@@ -55,13 +55,11 @@ Attach specific context to your chat messages using `#`:
 | `#terminalSelection` | Selected text from the terminal panel |
 | `#editor` | The full content of the current editor |
 
-```
-/explain #selection
-
-Fix the bug in #file:src/auth/token.ts
-
-Write tests for #file:src/services/userService.ts covering all edge cases
-```
+<PromptList items={[
+  '/explain #selection',
+  'Fix the bug in #file:src/auth/token.ts',
+  'Write tests for #file:src/services/userService.ts covering all edge cases',
+]} />
 
 <Callout variant="info" label="Combining commands and context">
 You can combine slash commands, participants, and context variables in a single prompt for maximum precision.

@@ -26,21 +26,20 @@ Ask Copilot to review a pull request the way a senior engineer would:
 
 You can also trigger review from a PR comment:
 
-```
-@github-copilot review
-
-@github-copilot review focus on security and error handling
-```
+<PromptList items={[
+  '@github-copilot review',
+  '@github-copilot review focus on security and error handling',
+]} />
 
 ## Copilot Code Search
 
 Use natural language to search across repositories:
 
-```
-How does this project handle authentication?
-Where is the payment processing logic?
-Find all places that call the users API
-```
+<PromptList items={[
+  'How does this project handle authentication?',
+  'Where is the payment processing logic?',
+  'Find all places that call the users API',
+]} />
 
 Access it from the search bar on GitHub.com → switch to **Copilot search**.
 
@@ -62,11 +61,10 @@ Copilot Workspace is designed for feature-level work — implementing an issue f
 
 You can interact with Copilot directly in issue and PR comments:
 
-```
-@github-copilot Can you suggest a fix for this?
-
-@github-copilot What's the simplest way to implement this feature?
-```
+<PromptList items={[
+  '@github-copilot Can you suggest a fix for this?',
+  "@github-copilot What's the simplest way to implement this feature?",
+]} />
 
 <KeyPoints items={[
   'PR Summaries auto-generate descriptions from diffs — always edit before publishing',

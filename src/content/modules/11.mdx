@@ -24,23 +24,20 @@ A well-structured prompt has four parts:
 
 **Zero-shot**: Ask once with no examples. Works for simple tasks.
 
-```
-Write a function that validates an email address.
-```
+<PromptList items={['Write a function that validates an email address.']} />
 
 **Few-shot**: Provide examples of what you want. Works for pattern-matching tasks.
 
-```
-Convert these callbacks to async/await, following this pattern:
-
+```javascript
+// Prompt with example pattern:
+// "Convert these callbacks to async/await, following this pattern:
 // Before:
 fs.readFile(path, (err, data) => { if (err) throw err; process(data) })
-
 // After:
 const data = await fs.promises.readFile(path)
 process(data)
 
-Now convert:
+// Now convert:
 db.query(sql, params, (err, rows) => { if (err) throw err; return rows })
 ```
 
@@ -52,7 +49,7 @@ When you want Copilot to match your codebase's exact style or pattern, show it 1
 
 Ask Copilot to reason step by step before writing code. This produces better results for complex logic.
 
-```
+```text
 Before writing the function, reason through:
 1. What edge cases exist?
 2. What invariants must hold?
@@ -65,12 +62,12 @@ Then implement: a function that finds all prime numbers up to n.
 
 Don't try to get everything perfect in one prompt. Use multiple turns:
 
-```
-Turn 1: Write the basic implementation
-Turn 2: Add error handling
-Turn 3: Add TypeScript types
-Turn 4: Write tests for the edge cases you identified
-```
+<PromptList items={[
+  'Turn 1: Write the basic implementation',
+  'Turn 2: Add error handling',
+  'Turn 3: Add TypeScript types',
+  'Turn 4: Write tests for the edge cases you identified',
+]} />
 
 ## Common Anti-Patterns
 
