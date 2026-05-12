@@ -1,0 +1,74 @@
+## What is Agent Mode?
+
+Agent Mode is Copilot's autonomous execution capability. Instead of answering questions or making single edits, it takes a goal and works toward it iteratively — reading files, running terminal commands, writing code, and fixing errors — until the task is complete.
+
+<Callout variant="info" label="Agent Mode vs Chat vs Edits">
+Chat answers questions. Edits makes targeted file changes. Agent Mode autonomously executes multi-step tasks with tool use — reading files, running commands, and fixing its own mistakes.
+</Callout>
+
+## How Agent Mode Works
+
+1. You give it an **outcome-focused goal** (not step-by-step instructions)
+2. Copilot builds a plan and proposes tool calls
+3. You review and **approve** each tool call before it executes
+4. Copilot iterates — fixing errors, running tests, updating code — until done
+
+## Tools Available to the Agent
+
+| Tool | What it can do |
+|------|---------------|
+| File read | Read any file in the working set |
+| File write | Create or modify files |
+| Terminal | Run shell commands (with your approval) |
+| Browser | Load URLs for research (where enabled) |
+| Search | Search the codebase semantically |
+
+## Writing Agent Prompts
+
+The key to effective agent prompts is to describe the **outcome**, not the steps:
+
+```
+# Bad: Step-by-step (micromanages the agent)
+"First read the userService.ts file, then find the getUserById function,
+then add error handling, then run the tests"
+
+# Good: Outcome-focused
+"Add error handling to the user service so that all database errors are
+caught, logged, and returned as typed ApiError responses"
+```
+
+<Callout variant="tip" label="Let the agent decide how">
+Trust the agent to figure out the steps. Your job is to clearly describe what success looks like, not how to get there.
+</Callout>
+
+## Reviewing Tool Calls
+
+Every time the agent wants to take an action, it asks for approval:
+
+| Approval type | When to use |
+|--------------|------------|
+| **Continue** | Trust this action — proceed |
+| **View Changes** | See exactly what will change before approving |
+| **Reject** | Block this specific tool call |
+| **Stop** | Halt the entire agent session |
+
+## When Agent Mode Excels
+
+- Implementing a feature described in an issue
+- Refactoring a module to a new pattern across many files
+- Setting up boilerplate (Docker, CI, testing config)
+- Debugging a failing test suite with multiple interacting issues
+- Migrating an API from one version to another
+
+<Callout variant="warning" label="Keep git clean">
+Always commit or stash your current work before starting an agent session. Use the Revert button in the Edits panel if the agent goes in the wrong direction.
+</Callout>
+
+<KeyPoints items={[
+  'Agent mode executes multi-step tasks autonomously with tool use',
+  'Describe the outcome, not the steps — let the agent plan',
+  'Review every tool call approval — especially terminal commands',
+  'Use the AGENTS.md file to set rules the agent must follow',
+  'Commit before each session so you can revert cleanly if needed',
+  'Agent mode is best for well-scoped, outcome-defined tasks',
+]} />

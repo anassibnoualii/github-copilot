@@ -1,0 +1,73 @@
+## What is GitHub Copilot?
+
+GitHub Copilot is an AI-powered coding assistant trained on billions of lines of public code. It integrates directly into your IDE to provide real-time suggestions as you type — from single lines to entire functions, tests, and documentation.
+
+<Callout variant="info" label="How it works">
+Copilot sends your current file, open tabs, and cursor context to an AI model (GPT-4o, Claude, or Gemini depending on your plan). The model returns completions that match the patterns it detected in your code.
+</Callout>
+
+## Subscription Plans
+
+| Plan | Price | Key Features |
+|------|-------|--------------|
+| Free | Free | 2,000 completions/month, 50 premium requests/month |
+| Pro | $10/user/mo | Unlimited completions, 300 premium requests/month |
+| Pro+ | $39/user/mo | 1,500 premium requests/month, full model access (Claude, GPT, Gemini) |
+| Business | $19/user/mo | Org policies, audit logs, content exclusions, IP indemnity |
+| Enterprise | $39/user/mo | Everything in Business + Copilot Workspace, org knowledge bases |
+
+<Callout variant="tip" label="Premium Requests">
+Some advanced models (like GPT-4o, Claude Sonnet, Gemini Pro) count as premium requests. The default model for completions is free and doesn't count against your premium request quota.
+</Callout>
+
+## Installing GitHub Copilot
+
+```bash
+# VS Code — install from the Extensions panel
+code --install-extension GitHub.copilot
+code --install-extension GitHub.copilot-chat
+```
+
+After installing, you'll be prompted to sign in with your GitHub account. Copilot activates automatically once authenticated.
+
+## Keyboard Shortcuts
+
+| Action | Windows / Linux | macOS |
+|--------|----------------|-------|
+| Accept suggestion | Tab | Tab |
+| Dismiss suggestion | Esc | Esc |
+| Next suggestion | Alt + ] | Option + ] |
+| Previous suggestion | Alt + [ | Option + [ |
+| Open suggestion panel | Ctrl + Enter | Cmd + Enter |
+| Trigger suggestion | Alt + \\ | Option + \\ |
+| Accept next word | Ctrl + → | Cmd + → |
+
+## What Context Does Copilot Use?
+
+Copilot reads several sources to build its context window:
+
+1. **Current file** — everything visible in the active editor
+2. **Open tabs** — files you have open nearby (not all tabs, just a selection)
+3. **File name and path** — `auth.py` signals authentication code
+4. **Imports and declarations** — your imports tell Copilot what libraries you use
+5. **Comments** — inline comments describing what you want
+
+<Callout variant="tip" label="Better Suggestions">
+Write a comment describing what you want before the function. Copilot will often generate the entire implementation from a well-written comment.
+</Callout>
+
+```python
+# Function that validates an email address using regex
+# Returns True if valid, False otherwise
+def validate_email(email: str) -> bool:
+    # Copilot completes this for you
+```
+
+<KeyPoints items={[
+  'Tab accepts, Esc dismisses — the two most important shortcuts',
+  'Alt+] / Alt+[ cycles through alternative suggestions',
+  'Ctrl+Enter opens the suggestion panel with up to 10 options',
+  'Descriptive function and variable names produce better suggestions',
+  'Open related files as tabs to give Copilot more context',
+  'Premium requests are limited per plan — default model is always free',
+]} />

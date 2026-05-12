@@ -1,0 +1,102 @@
+## Why Custom Instructions?
+
+Custom instructions let you tell Copilot about your project's conventions, preferred libraries, coding style, and anything else that should shape its suggestions. Instead of re-explaining context in every prompt, write it once.
+
+## .github/copilot-instructions.md
+
+The primary way to add repo-level instructions. Create this file in your repository root:
+
+```markdown
+# Copilot Instructions
+
+This is a TypeScript monorepo using pnpm workspaces.
+
+## Tech Stack
+- Frontend: React 19, Vite, Tailwind CSS, shadcn/ui
+- Backend: Node.js, Express, PostgreSQL, Prisma ORM
+- Testing: Vitest with React Testing Library
+
+## Conventions
+- Use async/await, never .then()/.catch()
+- All API responses must use the `ApiResponse<T>` wrapper type
+- Prefer named exports over default exports
+- Error handling: throw typed errors using our `AppError` class
+
+## Do Not
+- Use class components in React
+- Use `var` or `any` in TypeScript
+- Add `console.log` without a TODO comment to remove it
+```
+
+<Callout variant="tip" label="Specificity is key">
+Vague instructions like "write clean code" do nothing. Be specific: name the libraries, patterns, and anti-patterns that matter for your project.
+</Callout>
+
+## AGENTS.md
+
+For AI agents (including Copilot Agent Mode), place an `AGENTS.md` file anywhere in your project. It provides agent-specific instructions — what tools to use, how to verify work, what not to touch.
+
+```markdown
+# Agent Instructions
+
+## Before making changes
+- Run `pnpm test` to see the current test state
+- Check `git status` to understand what's already changed
+
+## Testing requirements
+- All new functions must have at least one test
+- Run `pnpm test` and confirm tests pass before finishing
+
+## File boundaries
+- Do not modify files in `src/generated/` — they are auto-generated
+- Database migrations go in `prisma/migrations/` only
+
+## Verification
+- After any API change, run `pnpm lint && pnpm test`
+```
+
+The nearest `AGENTS.md` to the current working directory takes precedence over parent directories.
+
+## VS Code Settings Instructions
+
+Add user-level or workspace-level instructions in VS Code settings:
+
+```json
+{
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "text": "Always use TypeScript strict mode. Prefer composition over inheritance."
+    }
+  ]
+}
+```
+
+These apply across all projects for user settings, or just the current workspace for `.vscode/settings.json`.
+
+## Language-Specific Instructions
+
+Target instructions to specific file types:
+
+```json
+{
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "text": "For Python files, use type hints on all function signatures.",
+      "language": "python"
+    },
+    {
+      "text": "For SQL files, always include a comment explaining the query's purpose.",
+      "language": "sql"
+    }
+  ]
+}
+```
+
+<KeyPoints items={[
+  '.github/copilot-instructions.md applies to the whole repo — create it once',
+  'AGENTS.md is specifically read by autonomous agents — great for safety rules',
+  'Multiple AGENTS.md files can exist; the nearest one to the cwd wins',
+  'VS Code settings let you set personal cross-project instructions',
+  'Language-specific instructions apply only to matching file types',
+  'Be specific in instructions — name libraries, patterns, and anti-patterns',
+]} />

@@ -1,0 +1,70 @@
+## What is Copilot Edits?
+
+Copilot Edits is a multi-file editing mode that lets you make coordinated changes across multiple files from a single prompt. Unlike Chat, which shows suggestions as text, Edits directly modifies your files and shows a diff review.
+
+<Callout variant="info" label="Edits vs Chat">
+Use Chat when you want to ask questions and understand code. Use Edits when you want Copilot to actually make changes across one or more files.
+</Callout>
+
+## Opening Copilot Edits
+
+In VS Code, open Copilot Edits from:
+- The Copilot menu → **Open Copilot Edits**
+- Command Palette: `Copilot: Open Edits`
+
+## The Working Set
+
+The working set is the list of files Copilot is allowed to edit. You add files explicitly:
+
+1. Click **Add Files** in the Edits panel
+2. Select files from your workspace
+3. Write your prompt — Copilot modifies only the files in your working set
+
+<Callout variant="tip" label="Start small">
+Add only the files relevant to your change. Copilot performs better with a focused working set than with every file in your project.
+</Callout>
+
+## Reviewing Changes
+
+After Copilot makes edits, you review each change:
+
+| Action | What it does |
+|--------|-------------|
+| **Accept All** | Accept all changes across all files |
+| **Reject All** | Discard all changes |
+| **Accept File** | Accept changes in one specific file |
+| **Accept Hunk** | Accept a single block of changes |
+| **Reject Hunk** | Discard a specific change while keeping others |
+
+## Edit History
+
+Copilot Edits keeps a history of edit sessions. You can:
+- Navigate back to previous edit states
+- Undo the last edit session
+- Compare before/after for each session
+
+## Best Practices
+
+```
+# Good: Focused, single-concern prompt
+"Add error handling to all functions in src/services/userService.ts"
+
+# Good: Clear scope
+"Convert the callback-style database queries in src/models/ to async/await"
+
+# Avoid: Too broad
+"Improve the entire codebase"
+```
+
+<Callout variant="success" label="Iterative edits work best">
+Break large changes into multiple smaller edit sessions. Review and accept each batch before starting the next one.
+</Callout>
+
+<KeyPoints items={[
+  'Edits makes changes directly to files — not just suggestions in chat',
+  'Build a focused working set: only add files relevant to your task',
+  "Review hunks individually — accept what works, reject what doesn't",
+  'One concern per prompt produces cleaner, more reviewable diffs',
+  'Keep git commits between edit sessions to make rollback easy',
+  'Edits history lets you revisit and undo previous sessions',
+]} />

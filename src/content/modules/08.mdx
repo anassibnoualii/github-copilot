@@ -1,0 +1,78 @@
+## Copilot Beyond the IDE
+
+GitHub Copilot isn't just an IDE tool — it's integrated across GitHub.com, making it available wherever you work with code.
+
+## PR Summaries
+
+When you open a pull request, Copilot can automatically generate a summary based on the diff:
+
+1. Open or create a pull request on GitHub.com
+2. Click **Copilot** in the description area
+3. Select **Summarize** — Copilot writes a PR description from your changes
+
+The summary includes what changed, why it matters, and which files were affected.
+
+<Callout variant="tip" label="Edit the summary">
+Copilot's PR summary is a starting point, not the final answer. Always review and edit it to add context a reviewer needs (related issues, breaking changes, test coverage).
+</Callout>
+
+## Copilot Code Review
+
+Ask Copilot to review a pull request the way a senior engineer would:
+
+1. Open a pull request on GitHub.com
+2. Click **Copilot** → **Review**
+3. Copilot adds inline review comments on the diff
+
+You can also trigger review from a PR comment:
+
+```
+@github-copilot review
+
+@github-copilot review focus on security and error handling
+```
+
+## Copilot Code Search
+
+Use natural language to search across repositories:
+
+```
+How does this project handle authentication?
+Where is the payment processing logic?
+Find all places that call the users API
+```
+
+Access it from the search bar on GitHub.com → switch to **Copilot search**.
+
+## Copilot Workspace
+
+Copilot Workspace turns an issue into a full implementation plan:
+
+1. Open an issue on GitHub.com
+2. Click **Open in Copilot Workspace**
+3. Copilot generates a plan: which files to change and how
+4. Review the plan, edit it, then let Copilot implement
+5. Create a PR directly from Workspace when done
+
+<Callout variant="info" label="Workspace is for bigger tasks">
+Copilot Workspace is designed for feature-level work — implementing an issue from start to PR. For quick fixes, use IDE Agent Mode instead.
+</Callout>
+
+## Copilot in Issue Discussions
+
+You can interact with Copilot directly in issue and PR comments:
+
+```
+@github-copilot Can you suggest a fix for this?
+
+@github-copilot What's the simplest way to implement this feature?
+```
+
+<KeyPoints items={[
+  'PR Summaries auto-generate descriptions from diffs — always edit before publishing',
+  'Code Review adds inline comments like a senior engineer would',
+  'Code Search understands natural language queries across repos',
+  'Copilot Workspace implements entire issues from plan to PR',
+  '@github-copilot works directly in issue and PR comments',
+  'All GitHub.com Copilot features work without opening your IDE',
+]} />

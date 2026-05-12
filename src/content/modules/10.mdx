@@ -1,0 +1,90 @@
+## Copilot Business vs Enterprise
+
+| Feature | Business ($19/user/mo) | Enterprise ($39/user/mo) |
+|---------|----------------------|------------------------|
+| Unlimited completions | ✓ | ✓ |
+| Premium requests | 300/user | 1,000/user |
+| Org policies | ✓ | ✓ |
+| Audit logs | ✓ | ✓ |
+| Content exclusions | ✓ | ✓ |
+| IP indemnity | ✓ | ✓ |
+| SSO integration | ✓ | ✓ |
+| Copilot Workspace | — | ✓ |
+| Org knowledge bases | — | ✓ |
+| Fine-tuned models | — | ✓ |
+
+## Organization Policies
+
+Org admins can control Copilot features from **Settings → Copilot** in GitHub:
+
+| Policy | Options |
+|--------|---------|
+| Copilot in IDE | Enabled / Disabled / No policy |
+| Copilot Chat in IDE | Enabled / Disabled / No policy |
+| Copilot on GitHub.com | Enabled / Disabled / No policy |
+| Copilot CLI | Enabled / Disabled / No policy |
+| Editor preview features | Enabled / Disabled |
+| Public code suggestions | Allowed / Blocked |
+
+<Callout variant="info" label="No policy vs Disabled">
+"No policy" lets individual members enable or disable the feature for themselves. "Disabled" blocks it for everyone regardless of personal settings.
+</Callout>
+
+## Content Exclusions
+
+Prevent Copilot from reading sensitive files or directories:
+
+```yaml
+# .github/copilot-instructions.md OR org settings
+# Content exclusions are configured in: Settings → Copilot → Content exclusions
+
+# Example exclusion patterns:
+/secrets/**
+**/*.env
+**/private/**
+src/internal/billing/**
+```
+
+Excluded files are never sent to the Copilot model — not for completions, not for chat context.
+
+## Audit Logs
+
+Enterprise and Business plans include audit logs that track:
+
+- Who used Copilot and when
+- What types of suggestions were accepted
+- Extension usage
+- Policy changes made by admins
+
+Access via **Organization → Settings → Audit log → Filter by Copilot**.
+
+## IP Indemnity
+
+Business and Enterprise plans include IP indemnity coverage. GitHub will defend you if a third party claims a Copilot suggestion infringed their copyright — provided you have the **Duplicate code filter** (public code suggestions = Blocked) enabled.
+
+<Callout variant="warning" label="Enable the code filter">
+IP indemnity only applies when the public code duplication filter is enabled. Turn it on in org settings: Settings → Copilot → Policies → Public code suggestions → Blocked.
+</Callout>
+
+## SSO Integration
+
+For organizations using SAML SSO:
+
+1. Enforce SSO at the organization level
+2. Copilot will require SSO-authenticated sessions
+3. Members must authorize Copilot during the SSO flow
+
+```bash
+# Members see this when SSO is enforced and Copilot isn't authorized:
+# "GitHub Copilot is not authorized for this SSO session.
+#  Please re-authenticate at github.com/orgs/{org}/sso"
+```
+
+<KeyPoints items={[
+  'Business adds org policies, audit logs, IP indemnity over Pro',
+  'Enterprise adds Copilot Workspace, org knowledge bases, fine-tuned models',
+  'Content exclusions prevent specific files from ever reaching the model',
+  'Audit logs track per-user Copilot usage for compliance reporting',
+  'IP indemnity requires the public code duplication filter to be enabled',
+  'SSO enforcement requires members to re-authorize Copilot during login',
+]} />

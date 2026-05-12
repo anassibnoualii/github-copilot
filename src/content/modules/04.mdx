@@ -1,0 +1,84 @@
+<Callout variant="warning" label="CLI Version Notice">
+The old `gh copilot suggest` and `gh copilot explain` extension was deprecated in October 2025. This module covers the new agentic Copilot CLI.
+</Callout>
+
+## The New Copilot CLI
+
+The new GitHub Copilot CLI is a full agentic terminal assistant — not just a command suggester. It can read files, run commands, write code, and complete complex multi-step tasks directly in your terminal.
+
+```bash
+# Install globally via npm
+npm install -g @github/copilot
+
+# Or via Homebrew (macOS)
+brew install github-copilot-cli
+
+# Or via winget (Windows)
+winget install GitHub.CopilotCLI
+```
+
+## Starting a Session
+
+```bash
+copilot
+```
+
+This opens an interactive session where you can describe tasks in natural language. Copilot reads your current directory, understands the project, and can take actions.
+
+## Normal vs Autopilot Mode
+
+The CLI has two operating modes:
+
+| Mode | Behaviour |
+|------|-----------|
+| **Normal** | Copilot proposes a plan and asks approval before each step |
+| **Autopilot** | Copilot executes the full task autonomously without step-by-step approval |
+
+Press **Shift+Tab** to toggle between modes within an active session.
+
+<Callout variant="warning" label="Use Autopilot carefully">
+Autopilot mode will execute file changes and run commands without asking at each step. Make sure you're in a clean git state before using it for large tasks.
+</Callout>
+
+## Slash Commands in the CLI
+
+| Command | What it does |
+|---------|-------------|
+| `/model` | Switch the AI model for this session |
+| `/resume` | Resume a previous session by ID |
+| `& <task>` | Offload a task to a cloud-hosted agent (runs in background) |
+
+## Security Model
+
+The Copilot CLI is designed to be safe by default:
+
+- Only reads files in your **current working directory** (won't access parent directories)
+- Shows you all proposed file changes before applying them in Normal mode
+- Requires explicit approval for terminal commands that modify state
+- Never stores your files or code on GitHub servers
+
+<Callout variant="tip" label="Best practices">
+Run `copilot` from your project root so it has full access to your project files. Use Normal mode for unfamiliar tasks and Autopilot for well-understood, repetitive work.
+</Callout>
+
+## Example Tasks
+
+```
+copilot> Fix the TypeScript errors in the src/api directory
+
+copilot> Add error handling to all async functions in routes/
+
+copilot> Write a Dockerfile for this Express app
+
+copilot> Refactor the database queries in models/ to use async/await
+```
+
+<KeyPoints items={[
+  'Install with: npm install -g @github/copilot',
+  'Start a session with: copilot (from your project root)',
+  'Shift+Tab toggles between Normal and Autopilot modes',
+  '/model switches AI models mid-session',
+  '/resume restarts a previous session',
+  '& prefix offloads long tasks to a cloud agent',
+  'Autopilot acts without confirmation — use git checkpoints first',
+]} />

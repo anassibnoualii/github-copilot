@@ -1,0 +1,77 @@
+## Chat Panel vs Inline Chat
+
+GitHub Copilot Chat gives you two interaction modes:
+
+**Chat Panel** — A persistent sidebar conversation. Open it with `Ctrl+Alt+I` (Windows) or `Cmd+Alt+I` (Mac). Great for longer explanations, asking questions about your codebase, and multi-turn conversations.
+
+**Inline Chat** — Opens directly at your cursor position with `Ctrl+I` (Windows) or `Cmd+I` (Mac). Best for quick edits, explanations of selected code, and targeted changes without leaving your editor.
+
+## Chat Participants
+
+Participants are specialized agents you call with the `@` prefix:
+
+| Participant | Purpose |
+|------------|---------|
+| `@workspace` | Ask questions about your entire project — find files, understand architecture |
+| `@vscode` | Get help with VS Code settings, extensions, keybindings |
+| `@terminal` | Explain terminal output or suggest shell commands |
+| `@github` | Ask about GitHub — issues, PRs, repositories, code search |
+
+```
+@workspace What does the authentication flow look like in this project?
+@vscode How do I configure auto-save in this workspace?
+@terminal Why did my npm install fail with this error?
+```
+
+<Callout variant="tip" label="@workspace is powerful">
+@workspace can search and reason across your entire codebase. Use it to understand unfamiliar code, find where things are defined, and ask architectural questions.
+</Callout>
+
+## Slash Commands in Chat
+
+Slash commands trigger specific Copilot behaviors:
+
+| Command | What it does |
+|---------|-------------|
+| `/explain` | Explain the selected code or current file |
+| `/fix` | Identify and fix bugs or errors in the selection |
+| `/tests` | Generate unit tests for the selected function or class |
+| `/doc` | Add documentation comments (JSDoc, docstrings, etc.) |
+| `/new` | Scaffold a new file, component, or project |
+| `/clear` | Start a fresh conversation |
+| `/help` | Show all available commands |
+| `/review` | Request a code review of the current changes |
+
+## Context Variables
+
+Attach specific context to your chat messages using `#`:
+
+| Variable | What it attaches |
+|----------|----------------|
+| `#file` | A specific file from your workspace |
+| `#selection` | The currently selected code |
+| `#codebase` | Semantic search across the whole project |
+| `#terminalLastCommand` | The last command you ran in the terminal |
+| `#terminalSelection` | Selected text from the terminal panel |
+| `#editor` | The full content of the current editor |
+
+```
+/explain #selection
+
+Fix the bug in #file:src/auth/token.ts
+
+Write tests for #file:src/services/userService.ts covering all edge cases
+```
+
+<Callout variant="info" label="Combining commands and context">
+You can combine slash commands, participants, and context variables in a single prompt for maximum precision.
+</Callout>
+
+<KeyPoints items={[
+  'Ctrl+I opens inline chat at cursor — great for quick edits',
+  '@workspace searches your entire project for answers',
+  'Slash commands like /fix and /tests are shortcuts for common tasks',
+  '#file and #selection let you pin exact context to your question',
+  '/clear starts a fresh session when context gets stale',
+  'Inline chat edits can be accepted, rejected, or retried',
+]} />

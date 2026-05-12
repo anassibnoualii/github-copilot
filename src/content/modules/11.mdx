@@ -1,0 +1,97 @@
+## How the LLM Processes Your Prompts
+
+GitHub Copilot sends your context — the prompt, your code, open files — to a large language model. Understanding how it reads that input helps you write better prompts.
+
+**Token limits**: Every model has a context window (measured in tokens). If your files are too large, older content gets truncated. Keep your working set focused.
+
+**Order matters**: Content near the end of the context window (closest to where the model generates next) has more influence. Your prompt comes last — so it has the most influence.
+
+**Recency bias**: The model pays more attention to what you wrote recently. A comment right above a function matters more than a comment ten lines up.
+
+## Prompt Anatomy
+
+A well-structured prompt has four parts:
+
+| Part | Purpose | Example |
+|------|---------|---------|
+| Role | Tell Copilot who it is | "You are a senior TypeScript engineer" |
+| Task | What to do | "Refactor this function to be testable" |
+| Context | Relevant background | "This project uses Vitest for testing" |
+| Constraints | Rules to follow | "Do not use external dependencies" |
+| Format | Output format | "Return only the function, no explanations" |
+
+## Zero-Shot vs Few-Shot Prompting
+
+**Zero-shot**: Ask once with no examples. Works for simple tasks.
+
+```
+Write a function that validates an email address.
+```
+
+**Few-shot**: Provide examples of what you want. Works for pattern-matching tasks.
+
+```
+Convert these callbacks to async/await, following this pattern:
+
+// Before:
+fs.readFile(path, (err, data) => { if (err) throw err; process(data) })
+
+// After:
+const data = await fs.promises.readFile(path)
+process(data)
+
+Now convert:
+db.query(sql, params, (err, rows) => { if (err) throw err; return rows })
+```
+
+<Callout variant="tip" label="Few-shot for style matching">
+When you want Copilot to match your codebase's exact style or pattern, show it 1-2 examples of that pattern first. This is much more effective than describing the style in words.
+</Callout>
+
+## Chain-of-Thought Prompting
+
+Ask Copilot to reason step by step before writing code. This produces better results for complex logic.
+
+```
+Before writing the function, reason through:
+1. What edge cases exist?
+2. What invariants must hold?
+3. What's the simplest correct algorithm?
+
+Then implement: a function that finds all prime numbers up to n.
+```
+
+## Iterative Refinement
+
+Don't try to get everything perfect in one prompt. Use multiple turns:
+
+```
+Turn 1: Write the basic implementation
+Turn 2: Add error handling
+Turn 3: Add TypeScript types
+Turn 4: Write tests for the edge cases you identified
+```
+
+## Common Anti-Patterns
+
+| Anti-pattern | Why it fails | Fix |
+|-------------|-------------|-----|
+| "Write good code" | Too vague | Specify what "good" means for your context |
+| Giant context dump | Important details get lost in noise | Focus on what's relevant |
+| "Don't do X" only | Negatives are hard for models | State what TO do instead |
+| One massive prompt | Hard to review, iterate, and correct | Break into smaller steps |
+| No examples | Model guesses your style | Show 1-2 examples of the pattern |
+
+<Callout variant="success" label="The best prompt">
+The best prompt is clear, specific, includes examples where patterns matter, states constraints explicitly, and describes a focused outcome — not a long list of steps.
+</Callout>
+
+<KeyPoints items={[
+  'Content near the end of your prompt has the most influence on output',
+  'Few-shot examples beat written style descriptions every time',
+  'Chain-of-thought: ask Copilot to reason before coding for complex logic',
+  'Iterate in turns: basic implementation → types → error handling → tests',
+  'State what to DO, not just what NOT to do',
+  'Specific constraints (library names, patterns, types) produce better results',
+  'Keep the working set focused — large contexts dilute the important parts',
+]} />

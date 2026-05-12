@@ -1,0 +1,124 @@
+## All Slash Commands
+
+Slash commands are pre-built prompt templates that trigger specific Copilot behaviors. They work in both the Chat panel and inline chat.
+
+### /explain
+
+Get a plain-English explanation of code. Works on a selection, a whole file, or just the current function.
+
+```
+/explain
+
+/explain #selection
+
+/explain #file:src/utils/parser.ts
+```
+
+### /fix
+
+Ask Copilot to identify and fix bugs, type errors, or logic problems in the selected code.
+
+```
+/fix
+
+/fix the null pointer exception in this function
+```
+
+### /tests
+
+Generate unit tests for the selected function or class. Copilot detects your testing framework (Jest, Vitest, pytest, etc.) from your project.
+
+```
+/tests
+
+/tests using Vitest with mocked dependencies
+```
+
+### /doc
+
+Add documentation to selected code — JSDoc for TypeScript/JavaScript, docstrings for Python, etc.
+
+```
+/doc
+
+/doc in JSDoc format with parameter descriptions
+```
+
+### /new
+
+Create a new file, component, or scaffold an entire structure.
+
+```
+/new React component for a user profile card
+
+/new Express REST API with CRUD routes for a Product model
+```
+
+### /review
+
+Request a code review of your changes, as if a colleague were checking your PR.
+
+```
+/review #selection
+
+/review focus on security and error handling
+```
+
+## Context Variables Deep Dive
+
+### #file
+
+Reference any file in your workspace. Copilot reads the file and uses it as context.
+
+```
+Explain the data flow in #file:src/store/userSlice.ts
+
+What could cause a memory leak in #file:src/components/VideoPlayer.tsx?
+```
+
+### #codebase
+
+Triggers a semantic search across your entire project. Copilot finds relevant code before answering.
+
+```
+#codebase Where is the JWT token validated?
+
+#codebase What patterns are used for error handling in this project?
+```
+
+### #selection
+
+Attaches the currently selected text in the editor. More precise than the current file.
+
+```
+/explain #selection
+
+Refactor #selection to use async/await instead of callbacks
+```
+
+### #terminalLastCommand and #terminalSelection
+
+Attach terminal context — useful for debugging failed commands.
+
+```
+Why did this fail? #terminalLastCommand
+
+#terminalSelection what does this error mean?
+```
+
+<Callout variant="tip" label="Combining everything">
+The most powerful prompts combine a slash command, a participant, and context variables together.
+</Callout>
+
+```
+@workspace /fix the auth bug in #file:src/middleware/auth.ts based on the error in #terminalLastCommand
+```
+
+<KeyPoints items={[
+  '/explain, /fix, /tests, /doc are the most-used slash commands',
+  '#file pins a specific file as context — more precise than @workspace alone',
+  '#codebase triggers semantic search — great for architecture questions',
+  '#terminalLastCommand is perfect for debugging failed commands',
+  'Combine commands + participants + context variables for precision prompts',
+  '/new can scaffold entire components, routes, and project structures',
+]} />

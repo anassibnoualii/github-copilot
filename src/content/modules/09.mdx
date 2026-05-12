@@ -1,0 +1,77 @@
+## What are Copilot Extensions?
+
+Copilot Extensions are third-party integrations that add new capabilities to Copilot Chat. They let you interact with external services — Docker, Sentry, Datadog, databases — using natural language inside your IDE.
+
+## Installing Extensions
+
+1. Go to the [GitHub Marketplace](https://github.com/marketplace?type=apps&copilot_app=true)
+2. Find a Copilot Extension (look for the Copilot badge)
+3. Install it on your account or organization
+4. Use it with `@extension-name` in Copilot Chat
+
+## Popular Extensions
+
+| Extension | What it does |
+|-----------|-------------|
+| `@docker` | Build images, manage containers, write Dockerfiles |
+| `@sentry` | Analyze Sentry errors and get fix suggestions |
+| `@datadog` | Query metrics and logs from Datadog |
+| `@mongodb` | Write and explain MongoDB queries |
+
+```
+@docker Create a multi-stage Dockerfile for this Node.js app
+
+@sentry Explain this error and suggest a fix: [error ID]
+
+@datadog Show me the p99 latency for the /api/users endpoint
+```
+
+<Callout variant="info" label="Extensions vs Participants">
+Built-in participants (@workspace, @vscode, @terminal) are part of Copilot. Extensions (@docker, @sentry) are third-party and must be installed separately from the Marketplace.
+</Callout>
+
+## Model Context Protocol (MCP)
+
+MCP is an open standard that lets you connect any external tool or data source to Copilot's agent mode. Think of it as a plugin system for AI agents.
+
+### Configuring an MCP Server in VS Code
+
+Add MCP servers to your VS Code `settings.json` or `.vscode/mcp.json`:
+
+```json
+{
+  "github.copilot.mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/dir"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_TOKEN": "${env:GITHUB_TOKEN}" }
+    }
+  }
+}
+```
+
+### Available MCP Servers
+
+| Server | What it provides |
+|--------|----------------|
+| `@modelcontextprotocol/server-filesystem` | Read/write local files via MCP |
+| `@modelcontextprotocol/server-github` | GitHub API — issues, PRs, repos |
+| `@modelcontextprotocol/server-postgres` | PostgreSQL query execution |
+| `@modelcontextprotocol/server-fetch` | HTTP requests to external APIs |
+
+<Callout variant="tip" label="MCP is for agent mode">
+MCP servers extend what Copilot agents can do — they appear as additional tools the agent can call. They work best when agent mode is active.
+</Callout>
+
+<KeyPoints items={[
+  'Extensions are installed from the GitHub Marketplace and called with @name',
+  'MCP connects any external tool to Copilot as an agent capability',
+  'Configure MCP servers in VS Code settings.json or .vscode/mcp.json',
+  '@docker, @sentry, @datadog are the most popular extensions',
+  'Build your own extension using the GitHub Apps framework',
+  'MCP tools appear automatically in agent mode once configured',
+]} />
