@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { MDXProvider } from '@mdx-js/react'
-import { Clock, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react'
+import { Clock, ChevronLeft, ChevronRight, CheckCircle2, Terminal } from 'lucide-react'
 import mdxComponents from '@/components/mdx/mdx-components'
 import LevelBadge from '@/components/shared/LevelBadge'
 import ProgressBar from '@/components/shared/ProgressBar'
@@ -117,6 +117,15 @@ export default function ModulePage() {
             {Content ? <Content /> : <p className="muted module-content-loading">{t('module.comingSoon')}</p>}
           </Suspense>
         </MDXProvider>
+
+        <div className="module-playground-cta" onClick={() => navigate('/playground')}>
+          <Terminal size={16} className="module-playground-cta-icon" />
+          <div className="module-playground-cta-text">
+            <span className="module-playground-cta-title">{t('module.playCta')}</span>
+            <span className="module-playground-cta-sub">{t('module.playCtaSub')}</span>
+          </div>
+          <ChevronRight size={16} className="module-playground-cta-arrow" />
+        </div>
       </div>
     </div>
   )

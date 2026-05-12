@@ -1,0 +1,237 @@
+## Why Test with Copilot?
+
+Writing tests is one of the highest-leverage things you can do with Copilot. Test generation is fast, mechanical, and pattern-driven — exactly the kind of work where AI excels. In practice, Copilot can generate a full suite of unit tests for a well-scoped function in seconds, covering happy paths, edge cases, and error conditions that a developer writing manually might miss or defer.
+
+<Callout variant="info" label="Test-first mindset">
+Copilot generates better implementation code when tests exist. Write the test first, then let Copilot implement the function to pass it.
+</Callout>
+
+## Generating Tests with /tests
+
+The `/tests` slash command is the fastest path to a test suite for any function. Select the function in your editor, type `/tests` in Chat or inline chat, and Copilot produces a complete describe/it block with mocks, assertions, and edge cases.
+
+**How it works:**
+- Select a function → `/tests` → instant unit test scaffold
+- Works with Jest, Vitest, Mocha, pytest, JUnit, and more
+- Copilot detects your existing test file patterns — if your project uses `__tests__/` directories and `*.test.ts` naming, generated tests follow the same structure
+- Mocks are inferred from the function's imports — if your function calls `db.query`, Copilot generates the `mockDb.query` setup automatically
+
+**Example — async database function:**
+
+Original function:
+
+```ts
+async function getUserById(id: string): Promise<User> {
+  const row = await db.query('SELECT * FROM users WHERE id = $1', [id])
+  if (!row) throw new Error(`User ${id} not found`)
+  return mapToUser(row)
+}
+```
+
+After running `/tests` with the function selected:
+
+```ts
+describe('getUserById', () => {
+  it('returns a user when found', async () => {
+    mockDb.query.mockResolvedValue({ id: '1', name: 'Alice', email: 'alice@example.com' })
+    const user = await getUserById('1')
+    expect(user.id).toBe('1')
+    expect(user.name).toBe('Alice')
+  })
+
+  it('throws when user not found', async () => {
+    mockDb.query.mockResolvedValue(null)
+    await expect(getUserById('99')).rejects.toThrow('User 99 not found')
+  })
+})
+```
+
+Copilot reads the error message string from your implementation and uses it verbatim in the `toThrow` assertion — it's not guessing.
+
+<Callout variant="tip" label="Scope matters">
+Select just one function at a time before using /tests. A focused selection produces specific, meaningful tests. Selecting an entire file produces shallow, generic tests.
+</Callout>
+
+## TDD Workflow with Copilot
+
+Test-driven development with Copilot inverts the usual flow. Instead of writing an implementation and asking Copilot to test it, you write the test first and let Copilot implement the function to make it pass. The test acts as a contract — Copilot reads it and produces code that satisfies it.
+
+**The TDD loop:**
+
+1. Write the test description in a comment or empty `it()` block
+2. Use `/tests` or inline completion to scaffold the full test body
+3. Run tests → RED (expected — the function doesn't exist yet)
+4. Describe the function signature in a comment → Copilot implements it
+5. Run tests → GREEN
+6. Refactor → ask Copilot to suggest cleanups, extract helpers, or simplify logic
+
+**Example — building `validatePassword` test-first:**
+
+Start with:
+
+```ts
+it('rejects passwords shorter than 8 characters', () => {
+  // TODO: implement
+})
+```
+
+Use inline completion to fill in the assertion:
+
+```ts
+it('rejects passwords shorter than 8 characters', () => {
+  const result = validatePassword('abc')
+  expect(result.valid).toBe(false)
+  expect(result.error).toContain('at least 8 characters')
+})
+```
+
+Now write the signature comment and let Copilot implement:
+
+```ts
+// validatePassword(password: string): ValidationResult
+// Returns { valid: true } or { valid: false, error: string }
+// Rules: min 8 chars, at least one number, at least one uppercase letter
+```
+
+Copilot reads the tests you've already written and generates an implementation that passes them — not a generic password validator, but one that matches your specific assertions.
+
+## Generating Mocks and Stubs
+
+Setting up mocks is boilerplate-heavy work. Copilot handles it well because mock patterns are highly repetitive and predictable.
+
+**What Copilot can generate for you:**
+
+- `vi.mock()` / `jest.mock()` blocks for any module your file imports
+- MSW (Mock Service Worker) request handlers for every API endpoint a component calls
+- Factory functions that generate randomized but realistic test data
+- Service stubs that always succeed, always fail, or return configurable responses
+
+<PromptList items={[
+  'Generate a vi.mock() for the database module used in this file',
+  'Create MSW handlers for all the API endpoints this component calls',
+  'Write a factory function that generates random User test data',
+  'Generate a stub for the PaymentService that always succeeds',
+]} />
+
+For factory functions, give Copilot your type definition and ask for a factory — it will generate a function with sensible defaults and optional overrides:
+
+```ts
+// Given your User type, ask:
+// "Write a createUser() factory function for tests with optional field overrides"
+```
+
+Copilot produces something like:
+
+```ts
+function createUser(overrides: Partial<User> = {}): User {
+  return {
+    id: crypto.randomUUID(),
+    name: 'Alice Example',
+    email: 'alice@example.com',
+    role: 'user',
+    createdAt: new Date(),
+    ...overrides,
+  }
+}
+```
+
+## Fixing Flaky Tests
+
+Flaky tests are a persistent tax on developer productivity. Copilot can diagnose and fix the most common patterns when given the right context — both the test code and the error output.
+
+**Common flaky patterns and how to prompt for fixes:**
+
+**Race conditions:**
+
+```
+This test is flaky due to timing. Add proper async awaiting or fake timers to make it deterministic.
+```
+
+**Environment dependencies:**
+
+```
+Remove the dependency on process.env.DATABASE_URL from this test — it should not require a real env variable to run.
+```
+
+**Non-deterministic data:**
+
+```
+This test uses Math.random() which makes it non-deterministic. Replace it with a fixed seed or a hardcoded value.
+```
+
+**Order-dependent tests:**
+
+```
+These tests fail when run in isolation but pass in sequence. Find and eliminate the shared state that causes the dependency.
+```
+
+<Callout variant="warning" label="Flaky test diagnosis">
+Select the failing test + the error output, then ask Copilot: "This test is flaky. Here is the error: [paste error]. Diagnose why and fix it." Giving Copilot both the code and the error message provides enough context for accurate diagnosis.
+</Callout>
+
+## Test Coverage Analysis
+
+Generating tests is one thing — finding the gaps in existing test coverage is another. Copilot can help with both directions.
+
+**Finding untested edge cases:**
+
+Select a function and ask:
+
+```
+/explain this function — then tell me what edge cases are not tested in the existing test file.
+```
+
+Reference both files together for the best result:
+
+```
+Looking at #file:src/services/userService.ts and #file:src/services/userService.test.ts, what inputs and scenarios are not covered by the existing tests?
+```
+
+**Working from coverage reports:**
+
+If your coverage tool highlights specific uncovered lines, paste them into Chat and ask for targeted tests:
+
+```
+These lines in userService.ts are not covered by tests: [paste lines].
+Write tests that specifically exercise these code paths.
+```
+
+**Using #file for context-aware test generation:**
+
+When writing new tests for a file that already has partial coverage, always reference both files:
+
+```
+Add tests for the missing scenarios in #file:src/utils/parser.ts — the existing tests are in #file:src/utils/parser.test.ts
+```
+
+This prevents Copilot from duplicating tests that already exist and ensures the new tests follow the same patterns and conventions as the existing suite.
+
+<KeyPoints items={[
+  '/tests on a selected function generates a complete test suite — select one function at a time',
+  'Write tests first: Copilot generates better implementations when tests define the contract',
+  'Use Copilot to generate vi.mock() / jest.mock() boilerplate for external dependencies',
+  'For flaky tests: select the test + error, ask Copilot to diagnose and fix',
+  'Ask "what edge cases are not tested?" to find coverage gaps',
+  'Copilot respects your existing test framework and file conventions',
+]} />
+
+<ModuleQuiz questions={[
+  {
+    q: 'What is the most effective way to use /tests?',
+    opts: ['Select a single function, then run /tests', 'Run /tests on the entire file for maximum coverage', 'Use /tests with @workspace to test the whole project'],
+    correct: 0,
+    explanation: 'A focused selection produces specific, meaningful tests. Selecting an entire file generates shallow, generic ones.'
+  },
+  {
+    q: 'In a TDD workflow with Copilot, what is the correct order?',
+    opts: ['Write the test → run it (RED) → let Copilot implement → run (GREEN)', 'Write the function → let Copilot generate tests → verify they pass', 'Ask Copilot to write both the function and tests at the same time'],
+    correct: 0,
+    explanation: 'Test-first gives Copilot a clear contract to implement against, consistently producing better code than test-after.'
+  },
+  {
+    q: 'You have a flaky test that sometimes times out. How should you approach this?',
+    opts: ['Select the test + error message, ask Copilot to diagnose and fix the timing issue', 'Ask @workspace to find all flaky tests in the project', 'Delete the test and rewrite it from scratch'],
+    correct: 0,
+    explanation: 'Giving Copilot both the code and the error message provides enough context for accurate flaky-test diagnosis.'
+  },
+]} />

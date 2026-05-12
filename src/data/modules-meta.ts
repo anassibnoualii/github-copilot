@@ -309,6 +309,34 @@ const modulesMeta: ModuleMeta[] = [
       },
     ],
   },
+  {
+    id: '12',
+    title: 'Copilot for Testing',
+    level: 'intermediate',
+    duration: '45 min',
+    description: 'Generate tests with /tests, work TDD-style, mock dependencies, and fix flaky tests with Copilot.',
+    outcomes: [
+      'Generate unit tests for any function using /tests',
+      'Apply a test-first TDD workflow with Copilot assistance',
+      'Generate mocks, stubs, and test data factories',
+      'Diagnose and fix flaky tests using Copilot',
+    ],
+    tryIt: 'Select any async function in your project, run /tests in Copilot Chat, and review the generated test suite. Then try adding one more edge case test by describing it in a comment.',
+    tutorial: [
+      {
+        input: 'Select getUserById function → /tests',
+        output: "describe('getUserById', () => {\n  it('returns a user when found', async () => {\n    mockDb.query.mockResolvedValue({ id: '1', name: 'Alice' })\n    const user = await getUserById('1')\n    expect(user.id).toBe('1')\n  })\n\n  it('throws when user not found', async () => {\n    mockDb.query.mockResolvedValue(null)\n    await expect(getUserById('99')).rejects.toThrow('User 99 not found')\n  })\n})",
+      },
+      {
+        input: 'TDD: write test first → Copilot implements',
+        output: "// Test written first:\nit('rejects passwords shorter than 8 chars', () => {\n  expect(validatePassword('abc').valid).toBe(false)\n})\n\n// Copilot reads the test and generates:\nfunction validatePassword(password: string): ValidationResult {\n  if (password.length < 8) {\n    return { valid: false, error: 'Must be at least 8 characters' }\n  }\n  return { valid: true }\n}",
+      },
+      {
+        input: '"This test is flaky. Error: [timeout]. Diagnose and fix."',
+        output: '> Copilot: The test calls setInterval but never advances\n  fake timers. Fix:\n\n  + vi.useFakeTimers()\n    await triggerPolling()\n  + vi.advanceTimersByTime(5000)\n    expect(callback).toHaveBeenCalled()\n  + vi.useRealTimers()',
+      },
+    ],
+  },
 ]
 
 export default modulesMeta

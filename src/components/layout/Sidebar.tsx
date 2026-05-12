@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked, Settings2, CheckCircle2 } from 'lucide-react'
+import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked, Settings2, CheckCircle2, Keyboard, Wand2, Search } from 'lucide-react'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { useProgress } from '@/hooks/useProgress'
 import { navLinkClass, LEVEL_NAV_BADGE, LEVEL_SHORT_LABEL } from '@/lib/utils'
@@ -36,9 +36,10 @@ function ModuleLinks({ modules, completed, onClose }: {
 interface SidebarProps {
   isOpen: boolean
   onClose: () => void
+  onSearch: () => void
 }
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+export default function Sidebar({ isOpen, onClose, onSearch }: SidebarProps) {
   const { t } = useTranslation()
   const modules = useLocalisedModules()
   const { completed } = useProgress()
@@ -50,18 +51,19 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const doneCount = completed.length
   const totalCount = modules.length
 
-  const NAV_SECTIONS = [
-    { label: t('nav.startHere'), links: [
-      { to: '/', end: true,  icon: <Home size={14} />,       label: t('nav.home') },
-      { to: '/quiz',         icon: <Target size={14} />,     label: t('nav.findYourLevel') },
-      { to: '/playground',   icon: <Terminal size={14} />,   label: t('nav.playground') },
-    ]},
-    { label: t('nav.reference'), links: [
-      { to: '/cheatsheet',     icon: <BookOpen size={14} />,   label: t('nav.cheatSheet') },
-      { to: '/features',       icon: <LayoutGrid size={14} />, label: t('nav.featureIndex') },
-      { to: '/references',     icon: <BookMarked size={14} />, label: t('nav.references') },
-      { to: '/config-builder', icon: <Settings2 size={14} />,  label: t('nav.configBuilder') },
-    ]},
+  const START_LINKS = [
+    { to: '/', end: true,  icon: <Home size={14} />,       label: t('nav.home') },
+    { to: '/quiz',         icon: <Target size={14} />,     label: t('nav.findYourLevel') },
+    { to: '/playground',   icon: <Terminal size={14} />,   label: t('nav.playground') },
+  ]
+
+  const REF_LINKS = [
+    { to: '/cheatsheet',      icon: <BookOpen size={14} />,    label: t('nav.cheatSheet') },
+    { to: '/features',        icon: <LayoutGrid size={14} />,  label: t('nav.featureIndex') },
+    { to: '/references',      icon: <BookMarked size={14} />,  label: t('nav.references') },
+    { to: '/config-builder',  icon: <Settings2 size={14} />,   label: t('nav.configBuilder') },
+    { to: '/shortcut-trainer',icon: <Keyboard size={14} />,    label: t('nav.shortcutTrainer') },
+    { to: '/prompt-builder',  icon: <Wand2 size={14} />,       label: t('nav.promptBuilder') },
   ]
 
   return (
@@ -71,6 +73,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <h2>{t('app.name')}</h2>
           <span>{t('app.subtitle')}</span>
         </div>
+
+        <button className="sidebar-search-btn" onClick={() => { onSearch(); onClose() }}>
+          <Search size={13} />
+          <span>{t('search.trigger')}</span>
+          <kbd className="sidebar-search-kbd">⌘K</kbd>
+        </button>
 
         {totalCount > 0 && (
           <div className="sidebar-progress">
@@ -86,8 +94,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         <nav>
           <div className="nav-section">
-            <div className="nav-section-label">{NAV_SECTIONS[0].label}</div>
-            {NAV_SECTIONS[0].links.map(({ to, end, icon, label }) => (
+            <div className="nav-section-label">{t('nav.startHere')}</div>
+            {START_LINKS.map(({ to, end, icon, label }) => (
               <NavLink key={to} to={to} end={end} className={({ isActive }) => navLinkClass(isActive)} onClick={onClose}>
                 <span className="nav-icon">{icon}</span> {label}
               </NavLink>
@@ -106,8 +114,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           ))}
 
           <div className="nav-section">
-            <div className="nav-section-label">{NAV_SECTIONS[1].label}</div>
-            {NAV_SECTIONS[1].links.map(({ to, icon, label }) => (
+            <div className="nav-section-label">{t('nav.reference')}</div>
+            {REF_LINKS.map(({ to, icon, label }) => (
               <NavLink key={to} to={to} className={({ isActive }) => navLinkClass(isActive)} onClick={onClose}>
                 <span className="nav-icon">{icon}</span> {label}
               </NavLink>

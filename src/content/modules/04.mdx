@@ -70,6 +70,95 @@ Run `copilot` from your project root so it has full access to your project files
   'Refactor the database queries in models/ to use async/await',
 ]} />
 
+## Piping Output into Copilot
+
+Standard Unix piping works seamlessly with the Copilot CLI. Copilot reads stdin as additional context, making it straightforward to feed terminal output directly into your prompt.
+
+```bash
+git diff | copilot "explain these changes and flag risky ones"
+
+npm test 2>&1 | copilot "fix the failures"
+
+cat error.log | copilot "what is causing this error?"
+```
+
+This is particularly useful after a failed CI run — pipe the test output directly to Copilot and ask it to fix the failures without copy-pasting anything manually.
+
+## Inspecting Capabilities
+
+If you're unsure what's available, two commands give you a full picture:
+
+```bash
+copilot --help
+```
+
+This prints all top-level flags and subcommands before starting a session.
+
+Inside an active session, type:
+
+```bash
+/help
+```
+
+This lists every slash command available in the current session, including any model-specific capabilities. Use it whenever you start a new session or switch models.
+
+## Error Recovery Patterns
+
+Copilot makes mistakes. Having a recovery plan before it happens is important, especially in Autopilot mode.
+
+**Before large Autopilot tasks — stash your changes:**
+
+```bash
+git stash
+copilot
+# run the task in Autopilot
+# review results, then either:
+git stash pop   # restore your original changes if Copilot made a mess
+```
+
+**Resume an interrupted session:**
+
+If a session was cut off (network drop, accidental close), use `/resume` followed by the session ID shown in the output history. Copilot will reload the context and continue from where it left off.
+
+**Correcting mistakes inline:**
+
+Don't restart the session. Describe what went wrong directly:
+
+```
+› That's wrong because you added the middleware after the route definitions — it needs to run before them. Move app.use(authMiddleware) to line 12.
+```
+
+Being specific about why something is wrong — not just that it is wrong — gives Copilot enough context to make the right correction the first time.
+
+## A Real Multi-Step Session Example
+
+Here is a realistic terminal session showing how Normal mode, inline corrections, model switching, and background tasks work together:
+
+```bash
+$ copilot
+› Set up authentication middleware for this Express app with JWT
+
+# Copilot reads the project files, proposes a plan:
+# - install jsonwebtoken and @types/jsonwebtoken
+# - create src/middleware/auth.ts
+# - update src/app.ts to use the middleware
+# User reviews the plan and approves each step
+
+› The token should expire in 24h not 1h
+
+# Copilot opens src/middleware/auth.ts, finds the expiresIn value,
+# changes '1h' to '24h', shows the diff, user approves
+
+› /model
+# Copilot lists available models; user switches to a different one
+
+› & Write integration tests for the auth routes in the background
+# Task is offloaded to a cloud agent
+# User continues working; gets a notification when tests are ready
+```
+
+The `&` prefix is the key to parallelism — send long-running tasks (writing tests, generating docs, refactoring large files) to a background cloud agent while you keep working in the foreground.
+
 <KeyPoints items={[
   'Install with: npm install -g @github/copilot',
   'Start a session with: copilot (from your project root)',
@@ -78,4 +167,28 @@ Run `copilot` from your project root so it has full access to your project files
   '/resume restarts a previous session',
   '& prefix offloads long tasks to a cloud agent',
   'Autopilot acts without confirmation — use git checkpoints first',
+  'Pipe shell output: git diff | copilot "review this"',
+  'Correct mistakes inline: "That\'s wrong because X, instead do Y"',
+  'Stash git changes before big autopilot tasks as a safety net',
+]} />
+
+<ModuleQuiz questions={[
+  {
+    q: 'What does Shift+Tab do inside a Copilot CLI session?',
+    opts: ['Toggles between Normal and Autopilot mode', 'Accepts the current suggestion', 'Opens a new session'],
+    correct: 0,
+    explanation: 'Shift+Tab is the in-session shortcut to switch modes without restarting.'
+  },
+  {
+    q: 'How do you pass terminal output directly to Copilot?',
+    opts: ['Pipe it: npm test 2>&1 | copilot "fix the failures"', 'Copy-paste the output manually into the prompt', 'Use #terminalLastCommand in a chat session'],
+    correct: 0,
+    explanation: 'Standard Unix piping works — Copilot reads stdin as additional context.'
+  },
+  {
+    q: 'What is the & prefix in Copilot CLI used for?',
+    opts: ['Offloads a long-running task to a cloud agent', 'Runs the task in autopilot mode', 'Chains two commands together'],
+    correct: 0,
+    explanation: '& sends the task to a background cloud agent so you can continue working in the foreground.'
+  },
 ]} />

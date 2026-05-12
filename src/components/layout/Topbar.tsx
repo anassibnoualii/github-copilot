@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Menu, Target, ArrowRight } from 'lucide-react'
+import { Menu, Target, ArrowRight, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import LanguageSwitcher from '@/components/shared/LanguageSwitcher'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
@@ -8,9 +8,10 @@ import { FIRST_MODULE_ID } from '@/lib/utils'
 
 interface TopbarProps {
   onMenuClick: () => void
+  onSearch: () => void
 }
 
-export default function Topbar({ onMenuClick }: TopbarProps) {
+export default function Topbar({ onMenuClick, onSearch }: TopbarProps) {
   const { t } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
@@ -22,13 +23,15 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
       return modules.find(m => m.id === id)?.title ?? id
     }
     const map: Record<string, string> = {
-      '/':               t('nav.home'),
-      '/playground':     t('nav.playground'),
-      '/cheatsheet':     t('nav.cheatSheet'),
-      '/features':       t('nav.featureIndex'),
-      '/quiz':           t('nav.findYourLevel'),
-      '/references':     t('nav.references'),
-      '/config-builder': t('nav.configBuilder'),
+      '/':                  t('nav.home'),
+      '/playground':        t('nav.playground'),
+      '/cheatsheet':        t('nav.cheatSheet'),
+      '/features':          t('nav.featureIndex'),
+      '/quiz':              t('nav.findYourLevel'),
+      '/references':        t('nav.references'),
+      '/config-builder':    t('nav.configBuilder'),
+      '/shortcut-trainer':  t('nav.shortcutTrainer'),
+      '/prompt-builder':    t('nav.promptBuilder'),
     }
     return map[pathname] ?? t('app.breadcrumbRoot')
   }
@@ -44,6 +47,11 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
         <span className="current">{getBreadcrumb(location.pathname)}</span>
       </div>
       <div className="topbar-actions">
+        <button className="topbar-search-btn" onClick={onSearch} aria-label={t('search.placeholder')}>
+          <Search size={14} />
+          <span className="topbar-search-label">{t('search.trigger')}</span>
+          <kbd className="topbar-search-kbd">⌘K</kbd>
+        </button>
         <LanguageSwitcher />
         <Button variant="ghost" size="sm" onClick={() => navigate('/quiz')}>
           <Target size={13} /> {t('topbar.findMyLevel')}

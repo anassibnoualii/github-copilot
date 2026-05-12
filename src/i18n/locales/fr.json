@@ -16,7 +16,9 @@
     "cheatSheet": "Aide-mémoire",
     "featureIndex": "Index des fonctionnalités",
     "references": "Références",
-    "configBuilder": "Constructeur de config"
+    "configBuilder": "Constructeur de config",
+    "shortcutTrainer": "Entraîneur de raccourcis",
+    "promptBuilder": "Constructeur d'invites"
   },
   "topbar": {
     "findMyLevel": "Mon niveau",
@@ -40,12 +42,17 @@
     "referenceLabel": "Référence",
     "referenceTitle": "Outils & Référence",
     "quickLinks": {
-      "playground": { "title": "Bac à sable", "desc": "Essayez les commandes Copilot CLI interactivement" },
-      "cheatsheet": { "title": "Aide-mémoire", "desc": "Tous les raccourcis, commandes et variables de contexte" },
-      "features": { "title": "Index des fonctionnalités", "desc": "Recherchez 60+ fonctionnalités par niveau et catégorie" },
-      "quiz":          { "title": "Quiz",                   "desc": "Trouvez le bon module de départ pour vous" },
-      "configBuilder": { "title": "Constructeur de config", "desc": "Générez votre settings.json VS Code visuellement" }
-    }
+      "playground":      { "title": "Bac à sable",              "desc": "Essayez les commandes Copilot CLI interactivement" },
+      "cheatsheet":      { "title": "Aide-mémoire",             "desc": "Tous les raccourcis, commandes et variables de contexte" },
+      "features":        { "title": "Index des fonctionnalités","desc": "Recherchez 60+ fonctionnalités par niveau et catégorie" },
+      "quiz":            { "title": "Quiz",                     "desc": "Trouvez le bon module de départ pour vous" },
+      "configBuilder":   { "title": "Constructeur de config",   "desc": "Générez votre settings.json VS Code visuellement" },
+      "shortcutTrainer": { "title": "Entraîneur de raccourcis", "desc": "Apprenez les raccourcis clavier Copilot avec des cartes mémoire" },
+      "promptBuilder":   { "title": "Constructeur d'invites",   "desc": "Assemblez des invites parfaites avec participants et contexte" }
+    },
+    "completionTitle": "Vous avez terminé tous les modules !",
+    "completionSub": "{{count}} modules terminés — vous êtes un utilisateur avancé de GitHub Copilot.",
+    "completionReset": "Réinitialiser la progression"
   },
   "module": {
     "notFound": "Module introuvable.",
@@ -57,7 +64,9 @@
     "loading": "Chargement…",
     "comingSoon": "Contenu à venir.",
     "markDone": "Marquer comme terminé",
-    "markedDone": "Terminé"
+    "markedDone": "Terminé",
+    "playCta": "S'entraîner dans le bac à sable",
+    "playCtaSub": "Essayez ces concepts de manière interactive avec le simulateur Copilot CLI"
   },
   "quiz": {
     "badge": "Évaluation",
@@ -190,6 +199,51 @@
     "scorePerfect": "Score parfait ! Prêt pour le module suivant.",
     "scoreGood": "Bon travail — relisez les explications si nécessaire.",
     "scoreRetry": "Révisez ce module avant de continuer."
+  },
+  "search": {
+    "trigger": "Rechercher",
+    "placeholder": "Rechercher modules, fonctionnalités, raccourcis…",
+    "noResults": "Aucun résultat pour « {{query}} »",
+    "navigate": "naviguer",
+    "open": "ouvrir",
+    "close": "fermer"
+  },
+  "shortcutTrainer": {
+    "badge": "Outils",
+    "title": "Entraîneur de raccourcis",
+    "description": "Entraînez-vous sur les raccourcis clavier Copilot les plus importants avec des cartes mémoire. Retournez chaque carte pour voir l'action, puis notez-vous.",
+    "clickToReveal": "Cliquer pour révéler",
+    "flipHint": "Cliquer la carte pour la retourner",
+    "prev": "Préc.",
+    "next": "Suiv.",
+    "gotIt": "Compris !",
+    "missed": "Raté",
+    "gotItLabel": "compris",
+    "missedLabel": "raté",
+    "restart": "Recommencer",
+    "perfect": "Parfait ! Vous connaissez tous les raccourcis.",
+    "good": "Bon travail — révisez ceux que vous avez ratés.",
+    "keepPractising": "Continuez à pratiquer — la mémoire musculaire prend du temps."
+  },
+  "promptBuilder": {
+    "badge": "Outils",
+    "title": "Constructeur d'invites",
+    "description": "Composez des invites Copilot efficaces en sélectionnant des participants, des commandes slash et des variables de contexte — puis copiez le résultat.",
+    "participant": "Participant (optionnel)",
+    "command": "Commande slash (optionnel)",
+    "contextVars": "Variables de contexte (optionnel, multi-sélection)",
+    "task": "Votre tâche",
+    "taskPlaceholder": "Décrivez ce que vous voulez que Copilot fasse…",
+    "constraints": "Contraintes (optionnel)",
+    "constraintsPlaceholder": "ex. Utiliser TypeScript. Conserver l'API publique. Ajouter JSDoc.",
+    "previewTitle": "Invite assemblée",
+    "previewEmpty": "Commencez à sélectionner des options ci-dessus pour construire votre invite…",
+    "copy": "Copier",
+    "copied": "Copié !",
+    "tipsTitle": "Conseils pour les invites",
+    "tip1": "Ajoutez un participant comme @workspace quand votre tâche couvre plusieurs fichiers",
+    "tip2": "Utilisez #file ou #selection pour donner à Copilot un contexte de code précis",
+    "tip3": "Les contraintes affinent la sortie — utilisez-les pour imposer un style, un langage ou des limites d'API"
   },
   "lang": {
     "switcher": "Langue"

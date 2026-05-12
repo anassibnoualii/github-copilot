@@ -10,6 +10,11 @@ const playgroundData: PlaygroundData = {
     { task: 'Add unit tests for all service files', mode: 'autopilot' },
     { task: 'Refactor database queries to use async/await', mode: 'normal' },
     { task: 'Create a REST API route for user profile updates', mode: 'autopilot' },
+    { task: 'Write tests for the UserService class', mode: 'normal' },
+    { task: 'Add TypeScript types to this JavaScript file', mode: 'autopilot' },
+    { task: 'Set up GitHub Actions CI workflow', mode: 'autopilot' },
+    { task: 'Find and fix the memory leak in the event listeners', mode: 'normal' },
+    { task: 'Generate API documentation from the route handlers', mode: 'normal' },
   ],
   responseDb: {
     'Fix the failing tests in the auth module': {
@@ -194,6 +199,118 @@ const playgroundData: PlaygroundData = {
 
 <span class="cli-label">Writing integration test...</span>
 <span class="cli-result">  ✓ PATCH /users/:id route created and tested</span>`,
+    },
+    'Write tests for the UserService class': {
+      plan: [
+        'Read UserService to understand methods and dependencies',
+        'Set up vi.mock() for database and external calls',
+        'Write describe blocks for each public method',
+        'Cover happy path, edge cases, and error conditions',
+      ],
+      steps: `<span class="cli-label">Reading UserService...</span>
+<span class="cli-result">  Found 4 public methods: getById, create, update, delete</span>
+<span class="cli-result">  Dependencies: db (postgres), emailService, logger</span>
+
+<span class="cli-label">Setting up mocks...</span>
+<span class="cli-cmd">  vi.mock('../db', () => ({ query: vi.fn() }))</span>
+<span class="cli-cmd">  vi.mock('../emailService', () => ({ send: vi.fn() }))</span>
+
+<span class="cli-label">Generating test suite...</span>
+<span class="cli-result">  describe('UserService')</span>
+<span class="cli-result">    describe('getById')</span>
+<span class="cli-result">      ✓ returns user when found</span>
+<span class="cli-result">      ✓ throws NotFoundError when missing</span>
+<span class="cli-result">    describe('create')</span>
+<span class="cli-result">      ✓ creates user and sends welcome email</span>
+<span class="cli-result">      ✓ throws ValidationError for duplicate email</span>`,
+    },
+    'Add TypeScript types to this JavaScript file': {
+      plan: [
+        'Analyse function signatures and data shapes',
+        'Infer types from usage patterns',
+        'Add interfaces for complex objects',
+        'Migrate .js to .ts with strict mode',
+      ],
+      steps: `<span class="cli-label">Analysing JavaScript file...</span>
+<span class="cli-result">  Found 6 functions, 3 object shapes, 2 callbacks</span>
+
+<span class="cli-label">Generating interfaces...</span>
+<span class="cli-cmd">  interface User { id: string; name: string; email: string }</span>
+<span class="cli-cmd">  interface ApiResponse<T> { data: T; status: number; error?: string }</span>
+
+<span class="cli-label">Adding types to functions...</span>
+<span class="cli-result">  fetchUser(id: string): Promise&lt;User&gt;          ✓</span>
+<span class="cli-result">  updateUser(id: string, patch: Partial&lt;User&gt;)  ✓</span>
+<span class="cli-result">  deleteUser(id: string): Promise&lt;void&gt;         ✓</span>
+
+<span class="cli-success">✓ 0 TypeScript errors. File renamed to .ts</span>`,
+    },
+    'Set up GitHub Actions CI workflow': {
+      plan: [
+        'Detect the project type and test runner',
+        'Write .github/workflows/ci.yml',
+        'Add lint, type-check, and test steps',
+        'Configure caching for node_modules',
+      ],
+      steps: `<span class="cli-label">Detecting project...</span>
+<span class="cli-result">  Node.js 20 · TypeScript · Vitest · ESLint</span>
+
+<span class="cli-label">Writing .github/workflows/ci.yml...</span>
+<span class="cli-cmd">  on: [push, pull_request]</span>
+<span class="cli-cmd">  jobs:</span>
+<span class="cli-cmd">    ci:</span>
+<span class="cli-cmd">      steps:</span>
+<span class="cli-cmd">        - uses: actions/checkout@v4</span>
+<span class="cli-cmd">        - uses: actions/setup-node@v4</span>
+<span class="cli-cmd">          with: { node-version: 20, cache: npm }</span>
+<span class="cli-cmd">        - run: npm ci</span>
+<span class="cli-cmd">        - run: npm run lint</span>
+<span class="cli-cmd">        - run: npm run typecheck</span>
+<span class="cli-cmd">        - run: npm test</span>
+
+<span class="cli-success">✓ CI workflow created</span>`,
+    },
+    'Find and fix the memory leak in the event listeners': {
+      plan: [
+        'Search for addEventListener calls without matching removeEventListener',
+        'Check useEffect hooks for missing cleanup',
+        'Identify timers not cleared on unmount',
+        'Apply fixes with proper cleanup patterns',
+      ],
+      steps: `<span class="cli-label">Scanning for event listener leaks...</span>
+<span class="cli-result">  src/hooks/useSocket.ts:18 — listener added, never removed</span>
+<span class="cli-result">  src/components/Map.tsx:44 — resize handler not cleaned up</span>
+
+<span class="cli-label">Fixing useSocket.ts...</span>
+<span class="cli-cmd">  useEffect(() => {</span>
+<span class="cli-cmd">    socket.on('message', handler)</span>
+<span class="cli-cmd">  + return () => socket.off('message', handler)</span>
+<span class="cli-cmd">  }, [])</span>
+
+<span class="cli-label">Fixing Map.tsx...</span>
+<span class="cli-cmd">  + return () => window.removeEventListener('resize', onResize)</span>
+
+<span class="cli-success">✓ 2 memory leaks fixed</span>`,
+    },
+    'Generate API documentation from the route handlers': {
+      plan: [
+        'Read all route handler files',
+        'Extract endpoint paths, methods, params, and response shapes',
+        'Generate OpenAPI 3.0 spec',
+        'Write docs/api.md with usage examples',
+      ],
+      steps: `<span class="cli-label">Reading route files...</span>
+<span class="cli-result">  Found 12 routes across 4 files</span>
+
+<span class="cli-label">Extracting endpoint metadata...</span>
+<span class="cli-result">  GET    /users          → User[]</span>
+<span class="cli-result">  POST   /users          → User</span>
+<span class="cli-result">  GET    /users/:id      → User</span>
+<span class="cli-result">  PATCH  /users/:id      → User</span>
+<span class="cli-result">  DELETE /users/:id      → 204</span>
+
+<span class="cli-label">Writing docs/api.md...</span>
+<span class="cli-success">✓ API documentation generated (12 endpoints)</span>`,
     },
   }
 }

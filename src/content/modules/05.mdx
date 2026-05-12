@@ -43,6 +43,59 @@ Copilot Edits keeps a history of edit sessions. You can:
 - Undo the last edit session
 - Compare before/after for each session
 
+## Keyboard Shortcuts in the Review Flow
+
+Navigating and acting on hunks is faster with keyboard shortcuts than clicking through the diff UI:
+
+| Shortcut | Action |
+|---|---|
+| Tab | Move to next changed hunk |
+| Shift+Tab | Move to previous hunk |
+| Y | Accept current hunk |
+| N | Reject current hunk |
+| Cmd+Enter / Ctrl+Enter | Accept all changes |
+| Escape | Close the diff view |
+
+Mastering these shortcuts turns hunk review from a slow click-through into a rapid keyboard-driven workflow — especially useful when reviewing changes across a dozen files.
+
+## Working Set Limits & Best Practices
+
+Copilot Edits is powerful but has practical limits:
+
+- **Max ~20 files** in the working set — beyond this, performance degrades and edit quality drops noticeably
+- Edits cannot touch **binary files, images, or compiled output**
+- **Generated files** (`dist/`, `build/`) should always be excluded — Copilot may produce inconsistent output if it tries to edit generated artifacts
+- If Copilot proposes changes to a file you didn't intend to include, remove it from the working set and re-run
+
+<Callout variant="tip" label="Split large tasks">
+If you need to touch more than 10 files, split the task into smaller edit sessions with logical groupings. For example: first session handles the data layer, second session handles the API layer, third handles the UI.
+</Callout>
+
+## A Multi-File Example Walkthrough
+
+Here is a realistic Copilot Edits workflow for a backend middleware task.
+
+**Task:** "Add request logging middleware and update all route files to use it"
+
+**Working set:**
+- `src/middleware/logger.ts` (new file — Copilot will create it)
+- `src/routes/users.ts`
+- `src/routes/posts.ts`
+- `src/app.ts`
+
+**What happens:**
+
+Copilot creates `logger.ts` from scratch, then patches all three existing files — adding the import and wiring the middleware into each router — in a single edit session. All four files appear in the diff view simultaneously.
+
+**Reviewing the diff:**
+
+- `logger.ts` — new file, looks correct → **Accept File**
+- `src/routes/users.ts` — middleware import and `router.use(logger)` added → **Accept File**
+- `src/routes/posts.ts` — same pattern → **Accept File**
+- `src/app.ts` — Copilot added `app.use(logger)` but placed it after the route registrations → **Reject Hunk** (you'll add it manually in the right position)
+
+This is the core advantage of Copilot Edits over Chat: you can accept 90% of a multi-file change in seconds, then correct only the specific hunk that's wrong — without reverting everything or starting over.
+
 ## Best Practices
 
 ```bash
@@ -67,4 +120,28 @@ Break large changes into multiple smaller edit sessions. Review and accept each 
   'One concern per prompt produces cleaner, more reviewable diffs',
   'Keep git commits between edit sessions to make rollback easy',
   'Edits history lets you revisit and undo previous sessions',
+  'Use Tab/Shift+Tab to navigate hunks; Y/N to accept or reject each one',
+  'Max ~20 files in working set — split larger tasks into logical batches',
+  'Exclude dist/, build/, and binary files from your working set',
+]} />
+
+<ModuleQuiz questions={[
+  {
+    q: 'What is the working set in Copilot Edits?',
+    opts: ['The list of files Copilot is allowed to modify', 'The chat history from your current session', 'A git stash of your current changes'],
+    correct: 0,
+    explanation: 'You explicitly add files to the working set to give Copilot edit access to them.'
+  },
+  {
+    q: 'You want to accept some hunks but reject others. What should you do?',
+    opts: ['Use Accept Hunk / Reject Hunk to review each change individually', 'Accept All, then manually revert the changes you did not want', 'Start a new session with a more specific prompt'],
+    correct: 0,
+    explanation: 'Granular hunk review is the key feature of Copilot Edits — you can accept or reject each block of changes independently.'
+  },
+  {
+    q: 'What is the recommended maximum size for a Copilot Edits working set?',
+    opts: ['Around 20 files', 'There is no limit', '3 files maximum'],
+    correct: 0,
+    explanation: 'Beyond ~20 files, performance and quality degrade noticeably. Split larger tasks into logical batches.'
+  },
 ]} />

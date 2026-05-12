@@ -16,7 +16,9 @@
     "cheatSheet": "Cheat Sheet",
     "featureIndex": "Feature Index",
     "references": "References",
-    "configBuilder": "Config Builder"
+    "configBuilder": "Config Builder",
+    "shortcutTrainer": "Shortcut Trainer",
+    "promptBuilder": "Prompt Builder"
   },
   "topbar": {
     "findMyLevel": "Find My Level",
@@ -40,12 +42,17 @@
     "referenceLabel": "Reference",
     "referenceTitle": "Tools & Reference",
     "quickLinks": {
-      "playground":     { "title": "Playground",      "desc": "Try Copilot CLI commands interactively" },
-      "cheatsheet":     { "title": "Cheat Sheet",     "desc": "All shortcuts, commands & context variables" },
-      "features":       { "title": "Feature Index",   "desc": "Search 60+ features by level and category" },
-      "quiz":           { "title": "Quiz",            "desc": "Find the right starting module for you" },
-      "configBuilder":  { "title": "Config Builder",  "desc": "Generate your VS Code settings.json visually" }
-    }
+      "playground":      { "title": "Playground",         "desc": "Try Copilot CLI commands interactively" },
+      "cheatsheet":      { "title": "Cheat Sheet",        "desc": "All shortcuts, commands & context variables" },
+      "features":        { "title": "Feature Index",      "desc": "Search 60+ features by level and category" },
+      "quiz":            { "title": "Quiz",               "desc": "Find the right starting module for you" },
+      "configBuilder":   { "title": "Config Builder",     "desc": "Generate your VS Code settings.json visually" },
+      "shortcutTrainer": { "title": "Shortcut Trainer",   "desc": "Drill the top Copilot shortcuts with flashcards" },
+      "promptBuilder":   { "title": "Prompt Builder",     "desc": "Assemble perfect prompts with participants & context" }
+    },
+    "completionTitle": "You've completed all modules!",
+    "completionSub": "{{count}} modules finished — you're a GitHub Copilot power user.",
+    "completionReset": "Reset progress"
   },
   "module": {
     "notFound": "Module not found.",
@@ -57,7 +64,9 @@
     "loading": "Loading…",
     "comingSoon": "Content coming soon.",
     "markDone": "Mark as Complete",
-    "markedDone": "Completed"
+    "markedDone": "Completed",
+    "playCta": "Practice in the Playground",
+    "playCtaSub": "Try these concepts interactively with the Copilot CLI simulator"
   },
   "quiz": {
     "badge": "Assessment",
@@ -190,6 +199,51 @@
     "scorePerfect": "Perfect score! Ready for the next module.",
     "scoreGood": "Good work — review the explanations above if needed.",
     "scoreRetry": "Review this module before moving on."
+  },
+  "search": {
+    "trigger": "Search",
+    "placeholder": "Search modules, features, shortcuts…",
+    "noResults": "No results for \"{{query}}\"",
+    "navigate": "navigate",
+    "open": "open",
+    "close": "close"
+  },
+  "shortcutTrainer": {
+    "badge": "Tools",
+    "title": "Shortcut Trainer",
+    "description": "Drill the most important Copilot keyboard shortcuts with flashcards. Flip each card to reveal the action, then mark yourself.",
+    "clickToReveal": "Click to reveal",
+    "flipHint": "Click card to flip",
+    "prev": "Prev",
+    "next": "Next",
+    "gotIt": "Got it!",
+    "missed": "Missed",
+    "gotItLabel": "got it",
+    "missedLabel": "missed",
+    "restart": "Restart",
+    "perfect": "Perfect! You know every shortcut.",
+    "good": "Great work — practice the ones you missed.",
+    "keepPractising": "Keep practising — muscle memory takes time."
+  },
+  "promptBuilder": {
+    "badge": "Tools",
+    "title": "Prompt Builder",
+    "description": "Compose effective Copilot prompts by selecting participants, slash commands, and context variables — then copy the result.",
+    "participant": "Participant (optional)",
+    "command": "Slash Command (optional)",
+    "contextVars": "Context Variables (optional, multi-select)",
+    "task": "Your Task",
+    "taskPlaceholder": "Describe what you want Copilot to do…",
+    "constraints": "Constraints (optional)",
+    "constraintsPlaceholder": "e.g. Use TypeScript. Keep existing API surface. Add JSDoc.",
+    "previewTitle": "Assembled Prompt",
+    "previewEmpty": "Start selecting options above to build your prompt…",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "tipsTitle": "Prompting Tips",
+    "tip1": "Add a participant like @workspace when your task spans multiple files",
+    "tip2": "Use #file or #selection to give Copilot precise code context",
+    "tip3": "Constraints narrow the output — use them to enforce style, language, or API boundaries"
   },
   "lang": {
     "switcher": "Language"

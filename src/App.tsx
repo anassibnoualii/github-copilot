@@ -8,6 +8,8 @@ import FeaturesPage from '@/pages/FeaturesPage'
 import QuizPage from '@/pages/QuizPage'
 import ReferencesPage from '@/pages/ReferencesPage'
 import ConfigBuilderPage from '@/pages/ConfigBuilderPage'
+import ShortcutTrainerPage from '@/pages/ShortcutTrainerPage'
+import PromptBuilderPage from '@/pages/PromptBuilderPage'
 
 export default function App() {
   return (
@@ -21,6 +23,8 @@ export default function App() {
         <Route path="quiz" element={<QuizPage />} />
         <Route path="references" element={<ReferencesPage />} />
         <Route path="config-builder" element={<ConfigBuilderPage />} />
+        <Route path="shortcut-trainer" element={<ShortcutTrainerPage />} />
+        <Route path="prompt-builder" element={<PromptBuilderPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

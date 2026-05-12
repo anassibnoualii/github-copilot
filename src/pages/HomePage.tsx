@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { CheckCircle2, Circle } from 'lucide-react'
+import { CheckCircle2, Circle, Trophy, RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import LevelBadge from '@/components/shared/LevelBadge'
 import HeroTerminal from '@/components/shared/HeroTerminal'
@@ -9,25 +9,41 @@ import { useProgress } from '@/hooks/useProgress'
 import { FIRST_MODULE_ID } from '@/lib/utils'
 
 const QUICK_LINK_KEYS = [
-  { to: '/playground',      key: 'playground' },
-  { to: '/cheatsheet',      key: 'cheatsheet' },
-  { to: '/features',        key: 'features' },
-  { to: '/quiz',            key: 'quiz' },
-  { to: '/config-builder',  key: 'configBuilder' },
+  { to: '/playground',       key: 'playground' },
+  { to: '/cheatsheet',       key: 'cheatsheet' },
+  { to: '/features',         key: 'features' },
+  { to: '/quiz',             key: 'quiz' },
+  { to: '/config-builder',   key: 'configBuilder' },
+  { to: '/shortcut-trainer', key: 'shortcutTrainer' },
+  { to: '/prompt-builder',   key: 'promptBuilder' },
 ] as const
 
 export default function HomePage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const modules = useLocalisedModules()
-  const { completed } = useProgress()
+  const { completed, reset } = useProgress()
 
   const doneCount = completed.length
   const totalCount = modules.length
   const pct = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0
+  const allDone = totalCount > 0 && doneCount >= totalCount
 
   return (
     <div className="page">
+      {allDone && (
+        <div className="completion-banner">
+          <Trophy size={28} className="completion-trophy" />
+          <div className="completion-text">
+            <span className="completion-title">{t('home.completionTitle')}</span>
+            <span className="completion-sub">{t('home.completionSub', { count: totalCount })}</span>
+          </div>
+          <button className="completion-reset" onClick={reset}>
+            <RotateCcw size={13} /> {t('home.completionReset')}
+          </button>
+        </div>
+      )}
+
       <div className="hero hero-split">
         <div className="hero-text">
           <div className="section-label">{t('home.welcomeLabel')}</div>
@@ -37,7 +53,7 @@ export default function HomePage() {
             <Button onClick={() => navigate(`/module/${FIRST_MODULE_ID}`)}>{t('home.startLearning')}</Button>
             <Button variant="outline" onClick={() => navigate('/quiz')}>{t('home.findYourLevel')}</Button>
           </div>
-          {doneCount > 0 && (
+          {doneCount > 0 && !allDone && (
             <div className="hero-progress">
               <div className="hero-progress-bar">
                 <div className="hero-progress-fill" style={{ width: `${pct}%` }} />
