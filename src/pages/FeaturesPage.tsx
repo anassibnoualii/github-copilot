@@ -1,32 +1,45 @@
 import { useState, useMemo } from 'react'
+import { Search } from 'lucide-react'
 import features from '@/data/features'
 import type { Level, FeatureCategory } from '@/types'
+import LevelBadge from '@/components/shared/LevelBadge'
+import { filterBtnClass } from '@/lib/utils'
 
 const LEVELS: Array<{ value: string; label: string }> = [
-  { value: 'all', label: 'All Levels' },
-  { value: 'beginner', label: 'Beginner' },
+  { value: 'all',          label: 'All Levels' },
+  { value: 'beginner',     label: 'Beginner' },
   { value: 'intermediate', label: 'Intermediate' },
-  { value: 'advanced', label: 'Advanced' },
+  { value: 'advanced',     label: 'Advanced' },
 ]
 
 const CATEGORIES: Array<{ value: string; label: string }> = [
-  { value: 'all', label: 'All Categories' },
-  { value: 'IDE', label: 'IDE' },
-  { value: 'CLI', label: 'CLI' },
+  { value: 'all',        label: 'All Categories' },
+  { value: 'IDE',        label: 'IDE' },
+  { value: 'CLI',        label: 'CLI' },
   { value: 'GitHub.com', label: 'GitHub.com' },
   { value: 'Extensions', label: 'Extensions' },
   { value: 'Enterprise', label: 'Enterprise' },
 ]
 
-const LEVEL_BADGE: Record<string, string> = {
-  beginner:     'badge-beginner',
-  intermediate: 'badge-intermediate',
-  advanced:     'badge-advanced',
+function FilterBar({ options, active, onChange }: {
+  options: typeof LEVELS
+  active: string
+  onChange: (v: string) => void
+}) {
+  return (
+    <div className="feature-filters">
+      {options.map(o => (
+        <button key={o.value} className={filterBtnClass(active === o.value)} onClick={() => onChange(o.value)}>
+          {o.label}
+        </button>
+      ))}
+    </div>
+  )
 }
 
 export default function FeaturesPage() {
-  const [query, setQuery] = useState('')
-  const [activeLevel, setActiveLevel] = useState('all')
+  const [query, setQuery]               = useState('')
+  const [activeLevel, setActiveLevel]   = useState('all')
   const [activeCategory, setActiveCategory] = useState('all')
 
   const filtered = useMemo(() => {
@@ -48,6 +61,7 @@ export default function FeaturesPage() {
       </div>
 
       <div className="feature-search">
+        <Search size={15} className="search-icon-svg" />
         <input
           type="text"
           placeholder="Search features…"
@@ -56,29 +70,8 @@ export default function FeaturesPage() {
         />
       </div>
 
-      <div className="feature-filters">
-        {LEVELS.map(l => (
-          <button
-            key={l.value}
-            className={`filter-btn${activeLevel === l.value ? ' active' : ''}`}
-            onClick={() => setActiveLevel(l.value)}
-          >
-            {l.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="feature-filters">
-        {CATEGORIES.map(c => (
-          <button
-            key={c.value}
-            className={`filter-btn${activeCategory === c.value ? ' active' : ''}`}
-            onClick={() => setActiveCategory(c.value)}
-          >
-            {c.label}
-          </button>
-        ))}
-      </div>
+      <FilterBar options={LEVELS}      active={activeLevel}    onChange={setActiveLevel} />
+      <FilterBar options={CATEGORIES}  active={activeCategory} onChange={setActiveCategory} />
 
       <div className="feature-count">{filtered.length} feature{filtered.length !== 1 ? 's' : ''}</div>
 
@@ -91,7 +84,7 @@ export default function FeaturesPage() {
               <div className="feature-item-desc">{f.desc}</div>
             </div>
             <div className="feature-item-tags">
-              <span className={`badge ${LEVEL_BADGE[f.level]}`}>{f.level.charAt(0).toUpperCase() + f.level.slice(1)}</span>
+              <LevelBadge level={f.level} />
               <span className="badge badge-purple">{f.category}</span>
             </div>
           </div>

@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ArrowRight, RotateCcw } from 'lucide-react'
 import quizData from '@/data/quiz'
+import PageHeader from '@/components/shared/PageHeader'
+import { QUIZ_TRANSITION_DELAY } from '@/lib/utils'
 
 export default function QuizPage() {
   const navigate = useNavigate()
   const [current, setCurrent] = useState(0)
-  const [answers, setAnswers] = useState<number[]>([])
-  const [phase, setPhase] = useState<'question' | 'result'>('question')
+  const [answers, setAnswers]  = useState<number[]>([])
+  const [phase, setPhase]      = useState<'question' | 'result'>('question')
   const mountedRef = useRef(true)
 
   useEffect(() => () => { mountedRef.current = false }, [])
@@ -23,7 +26,7 @@ export default function QuizPage() {
       } else {
         setCurrent(c => c + 1)
       }
-    }, 350)
+    }, QUIZ_TRANSITION_DELAY)
   }
 
   function retake() {
@@ -33,7 +36,7 @@ export default function QuizPage() {
   }
 
   if (phase === 'result') {
-    const total = answers.reduce((a, b) => a + b, 0)
+    const total  = answers.reduce((a, b) => a + b, 0)
     const result = [...results].reverse().find(r => total >= r.threshold) ?? results[0]
 
     return (
@@ -46,13 +49,15 @@ export default function QuizPage() {
             <div className="quiz-result-module">
               <div className="quiz-result-module-num">Module {result.module}</div>
               <div className="quiz-result-module-name">{result.name}</div>
-              <p style={{ marginTop: 8, fontSize: '0.88rem' }}>{result.desc}</p>
+              <p className="quiz-result-desc">{result.desc}</p>
             </div>
-            <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 16 }}>
+            <div className="quiz-result-actions">
               <button className="btn btn-primary" onClick={() => navigate(`/module/${result.module}`)}>
-                Go to Module {result.module} →
+                Go to Module {result.module} <ArrowRight size={14} />
               </button>
-              <button className="btn btn-ghost" onClick={retake}>Retake Quiz</button>
+              <button className="btn btn-ghost" onClick={retake}>
+                <RotateCcw size={14} /> Retake Quiz
+              </button>
             </div>
           </div>
         </div>
@@ -60,16 +65,12 @@ export default function QuizPage() {
     )
   }
 
-  const q = questions[current]
+  const q        = questions[current]
   const progress = Math.round((current / questions.length) * 100)
 
   return (
     <div className="page">
-      <div className="module-header">
-        <div className="meta"><span className="badge badge-purple">Assessment</span></div>
-        <h1>Find Your Level</h1>
-        <p className="desc">5 questions to find the best starting module for you.</p>
-      </div>
+      <PageHeader badge="Assessment" title="Find Your Level" desc="5 questions to find the best starting module for you." />
       <div className="quiz-wrap">
         <div className="quiz-progress">
           <div className="quiz-progress-label">Question {current + 1} of {questions.length}</div>

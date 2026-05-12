@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { Search } from 'lucide-react'
 import cheatsheetGroups from '@/data/cheatsheet'
+import PageHeader from '@/components/shared/PageHeader'
 
 function highlight(text: string, q: string): string {
   if (!q) return text
@@ -20,14 +22,14 @@ export default function CheatSheetPage() {
 
   return (
     <div className="page">
-      <div className="module-header">
-        <div className="meta"><span className="badge badge-purple">Reference</span></div>
-        <h1>Cheat Sheet</h1>
-        <p className="desc">Every shortcut, slash command, context variable, and CLI command — searchable.</p>
-      </div>
+      <PageHeader
+        badge="Reference"
+        title="Cheat Sheet"
+        desc="Every shortcut, slash command, context variable, and CLI command — searchable."
+      />
 
       <div className="cheatsheet-search">
-        <span className="search-icon">⌕</span>
+        <Search size={15} className="search-icon-svg" />
         <input
           type="text"
           placeholder="Search shortcuts, commands…"

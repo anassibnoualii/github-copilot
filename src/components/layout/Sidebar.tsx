@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom'
+import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked } from 'lucide-react'
 import modulesMeta from '@/data/modules-meta'
+import { navLinkClass } from '@/lib/utils'
 
 const LEVEL_BADGE: Record<string, string> = {
   beginner:     'badge-b',
@@ -10,10 +12,18 @@ const LEVEL_LABEL: Record<string, string> = {
   beginner: 'B', intermediate: 'I', advanced: 'A',
 }
 
-interface SidebarProps {
-  isOpen: boolean
-  onClose: () => void
-}
+const NAV_SECTIONS = [
+  { label: 'Start Here', links: [
+    { to: '/', end: true,  icon: <Home size={14} />,       label: 'Home' },
+    { to: '/quiz',         icon: <Target size={14} />,     label: 'Find Your Level' },
+    { to: '/playground',   icon: <Terminal size={14} />,   label: 'Playground' },
+  ]},
+  { label: 'Reference', links: [
+    { to: '/cheatsheet',   icon: <BookOpen size={14} />,   label: 'Cheat Sheet' },
+    { to: '/features',     icon: <LayoutGrid size={14} />, label: 'Feature Index' },
+    { to: '/references',   icon: <BookMarked size={14} />, label: 'References' },
+  ]},
+]
 
 const beginners     = modulesMeta.filter(m => m.level === 'beginner')
 const intermediates = modulesMeta.filter(m => m.level === 'intermediate')
@@ -26,7 +36,7 @@ function ModuleLinks({ modules, onClose }: { modules: typeof modulesMeta; onClos
         <NavLink
           key={m.id}
           to={`/module/${m.id}`}
-          className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+          className={({ isActive }) => navLinkClass(isActive)}
           onClick={onClose}
         >
           <span className="nav-icon nav-num">{m.id}</span>
@@ -36,6 +46,11 @@ function ModuleLinks({ modules, onClose }: { modules: typeof modulesMeta; onClos
       ))}
     </>
   )
+}
+
+interface SidebarProps {
+  isOpen: boolean
+  onClose: () => void
 }
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
@@ -48,53 +63,37 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </div>
         <nav>
           <div className="nav-section">
-            <div className="nav-section-label">Start Here</div>
-            <NavLink to="/" end className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} onClick={onClose}>
-              <span className="nav-icon">⌂</span> Home
-            </NavLink>
-            <NavLink to="/quiz" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} onClick={onClose}>
-              <span className="nav-icon">◈</span> Find Your Level
-            </NavLink>
-            <NavLink to="/playground" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} onClick={onClose}>
-              <span className="nav-icon">▶</span> Playground
-            </NavLink>
+            <div className="nav-section-label">{NAV_SECTIONS[0].label}</div>
+            {NAV_SECTIONS[0].links.map(({ to, end, icon, label }) => (
+              <NavLink key={to} to={to} end={end} className={({ isActive }) => navLinkClass(isActive)} onClick={onClose}>
+                <span className="nav-icon">{icon}</span> {label}
+              </NavLink>
+            ))}
           </div>
 
-          <div className="nav-section">
-            <div className="nav-section-label">Beginner</div>
-            <ModuleLinks modules={beginners} onClose={onClose} />
-          </div>
+          {[
+            { label: 'Beginner',     modules: beginners },
+            { label: 'Intermediate', modules: intermediates },
+            { label: 'Advanced',     modules: advanceds },
+          ].map(({ label, modules }) => (
+            <div key={label} className="nav-section">
+              <div className="nav-section-label">{label}</div>
+              <ModuleLinks modules={modules} onClose={onClose} />
+            </div>
+          ))}
 
           <div className="nav-section">
-            <div className="nav-section-label">Intermediate</div>
-            <ModuleLinks modules={intermediates} onClose={onClose} />
-          </div>
-
-          <div className="nav-section">
-            <div className="nav-section-label">Advanced</div>
-            <ModuleLinks modules={advanceds} onClose={onClose} />
-          </div>
-
-          <div className="nav-section">
-            <div className="nav-section-label">Reference</div>
-            <NavLink to="/cheatsheet" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} onClick={onClose}>
-              <span className="nav-icon">≡</span> Cheat Sheet
-            </NavLink>
-            <NavLink to="/features" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} onClick={onClose}>
-              <span className="nav-icon">◉</span> Feature Index
-            </NavLink>
-            <NavLink to="/references" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} onClick={onClose}>
-              <span className="nav-icon">⌖</span> References
-            </NavLink>
+            <div className="nav-section-label">{NAV_SECTIONS[1].label}</div>
+            {NAV_SECTIONS[1].links.map(({ to, icon, label }) => (
+              <NavLink key={to} to={to} className={({ isActive }) => navLinkClass(isActive)} onClick={onClose}>
+                <span className="nav-icon">{icon}</span> {label}
+              </NavLink>
+            ))}
           </div>
         </nav>
       </aside>
 
-      <div
-        id="sidebar-overlay"
-        className={isOpen ? 'show' : ''}
-        onClick={onClose}
-      />
+      <div id="sidebar-overlay" className={isOpen ? 'show' : ''} onClick={onClose} />
     </>
   )
 }

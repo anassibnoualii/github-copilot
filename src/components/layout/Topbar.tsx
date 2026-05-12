@@ -1,5 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom'
+import { Menu, Target, ArrowRight } from 'lucide-react'
 import modulesMeta from '@/data/modules-meta'
+import { FIRST_MODULE_ID } from '@/lib/utils'
 
 const BREADCRUMBS: Record<string, string> = {
   '/':           'Home',
@@ -29,15 +31,21 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
 
   return (
     <header id="topbar">
-      <button id="menu-btn" aria-label="Toggle menu" onClick={onMenuClick}>☰</button>
+      <button id="menu-btn" aria-label="Toggle menu" onClick={onMenuClick}>
+        <Menu size={18} />
+      </button>
       <div className="breadcrumb">
         <span>Copilot Workshop</span>
         <span className="sep">/</span>
         <span className="current">{label}</span>
       </div>
       <div className="topbar-actions">
-        <button className="btn btn-sm btn-ghost" onClick={() => navigate('/quiz')}>◈ Find My Level</button>
-        <button className="btn btn-sm btn-primary" onClick={() => navigate('/module/01')}>Start →</button>
+        <button className="btn btn-sm btn-ghost" onClick={() => navigate('/quiz')}>
+          <Target size={13} /> Find My Level
+        </button>
+        <button className="btn btn-sm btn-primary" onClick={() => navigate(`/module/${FIRST_MODULE_ID}`)}>
+          Start <ArrowRight size={13} />
+        </button>
       </div>
     </header>
   )
