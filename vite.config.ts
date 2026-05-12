@@ -9,6 +9,7 @@ export default defineConfig({
   plugins: [
     mdx({
       remarkPlugins: [remarkGfm],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       rehypePlugins: [[rehypePrettyCode as any, { theme: 'github-dark' }]],
       providerImportSource: '@mdx-js/react',
     }),

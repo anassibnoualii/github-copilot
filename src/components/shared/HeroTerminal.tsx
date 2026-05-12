@@ -44,11 +44,8 @@ export default function HeroTerminal() {
 
   useEffect(() => {
     const frame = FRAMES[frameIdx]
-    setPromptText('')
-    setResponseText('')
-    setPhase('typing-prompt')
-
     let charIdx = 0
+    let resIdx = 0
     let timerId: ReturnType<typeof setTimeout>
 
     function typePrompt() {
@@ -62,7 +59,6 @@ export default function HeroTerminal() {
       }
     }
 
-    let resIdx = 0
     function typeResponse() {
       if (!mountedRef.current) return
       setPhase('typing-response')
@@ -79,7 +75,14 @@ export default function HeroTerminal() {
       }
     }
 
-    timerId = setTimeout(typePrompt, RESET_PAUSE)
+    timerId = setTimeout(() => {
+      if (!mountedRef.current) return
+      setPromptText('')
+      setResponseText('')
+      setPhase('typing-prompt')
+      typePrompt()
+    }, RESET_PAUSE)
+
     return () => clearTimeout(timerId)
   }, [frameIdx])
 

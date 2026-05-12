@@ -25,7 +25,7 @@ function simulateResponse(input: string): string {
   return FREE_RESPONSES.default
 }
 
-export default function ModuleTerminal({ tutorial, moduleId: _ }: Props) {
+export default function ModuleTerminal({ tutorial }: Props) {
   const { t } = useTranslation()
   const [tab, setTab] = useState<'guided' | 'free'>('guided')
   const [step, setStep] = useState(0)
