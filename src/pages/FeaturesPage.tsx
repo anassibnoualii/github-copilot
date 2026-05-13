@@ -7,6 +7,7 @@ import SearchInput from '@/components/shared/SearchInput'
 import FilterBar from '@/components/shared/FilterBar'
 import { useFeaturesFilter } from '@/hooks/useFeaturesFilter'
 import { useLocalisedFeatures } from '@/hooks/useLocalisedData'
+import { LEVEL_FILTER_VALUES, CATEGORY_FILTER_VALUES } from '@/data/features'
 
 export default function FeaturesPage() {
   const { t } = useTranslation()
@@ -15,21 +16,18 @@ export default function FeaturesPage() {
     useFeaturesFilter(localisedFeatures)
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null)
 
-  const LEVELS = [
-    { value: 'all',          label: t('features.allLevels') },
-    { value: 'beginner',     label: t('levels.beginner') },
-    { value: 'intermediate', label: t('levels.intermediate') },
-    { value: 'advanced',     label: t('levels.advanced') },
-  ]
+  const LEVEL_LABEL_KEYS: Record<string, string> = {
+    all: 'features.allLevels', beginner: 'levels.beginner',
+    intermediate: 'levels.intermediate', advanced: 'levels.advanced',
+  }
+  const CATEGORY_LABEL_KEYS: Record<string, string> = {
+    all: 'features.allCategories', IDE: 'features.categories.IDE',
+    CLI: 'features.categories.CLI', 'GitHub.com': 'features.categories.githubCom',
+    Extensions: 'features.categories.extensions', Enterprise: 'features.categories.enterprise',
+  }
 
-  const CATEGORIES = [
-    { value: 'all',        label: t('features.allCategories') },
-    { value: 'IDE',        label: t('features.categories.IDE') },
-    { value: 'CLI',        label: t('features.categories.CLI') },
-    { value: 'GitHub.com', label: t('features.categories.githubCom') },
-    { value: 'Extensions', label: t('features.categories.extensions') },
-    { value: 'Enterprise', label: t('features.categories.enterprise') },
-  ]
+  const LEVELS      = LEVEL_FILTER_VALUES.map(v => ({ value: v, label: t(LEVEL_LABEL_KEYS[v]) }))
+  const CATEGORIES  = CATEGORY_FILTER_VALUES.map(v => ({ value: v, label: t(CATEGORY_LABEL_KEYS[v]) }))
 
   function toggleExpand(i: number) {
     setExpandedIdx(prev => (prev === i ? null : i))

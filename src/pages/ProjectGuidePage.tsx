@@ -1,65 +1,26 @@
-import { lazy, Suspense, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { MDXProvider } from '@mdx-js/react'
-import mdxComponents from '@/components/mdx/mdx-components'
-import PageHeader from '@/components/shared/PageHeader'
-import TabBar from '@/components/shared/TabBar'
+import TabbedMdxPage from '@/components/shared/TabbedMdxPage'
 
-type TabId = 'installation' | 'workspace' | 'instructions' | 'agents' | 'extensions' | 'github' | 'cli' | 'team'
+const glob = import.meta.glob('../content/project-guide/*.mdx')
 
-const mdxGlob = import.meta.glob('../content/project-guide/*.mdx')
-
-const TAB_COMPONENTS: Record<TabId, React.LazyExoticComponent<React.ComponentType>> = {
-  installation: lazy(mdxGlob['../content/project-guide/installation.mdx'] as () => Promise<{ default: React.ComponentType }>),
-  workspace:    lazy(mdxGlob['../content/project-guide/workspace.mdx'] as () => Promise<{ default: React.ComponentType }>),
-  instructions: lazy(mdxGlob['../content/project-guide/instructions.mdx'] as () => Promise<{ default: React.ComponentType }>),
-  agents:       lazy(mdxGlob['../content/project-guide/agents.mdx'] as () => Promise<{ default: React.ComponentType }>),
-  extensions:   lazy(mdxGlob['../content/project-guide/extensions.mdx'] as () => Promise<{ default: React.ComponentType }>),
-  github:       lazy(mdxGlob['../content/project-guide/github.mdx'] as () => Promise<{ default: React.ComponentType }>),
-  cli:          lazy(mdxGlob['../content/project-guide/cli.mdx'] as () => Promise<{ default: React.ComponentType }>),
-  team:         lazy(mdxGlob['../content/project-guide/team.mdx'] as () => Promise<{ default: React.ComponentType }>),
-}
+const TABS = [
+  { id: 'installation', labelKey: 'projectGuide.tabs.installation', mdxKey: '../content/project-guide/installation.mdx' },
+  { id: 'workspace',    labelKey: 'projectGuide.tabs.workspace',    mdxKey: '../content/project-guide/workspace.mdx' },
+  { id: 'instructions', labelKey: 'projectGuide.tabs.instructions', mdxKey: '../content/project-guide/instructions.mdx' },
+  { id: 'agents',       labelKey: 'projectGuide.tabs.agents',       mdxKey: '../content/project-guide/agents.mdx' },
+  { id: 'extensions',   labelKey: 'projectGuide.tabs.extensions',   mdxKey: '../content/project-guide/extensions.mdx' },
+  { id: 'github',       labelKey: 'projectGuide.tabs.github',       mdxKey: '../content/project-guide/github.mdx' },
+  { id: 'cli',          labelKey: 'projectGuide.tabs.cli',          mdxKey: '../content/project-guide/cli.mdx' },
+  { id: 'team',         labelKey: 'projectGuide.tabs.team',         mdxKey: '../content/project-guide/team.mdx' },
+]
 
 export default function ProjectGuidePage() {
-  const { t } = useTranslation()
-  const [tab, setTab] = useState<TabId>('installation')
-
-  const TABS: { id: TabId; label: string }[] = [
-    { id: 'installation', label: t('projectGuide.tabs.installation') },
-    { id: 'workspace',    label: t('projectGuide.tabs.workspace') },
-    { id: 'instructions', label: t('projectGuide.tabs.instructions') },
-    { id: 'agents',       label: t('projectGuide.tabs.agents') },
-    { id: 'extensions',   label: t('projectGuide.tabs.extensions') },
-    { id: 'github',       label: t('projectGuide.tabs.github') },
-    { id: 'cli',          label: t('projectGuide.tabs.cli') },
-    { id: 'team',         label: t('projectGuide.tabs.team') },
-  ]
-
-  const Content = TAB_COMPONENTS[tab]
-
   return (
-    <div className="page">
-      <PageHeader
-        badge={t('projectGuide.badge')}
-        title={t('projectGuide.title')}
-        desc={t('projectGuide.description')}
-      />
-
-      <TabBar
-        tabs={TABS.map(({ id, label }) => ({ value: id, label }))}
-        active={tab}
-        onChange={(v) => setTab(v as TabId)}
-        wrapClass="jg-tabs"
-        btnClass="jg-tab"
-      />
-
-      <div className="jg-panel module-content">
-        <MDXProvider components={mdxComponents}>
-          <Suspense fallback={<p className="muted">Loading…</p>}>
-            <Content />
-          </Suspense>
-        </MDXProvider>
-      </div>
-    </div>
+    <TabbedMdxPage
+      badgeKey="projectGuide.badge"
+      titleKey="projectGuide.title"
+      descKey="projectGuide.description"
+      tabs={TABS}
+      glob={glob}
+    />
   )
 }

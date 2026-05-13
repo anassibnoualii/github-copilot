@@ -6,7 +6,7 @@ import LevelBadge from '@/components/shared/LevelBadge'
 import HeroTerminal from '@/components/shared/HeroTerminal'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { useProgress } from '@/hooks/useProgress'
-import { FIRST_MODULE_ID } from '@/lib/utils'
+import { FIRST_MODULE_ID, calculateProgress } from '@/lib/utils'
 import { QUICK_LINK_KEYS } from '@/data/home-links'
 
 export default function HomePage() {
@@ -17,7 +17,7 @@ export default function HomePage() {
 
   const doneCount = completed.length
   const totalCount = modules.length
-  const pct = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0
+  const pct = calculateProgress(doneCount, totalCount)
   const allDone = totalCount > 0 && doneCount >= totalCount
 
   return (

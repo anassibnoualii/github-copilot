@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked, Settings2, CheckCircle2, Keyboard, Wand2, Search, Coffee, FolderOpen } from 'lucide-react'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { useProgress } from '@/hooks/useProgress'
-import { navLinkClass, LEVEL_NAV_BADGE, LEVEL_SHORT_LABEL } from '@/lib/utils'
+import { navLinkClass, LEVEL_NAV_BADGE, LEVEL_SHORT_LABEL, calculateProgress } from '@/lib/utils'
 
 function ModuleLinks({ modules, completed, onClose }: {
   modules: ReturnType<typeof useLocalisedModules>
@@ -85,10 +85,7 @@ export default function Sidebar({ isOpen, onClose, onSearch }: SidebarProps) {
         {totalCount > 0 && (
           <div className="sidebar-progress">
             <div className="sidebar-progress-bar">
-              <div
-                className="sidebar-progress-fill"
-                style={{ width: `${Math.round((doneCount / totalCount) * 100)}%` }}
-              />
+              <div className="sidebar-progress-fill" style={{ width: `${calculateProgress(doneCount, totalCount)}%` }} />
             </div>
             <span className="sidebar-progress-label">{doneCount}/{totalCount} done</span>
           </div>

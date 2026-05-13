@@ -4,6 +4,7 @@ import { CheckCircle, XCircle, RotateCcw, Brain } from 'lucide-react'
 import PageHeader from '@/components/shared/PageHeader'
 import NavPair from '@/components/shared/NavPair'
 import { useLocalisedCheatsheet } from '@/hooks/useLocalisedData'
+import { calculateProgress } from '@/lib/utils'
 
 interface Card {
   groupTitle: string
@@ -48,7 +49,7 @@ export default function ShortcutTrainerPage() {
     setPhase('quiz')
   }
 
-  const pct = allCards.length > 0 ? Math.round(((idx) / allCards.length) * 100) : 0
+  const pct = calculateProgress(idx, allCards.length)
 
   return (
     <div className="page">

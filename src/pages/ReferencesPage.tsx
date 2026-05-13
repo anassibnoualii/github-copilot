@@ -1,24 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BookOpen, FileText, GitBranch, Video } from 'lucide-react'
 import PageHeader from '@/components/shared/PageHeader'
 import FilterBar from '@/components/shared/FilterBar'
 import { useLocalisedReferences } from '@/hooks/useLocalisedData'
-import type { ReferenceType } from '@/types'
-
-const TYPE_ICONS: Record<ReferenceType, React.ReactNode> = {
-  doc:   <BookOpen size={11} />,
-  blog:  <FileText size={11} />,
-  repo:  <GitBranch size={11} />,
-  video: <Video size={11} />,
-}
-
-const TYPE_CLASSES: Record<ReferenceType, string> = {
-  doc:   'ref-type-doc',
-  blog:  'ref-type-blog',
-  repo:  'ref-type-repo',
-  video: 'ref-type-video',
-}
+import { REFERENCE_TYPE_ICONS, REFERENCE_TYPE_CLASSES, REFERENCE_TYPE_KEYS } from '@/data/references-meta'
 
 export default function ReferencesPage() {
   const { t } = useTranslation()
@@ -26,11 +11,8 @@ export default function ReferencesPage() {
   const [activeType, setActiveType] = useState('all')
 
   const TYPE_OPTIONS = [
-    { value: 'all',   label: t('references.allTypes') },
-    { value: 'doc',   label: t('references.type.doc') },
-    { value: 'blog',  label: t('references.type.blog') },
-    { value: 'repo',  label: t('references.type.repo') },
-    { value: 'video', label: t('references.type.video') },
+    { value: 'all', label: t('references.allTypes') },
+    ...REFERENCE_TYPE_KEYS.map(k => ({ value: k, label: t(`references.type.${k}`) })),
   ]
 
   return (
@@ -58,8 +40,8 @@ export default function ReferencesPage() {
                   <div className="ref-card-desc">{link.desc}</div>
                   <div className="ref-card-footer">
                     <div className="ref-card-url">{link.url.replace('https://', '')}</div>
-                    <span className={`ref-type-badge ${TYPE_CLASSES[link.type]}`}>
-                      {TYPE_ICONS[link.type]}
+                    <span className={`ref-type-badge ${REFERENCE_TYPE_CLASSES[link.type]}`}>
+                      {REFERENCE_TYPE_ICONS[link.type]}
                       {t(`references.type.${link.type}`)}
                     </span>
                   </div>

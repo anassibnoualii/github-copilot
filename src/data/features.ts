@@ -1,5 +1,13 @@
 import type { Feature } from '@/types'
 
+export interface FilterOption {
+  value: string
+  label: string
+}
+
+export const LEVEL_FILTER_VALUES = ['all', 'beginner', 'intermediate', 'advanced'] as const
+export const CATEGORY_FILTER_VALUES = ['all', 'IDE', 'CLI', 'GitHub.com', 'Extensions', 'Enterprise'] as const
+
 const features: Feature[] = [
   // IDE Features
   {
