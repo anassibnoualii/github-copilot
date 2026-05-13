@@ -6,6 +6,7 @@ import PageHeader from '@/components/shared/PageHeader'
 import ProgressBar from '@/components/shared/ProgressBar'
 import { useQuiz } from '@/hooks/useQuiz'
 import { calculateProgress } from '@/lib/utils'
+import { ROUTES } from '@/lib/routes'
 
 export default function QuizPage() {
   const { t } = useTranslation()
@@ -26,7 +27,7 @@ export default function QuizPage() {
               <p className="quiz-result-desc">{result.desc}</p>
             </div>
             <div className="quiz-result-actions">
-              <Button onClick={() => navigate(`/module/${result.module}`)}>
+              <Button onClick={() => navigate(ROUTES.module(result.module))}>
                 {t('quiz.result.goToModule', { id: result.module })} <ArrowRight size={14} />
               </Button>
               <Button variant="outline" onClick={retake}>

@@ -1,0 +1,15 @@
+export const ROUTES = {
+  HOME:             '/',
+  QUIZ:             '/quiz',
+  PLAYGROUND:       '/playground',
+  CHEATSHEET:       '/cheatsheet',
+  FEATURES:         '/features',
+  REFERENCES:       '/references',
+  CONFIG_BUILDER:   '/config-builder',
+  SHORTCUT_TRAINER: '/shortcut-trainer',
+  PROMPT_BUILDER:   '/prompt-builder',
+  JAVA_GUIDE:       '/java-guide',
+  PROJECT_GUIDE:    '/project-guide',
+  MODULE_PREFIX:    '/module/',
+  module: (id: string) => `/module/${id}`,
+} as const

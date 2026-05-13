@@ -7,6 +7,7 @@ import HeroTerminal from '@/components/shared/HeroTerminal'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { useProgress } from '@/hooks/useProgress'
 import { FIRST_MODULE_ID, calculateProgress } from '@/lib/utils'
+import { ROUTES } from '@/lib/routes'
 import { QUICK_LINK_KEYS } from '@/data/home-links'
 
 export default function HomePage() {
@@ -41,8 +42,8 @@ export default function HomePage() {
           <h1>{t('home.title')}</h1>
           <p>{t('home.description')}</p>
           <div className="hero-actions">
-            <Button onClick={() => navigate(`/module/${FIRST_MODULE_ID}`)}>{t('home.startLearning')}</Button>
-            <Button variant="outline" onClick={() => navigate('/quiz')}>{t('home.findYourLevel')}</Button>
+            <Button onClick={() => navigate(ROUTES.module(FIRST_MODULE_ID))}>{t('home.startLearning')}</Button>
+            <Button variant="outline" onClick={() => navigate(ROUTES.QUIZ)}>{t('home.findYourLevel')}</Button>
           </div>
           {doneCount > 0 && !allDone && (
             <div className="hero-progress">
@@ -64,7 +65,7 @@ export default function HomePage() {
         {modules.map(m => {
           const done = completed.includes(m.id)
           return (
-            <div key={m.id} className={`module-card ${done ? 'module-card-done' : ''}`} onClick={() => navigate(`/module/${m.id}`)}>
+            <div key={m.id} className={`module-card ${done ? 'module-card-done' : ''}`} onClick={() => navigate(ROUTES.module(m.id))}>
               <div className="card-num-row">
                 <span className="card-num">{m.id}</span>
                 {done

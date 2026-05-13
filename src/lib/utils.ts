@@ -35,8 +35,10 @@ export const MODE_BADGE_CLASSES: Record<PlaygroundMode, string> = {
   autopilot: 'badge-purple',
 }
 
-export const FIRST_MODULE_ID = '01'
+export const FIRST_MODULE_ID       = '01'
 export const QUIZ_TRANSITION_DELAY = 350
+export const COPY_SUCCESS_DURATION = 2000
+export const GOOD_SCORE_THRESHOLD  = 0.7
 
 export function levelLabel(level: Level): string {
   return level.charAt(0).toUpperCase() + level.slice(1)

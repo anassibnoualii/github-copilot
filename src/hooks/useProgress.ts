@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
+import { STORAGE_KEY_PROGRESS } from '@/lib/storage'
 
-const KEY = 'copilot-workshop-progress'
+const KEY = STORAGE_KEY_PROGRESS
 
 function load(): string[] {
   try {

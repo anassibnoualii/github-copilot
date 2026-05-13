@@ -5,6 +5,8 @@ import { Search, BookOpen, LayoutGrid, BookMarked, X } from 'lucide-react'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import featuresData from '@/data/features'
 import cheatsheetData from '@/data/cheatsheet'
+import { ROUTES } from '@/lib/routes'
+import { SEARCH_LIMIT_MODULES, SEARCH_LIMIT_FEATURES, SEARCH_LIMIT_CHEATSHEET, SEARCH_RESULTS_MAX } from '@/lib/search'
 
 interface SearchResult {
   id: string
@@ -26,10 +28,10 @@ function buildResults(query: string, modules: ReturnType<typeof useLocalisedModu
         label: `${m.id}. ${m.title}`,
         sublabel: m.description,
         icon: <BookOpen size={14} />,
-        path: `/module/${m.id}`,
+        path: ROUTES.module(m.id),
       })
     }
-    if (out.length >= 15) break
+    if (out.length >= SEARCH_LIMIT_MODULES) break
   }
 
   for (const f of featuresData) {
@@ -39,10 +41,10 @@ function buildResults(query: string, modules: ReturnType<typeof useLocalisedModu
         label: f.name,
         sublabel: f.desc,
         icon: <LayoutGrid size={14} />,
-        path: '/features',
+        path: ROUTES.FEATURES,
       })
     }
-    if (out.length >= 20) break
+    if (out.length >= SEARCH_LIMIT_FEATURES) break
   }
 
   for (const g of cheatsheetData) {
@@ -53,15 +55,15 @@ function buildResults(query: string, modules: ReturnType<typeof useLocalisedModu
           label: item.cmd,
           sublabel: item.desc,
           icon: <BookMarked size={14} />,
-          path: '/cheatsheet',
+          path: ROUTES.CHEATSHEET,
         })
       }
-      if (out.length >= 25) break
+      if (out.length >= SEARCH_LIMIT_CHEATSHEET) break
     }
-    if (out.length >= 25) break
+    if (out.length >= SEARCH_LIMIT_CHEATSHEET) break
   }
 
-  return out.slice(0, 12)
+  return out.slice(0, SEARCH_RESULTS_MAX)
 }
 
 interface Props {

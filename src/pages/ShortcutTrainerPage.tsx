@@ -4,7 +4,7 @@ import { CheckCircle, XCircle, RotateCcw, Brain } from 'lucide-react'
 import PageHeader from '@/components/shared/PageHeader'
 import NavPair from '@/components/shared/NavPair'
 import { useLocalisedCheatsheet } from '@/hooks/useLocalisedData'
-import { calculateProgress } from '@/lib/utils'
+import { calculateProgress, GOOD_SCORE_THRESHOLD } from '@/lib/utils'
 
 interface Card {
   groupTitle: string
@@ -119,7 +119,7 @@ export default function ShortcutTrainerPage() {
           <p className="st-done-label">
             {gotIt === allCards.length
               ? t('shortcutTrainer.perfect')
-              : gotIt >= allCards.length * 0.7
+              : gotIt >= allCards.length * GOOD_SCORE_THRESHOLD
               ? t('shortcutTrainer.good')
               : t('shortcutTrainer.keepPractising')}
           </p>

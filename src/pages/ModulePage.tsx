@@ -10,6 +10,7 @@ import ModuleTerminal from '@/components/module/ModuleTerminal'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { useProgress } from '@/hooks/useProgress'
 import { LEVEL_PANEL_COLORS, calculateProgress } from '@/lib/utils'
+import { ROUTES } from '@/lib/routes'
 
 const mdxGlob = import.meta.glob('../content/modules/*.mdx')
 
@@ -84,7 +85,7 @@ export default function ModulePage() {
 
         <div className="module-panel-nav">
           {prev ? (
-            <button className="panel-nav-btn" onClick={() => navigate(`/module/${prev.id}`)}>
+            <button className="panel-nav-btn" onClick={() => navigate(ROUTES.module(prev.id))}>
               <ChevronLeft size={16} className="panel-nav-arrow" />
               <span className="panel-nav-info">
                 <span className="panel-nav-label">{t('module.previous')}</span>
@@ -93,7 +94,7 @@ export default function ModulePage() {
             </button>
           ) : <div />}
           {next ? (
-            <button className="panel-nav-btn panel-nav-btn-next" onClick={() => navigate(`/module/${next.id}`)}>
+            <button className="panel-nav-btn panel-nav-btn-next" onClick={() => navigate(ROUTES.module(next.id))}>
               <span className="panel-nav-info">
                 <span className="panel-nav-label">{t('module.next')}</span>
                 <span className="panel-nav-title">{next.title}</span>

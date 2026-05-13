@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Copy, Check } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { COPY_SUCCESS_DURATION } from '@/lib/utils'
 
 interface Props {
   text: string
@@ -17,7 +18,7 @@ export default function CopyButton({ text, className = 'copy-btn', disabled, ico
     if (!text.trim()) return
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      setTimeout(() => setCopied(false), COPY_SUCCESS_DURATION)
     })
   }
 

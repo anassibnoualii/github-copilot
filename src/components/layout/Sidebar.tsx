@@ -5,6 +5,7 @@ import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked, Settings2, Ch
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { useProgress } from '@/hooks/useProgress'
 import { navLinkClass, LEVEL_NAV_BADGE, LEVEL_SHORT_LABEL, calculateProgress } from '@/lib/utils'
+import { ROUTES } from '@/lib/routes'
 
 function ModuleLinks({ modules, completed, onClose }: {
   modules: ReturnType<typeof useLocalisedModules>
@@ -59,20 +60,20 @@ export default function Sidebar({ isOpen, onClose, onSearch }: SidebarProps) {
   const totalCount = modules.length
 
   const START_LINKS = [
-    { to: '/', end: true,  icon: <Home size={14} />,       label: t('nav.home') },
-    { to: '/quiz',         icon: <Target size={14} />,     label: t('nav.findYourLevel') },
-    { to: '/playground',   icon: <Terminal size={14} />,   label: t('nav.playground') },
+    { to: ROUTES.HOME,       end: true, icon: <Home size={14} />,     label: t('nav.home') },
+    { to: ROUTES.QUIZ,                  icon: <Target size={14} />,   label: t('nav.findYourLevel') },
+    { to: ROUTES.PLAYGROUND,            icon: <Terminal size={14} />, label: t('nav.playground') },
   ]
 
   const REF_LINKS = [
-    { to: '/cheatsheet',      icon: <BookOpen size={14} />,    label: t('nav.cheatSheet') },
-    { to: '/features',        icon: <LayoutGrid size={14} />,  label: t('nav.featureIndex') },
-    { to: '/references',      icon: <BookMarked size={14} />,  label: t('nav.references') },
-    { to: '/config-builder',  icon: <Settings2 size={14} />,   label: t('nav.configBuilder') },
-    { to: '/shortcut-trainer',icon: <Keyboard size={14} />,    label: t('nav.shortcutTrainer') },
-    { to: '/prompt-builder',  icon: <Wand2 size={14} />,       label: t('nav.promptBuilder') },
-    { to: '/java-guide',      icon: <Coffee size={14} />,       label: t('nav.javaGuide') },
-    { to: '/project-guide',   icon: <FolderOpen size={14} />,  label: t('nav.projectGuide') },
+    { to: ROUTES.CHEATSHEET,      icon: <BookOpen size={14} />,    label: t('nav.cheatSheet') },
+    { to: ROUTES.FEATURES,        icon: <LayoutGrid size={14} />,  label: t('nav.featureIndex') },
+    { to: ROUTES.REFERENCES,      icon: <BookMarked size={14} />,  label: t('nav.references') },
+    { to: ROUTES.CONFIG_BUILDER,  icon: <Settings2 size={14} />,   label: t('nav.configBuilder') },
+    { to: ROUTES.SHORTCUT_TRAINER,icon: <Keyboard size={14} />,    label: t('nav.shortcutTrainer') },
+    { to: ROUTES.PROMPT_BUILDER,  icon: <Wand2 size={14} />,       label: t('nav.promptBuilder') },
+    { to: ROUTES.JAVA_GUIDE,      icon: <Coffee size={14} />,      label: t('nav.javaGuide') },
+    { to: ROUTES.PROJECT_GUIDE,   icon: <FolderOpen size={14} />,  label: t('nav.projectGuide') },
   ]
 
   return (
