@@ -1,0 +1,104 @@
+## GitHub Copilot Chat in IntelliJ
+
+The built-in Copilot chat panel in IntelliJ IDEA is your primary interface for asking questions, explaining code, and generating multi-file changes. Open it via **View → Tool Windows → GitHub Copilot** or click the Copilot icon in the right gutter.
+
+Unlike VS Code, IntelliJ does not have `@workspace`, `@vscode`, or `@terminal` chat participants. Context is provided by what you have open and selected in the editor.
+
+### Providing Context in IntelliJ
+
+| How to add context | Method |
+|-------------------|--------|
+| Current file | Open it — Copilot reads the active editor |
+| A selection | Select code → right-click → Copilot → Open Chat |
+| Multiple files | Open them in tabs; reference by name in your prompt |
+| A specific class | `#ClassName` in the chat input to pin it |
+| A specific method | Select the method body before opening chat |
+
+<PromptList items={[
+  'Explain why this Spring Security filter chain runs before the JWT filter',
+  'Refactor #OrderService to use @Transactional(readOnly = true) on all read methods',
+  'Write a Testcontainers integration test for the POST /api/orders endpoint',
+  'What design pattern would best replace this factory switch statement?',
+]} />
+
+## MCP Servers — Extending Copilot
+
+Model Context Protocol (MCP) servers let Copilot interact with external tools: databases, APIs, and services. In IntelliJ IDEA, MCP servers are configured in **Settings → Tools → GitHub Copilot → MCP Servers**.
+
+Add a PostgreSQL MCP server to query your database directly from chat:
+
+```json
+{
+  "servers": {
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "POSTGRES_CONNECTION_STRING": "${env:DATABASE_URL}"
+      }
+    }
+  }
+}
+```
+
+Once connected, you can ask natural-language questions about your database schema and data:
+
+<PromptList items={[
+  'Show me all users who registered in the last 7 days and have not verified their email',
+  'What is the average response time from the request_logs table in the last hour?',
+  'Find all orders where payment_status is pending and created_at is older than 48 hours',
+]} />
+
+<Callout variant="warning" label="MCP security">
+MCP servers run as local processes. Only install MCP servers from trusted sources. Use a read-only database connection string for database MCP servers — never a production write connection.
+</Callout>
+
+## Popular MCP Servers
+
+| Server | What it enables |
+|--------|----------------|
+| `@modelcontextprotocol/server-postgres` | Query PostgreSQL databases from chat |
+| `@modelcontextprotocol/server-filesystem` | Read/write files outside the project root |
+| `@modelcontextprotocol/server-github` | Rich GitHub API access: issues, PRs, reviews |
+| `@modelcontextprotocol/server-fetch` | Fetch and reason about any URL or API response |
+| `@modelcontextprotocol/server-sqlite` | Query SQLite databases |
+
+Install any server via npm (`npx -y <package>`) — no global install required.
+
+## Useful IntelliJ Plugins Alongside Copilot
+
+| Plugin | What it adds |
+|--------|-------------|
+| **SonarLint** | Real-time code quality analysis — catches issues Copilot might not flag |
+| **CheckStyle-IDEA** | Enforces Google Java Style locally, same rules as CI |
+| **Lombok** | Required for IntelliJ to understand `@Builder`, `@Slf4j`, etc. |
+| **Flyway** | Database migration UI alongside Copilot-generated migration files |
+| **Docker** | Container management for Testcontainers-based integration tests |
+
+<Callout variant="tip" label="SonarLint + Copilot">
+Copilot generates code fast; SonarLint catches quality issues before you commit. Run both together: Copilot writes the code, SonarLint flags potential bugs, then ask Copilot to fix what SonarLint found.
+</Callout>
+
+## Sharing MCP Config with the Team
+
+The MCP server configuration can be committed to version control. In IntelliJ projects, store it in `.idea/copilot-mcp.json` or document it in `AGENTS.md` so team members can replicate it:
+
+```markdown
+## MCP Servers
+
+Configure in Settings → Tools → GitHub Copilot → MCP Servers:
+
+- postgres: npx -y @modelcontextprotocol/server-postgres
+  env: POSTGRES_CONNECTION_STRING (read-only connection to dev DB)
+- github: npx -y @modelcontextprotocol/server-github
+  env: GITHUB_PERSONAL_ACCESS_TOKEN
+```
+
+<KeyPoints items={[
+  'IntelliJ chat context comes from the active editor, selected code, and pinned classes (#ClassName)',
+  'MCP servers extend Copilot with tool access — configure in Settings → Tools → GitHub Copilot',
+  'Use read-only credentials for database MCP servers',
+  'SonarLint + Copilot is a powerful combination: generate fast, then quality-check',
+  'Document MCP server setup in AGENTS.md so the whole team can replicate it',
+  'Lombok plugin is required for IntelliJ to understand Lombok-annotated classes',
+]} />

@@ -1,0 +1,114 @@
+## What is `.github/copilot-instructions.md`?
+
+This file tells GitHub Copilot about your project — its stack, conventions, and rules. Copilot reads it automatically before every chat session and code generation request. It is IDE-agnostic: the same file works in IntelliJ IDEA, the Copilot CLI, and GitHub.com.
+
+Place the file at:
+
+```
+your-project/
+└── .github/
+    └── copilot-instructions.md
+```
+
+Commit it to version control. Every developer who clones the repo gets consistent Copilot behavior with zero additional setup.
+
+## Complete Example for a Spring Boot Project
+
+```markdown
+# Copilot Instructions
+
+## Stack
+- Java 21 (use records, sealed classes, and pattern matching where appropriate)
+- Spring Boot 3.x with Maven
+- Spring Data JPA + PostgreSQL
+- JUnit 5, Mockito, Testcontainers for integration tests
+- MapStruct for DTO mapping
+- Lombok: @Getter, @Builder, @RequiredArgsConstructor, @Slf4j only
+
+## Code Style
+- Google Java Style Guide, 2-space indentation
+- Constructor injection only — no @Autowired on fields
+- Return Optional<T> instead of null
+- Use @Transactional on service methods that write to the database
+- Add @Transactional(readOnly = true) on service methods that only read
+
+## Architecture
+- Controllers are thin: validate input, call a service, return a response
+- Services own business logic and transactions
+- Repositories extend JpaRepository — do not add business logic here
+- Never expose JPA entities in API responses — use DTOs with MapStruct
+- Errors: throw custom exceptions extending RuntimeException from com.example.exceptions
+
+## Tests
+- Naming: methodName_scenario_expectedBehavior
+- Unit tests mock dependencies with Mockito
+- Integration tests in src/test/java/integration/ use @SpringBootTest + Testcontainers
+- Every public service method needs at least one unit test
+
+## Build Commands
+- ./mvnw compile — compile only
+- ./mvnw test — run all tests
+- ./mvnw verify — tests + integration tests
+- ./mvnw spring-boot:run — start the app locally
+
+## Commit Format
+type(scope): short description
+Types: feat, fix, refactor, test, docs, chore
+```
+
+## What to Include
+
+**Always include:**
+- Language version and major frameworks
+- Code style rules (injection style, null handling, naming)
+- Architecture rules (which layer owns what)
+- Test conventions (naming, tooling, coverage expectations)
+- Build commands Copilot can run to verify changes
+
+**Keep it concise:**
+Instructions under 500 lines load fastest. Use headers to separate concerns so Copilot can quickly locate the relevant section for any task.
+
+## Per-File Instructions (Advanced)
+
+For large projects, add additional instruction files in `.github/instructions/`:
+
+```
+.github/
+├── copilot-instructions.md         ← applies to all files
+└── instructions/
+    ├── tests.instructions.md       ← extra rules for test files
+    └── api.instructions.md         ← extra rules for controller files
+```
+
+Each file declares which files it applies to with a front-matter `applyTo` field:
+
+```markdown
+---
+applyTo: "src/test/**"
+---
+
+All test classes must use @ExtendWith(MockitoExtension.class).
+Never use @SpringBootTest in unit tests — use @ExtendWith(MockitoExtension.class).
+```
+
+## Instruction Load Order
+
+| File | When it applies |
+|------|----------------|
+| `.github/copilot-instructions.md` | Every interaction in this repo |
+| `.github/instructions/*.instructions.md` | Only files matching the `applyTo` glob |
+
+All matching files are applied together — they are additive, not exclusive.
+
+<Callout variant="tip" label="Focus on what Copilot gets wrong">
+List what Copilot would not know without context: your injection style, your error handling pattern, what annotations are allowed. Skip generic best practices — Copilot already knows them.
+</Callout>
+
+<KeyPoints items={[
+  'Create .github/copilot-instructions.md — Copilot loads it in IntelliJ, CLI, and GitHub.com',
+  'Commit it to version control for zero-setup consistency across the team',
+  'Include: stack, code style, architecture rules, test conventions, build commands',
+  'Keep the main file under 500 lines for reliable loading',
+  'Per-file instructions in .github/instructions/ use applyTo glob patterns',
+  'Instructions are additive — all matching files load together',
+]} />

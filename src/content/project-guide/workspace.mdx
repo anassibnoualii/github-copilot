@@ -1,0 +1,87 @@
+## Copilot Settings in IntelliJ IDEA
+
+All Copilot configuration lives in **Settings → Tools → GitHub Copilot**. There is no settings file to edit — everything is UI-driven and stored in IntelliJ's application settings.
+
+## Key Settings to Configure
+
+| Setting | Recommended value | What it does |
+|---------|-----------------|-------------|
+| **Enable GitHub Copilot** | On | Master toggle — turns completions on/off globally |
+| **Enable auto-completions** | On | Ghost text appears as you type |
+| **Show completions for...** | All file types | Then disable individually below |
+| **Custom instructions file** | `.github/copilot-instructions.md` | Loads repo rules into every chat session |
+
+## Per-Language Control
+
+Disable completions for file types where they add noise:
+
+1. Go to **Settings → Tools → GitHub Copilot**
+2. Under **Completions**, find **Disabled languages**
+3. Add: `.env`, `.properties` (for secrets), XML files if desired
+
+<Callout variant="warning" label="Never enable Copilot on .env files">
+Disable completions for `.env` and `.properties` files to prevent secrets from being sent to the model as context. Add them to the Disabled languages list.
+</Callout>
+
+## IntelliJ Keyboard Shortcuts for Copilot
+
+| Shortcut | Action |
+|----------|--------|
+| `Tab` | Accept the current inline suggestion |
+| `Esc` | Dismiss the suggestion |
+| `Alt+]` | Show the next suggestion |
+| `Alt+[` | Show the previous suggestion |
+| `Alt+\` | Trigger Copilot manually (force a suggestion) |
+| `Alt+Enter` | Open the inline suggestions panel |
+
+Open the Copilot Chat panel via **View → Tool Windows → GitHub Copilot** or click the Copilot icon in the right gutter.
+
+## Copilot Chat in IntelliJ
+
+The chat panel works like a persistent assistant. Open it and ask questions about your code, your project, or general programming topics.
+
+To chat about a specific selection:
+
+1. Select code in the editor
+2. Right-click → **GitHub Copilot → Open Chat** (or press `Alt+\`)
+3. The selection is automatically included as context
+
+<PromptList items={[
+  'Explain this method and why it might throw a NullPointerException',
+  'Refactor this class to follow the Single Responsibility Principle',
+  'Write a unit test for this service using JUnit 5 and Mockito',
+  'What design pattern would best replace this switch statement?',
+]} />
+
+## Exclude Files from Copilot Context
+
+Create a `.copilotignore` file at the repo root (same syntax as `.gitignore`) to exclude files from Copilot's context window:
+
+```
+.env
+.env.*
+*.pem
+*.key
+secrets/
+target/
+build/
+.idea/
+*.iml
+```
+
+<Callout variant="tip" label="Commit .copilotignore">
+Add `.copilotignore` to version control. Every developer who clones the repo gets the same exclusions automatically, with no additional setup in IntelliJ.
+</Callout>
+
+## Enabling Custom Instructions
+
+For IntelliJ to load `.github/copilot-instructions.md` automatically, the plugin version must be 1.5.20 or later. Verify in **Settings → Plugins → GitHub Copilot**. If the version is current, custom instructions are loaded automatically for every chat session.
+
+<KeyPoints items={[
+  'All Copilot settings are in Settings → Tools → GitHub Copilot — no config file needed',
+  'Disable completions for .env and .properties in the Disabled languages list',
+  'Tab accepts, Esc dismisses, Alt+] / Alt+[ cycle through suggestions',
+  'Open chat on a selection: right-click → GitHub Copilot → Open Chat',
+  'Add .copilotignore at the repo root to exclude secrets and generated files',
+  'Custom instructions load from .github/copilot-instructions.md automatically',
+]} />

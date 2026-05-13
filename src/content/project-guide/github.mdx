@@ -1,0 +1,91 @@
+## PR Summaries
+
+When you open a pull request on GitHub.com, Copilot can write the description for you:
+
+1. Open or create a pull request on **GitHub.com**
+2. Click inside the **Description** field
+3. Click the **Copilot icon** in the text field toolbar
+4. Select **Summary** — Copilot reads the diff and writes a structured description
+
+The summary includes what changed, which files were affected, and why the change matters based on the code diff.
+
+<Callout variant="tip" label="Always edit the summary">
+Copilot's summary is a starting point. Add context a reviewer needs: links to related issues, breaking changes, migration steps, and test coverage notes. Copilot knows the diff but not your team's context.
+</Callout>
+
+## Code Review
+
+Ask Copilot to review a pull request as a senior engineer would:
+
+1. Open a pull request on **GitHub.com**
+2. Click **Copilot** → **Review**
+3. Copilot adds inline comments to the diff
+
+Or trigger a review from a PR comment:
+
+<PromptList items={[
+  '@github-copilot review',
+  '@github-copilot review focus on security and exception handling',
+  '@github-copilot review are there any edge cases this PR misses?',
+]} />
+
+<Callout variant="info" label="Review vs Approve">
+Copilot review adds comments but does not approve the PR. A human reviewer must still approve before merging. Use Copilot review as a first pass to catch obvious issues before requesting a human review.
+</Callout>
+
+## Copilot in Issue and PR Comments
+
+Mention `@github-copilot` in any issue or PR comment to get Copilot's input:
+
+<PromptList items={[
+  '@github-copilot Can you suggest a fix for this NullPointerException?',
+  "@github-copilot What's the simplest way to implement this feature using Spring Boot 3?",
+  '@github-copilot Is there a security concern with this JWT validation approach?',
+]} />
+
+## Copilot Workspace
+
+Copilot Workspace turns a GitHub Issue into a full implementation plan:
+
+1. Open an issue on **GitHub.com**
+2. Click **"Open in Copilot Workspace"**
+3. Copilot generates a plan: which files to create/modify and what changes to make
+4. Review and edit the plan — you stay in control
+5. Let Copilot implement the plan, then create a PR directly from Workspace
+
+<Callout variant="info" label="Workspace is for feature-level work">
+Use Copilot Workspace when implementing an issue from scratch. For smaller tasks (fixing a bug, adding a method), the CLI in Normal mode is faster.
+</Callout>
+
+## Code Search
+
+Use natural language to search across repositories on GitHub.com:
+
+1. Go to **GitHub.com** and open the search bar
+2. Switch to **Copilot search** mode
+3. Ask in plain English
+
+<PromptList items={[
+  'How does this project handle database transaction rollback?',
+  'Where is the Spring Security filter chain configured?',
+  'Find all places that call the payment service',
+]} />
+
+## Best Practices for PRs with Copilot
+
+| Step | Action |
+|------|--------|
+| Before opening PR | Review your own diff in IntelliJ or via `git diff main` |
+| Writing description | Use Copilot Summary, then add issue links and migration notes |
+| Before requesting review | Run `@github-copilot review` to catch obvious issues first |
+| Responding to comments | Use inline chat in IntelliJ to implement reviewer suggestions |
+| Merge conflicts | Open both conflicting files in IntelliJ and use Copilot chat to resolve |
+
+<KeyPoints items={[
+  'Click the Copilot icon in the description field to generate a PR summary',
+  'Always edit the generated summary — add issue links, breaking changes, and migration notes',
+  '@github-copilot review in a PR comment triggers an inline code review',
+  'Copilot Workspace implements entire GitHub issues from plan to PR',
+  'Use @github-copilot in issue comments for design suggestions before writing code',
+  'Copilot review is a first pass — still require human approval before merging',
+]} />

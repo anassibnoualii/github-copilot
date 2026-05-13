@@ -1,0 +1,110 @@
+## Shared Configuration Strategy
+
+The goal is zero-setup for new team members. Commit these files to the repo and everyone gets the same Copilot experience on `git clone`:
+
+```
+your-project/
+├── .github/
+│   ├── copilot-instructions.md        ← repo-wide rules (auto-loaded)
+│   └── instructions/
+│       ├── tests.instructions.md      ← rules for test files
+│       └── api.instructions.md        ← rules for controller files
+├── .copilotignore                      ← files excluded from context
+└── AGENTS.md                           ← agent mode instructions
+```
+
+A new developer clones the repo, installs the IntelliJ Copilot plugin, signs in to GitHub, and Copilot immediately understands the project's conventions — no manual configuration.
+
+## GitHub Copilot for Business / Enterprise
+
+For organizations on Copilot Business or Enterprise:
+
+### Enabling Copilot for an Organization
+
+1. Go to **GitHub.com** → **Organization Settings** → **Copilot**
+2. Choose **"Allow for all members"** or configure seat assignments
+3. Members install the IntelliJ plugin (`com.github.copilot`) and sign in — Copilot activates with org policies automatically
+
+### Organization-Level Policies
+
+| Policy | What it controls |
+|--------|-----------------|
+| **Public code suggestions** | Whether Copilot can suggest code that matches public GitHub repos |
+| **Copilot in GitHub.com** | PR summaries, code review, Copilot search on github.com |
+| **Copilot in CLI** | Whether members can use the Copilot CLI |
+| **IDE plugins** | Which IDE integrations are permitted |
+
+Configure policies at: **Organization Settings → Copilot → Policies**
+
+### Knowledge Bases (Enterprise only)
+
+Copilot Enterprise supports **Knowledge Bases** — indexed collections of internal documentation, wikis, or code that Copilot can search across:
+
+1. Go to **Organization Settings → Copilot → Knowledge bases**
+2. Click **New knowledge base**
+3. Select repositories or upload documents
+4. Members reference the knowledge base in chat
+
+<Callout variant="info" label="Knowledge bases vs copilot-instructions.md">
+`copilot-instructions.md` injects rules into every interaction. Knowledge bases are searchable indexed content — Copilot searches them when relevant, not automatically. Use instructions for rules; use knowledge bases for reference docs, internal wikis, and architecture documentation.
+</Callout>
+
+## Onboarding a New Developer
+
+When a new developer joins, they need:
+
+1. **GitHub account** with Copilot access (org admin grants a seat)
+2. **IntelliJ IDEA** with the `GitHub Copilot` plugin installed from JetBrains Marketplace
+3. **Clone the repo** — `.github/copilot-instructions.md` and `AGENTS.md` load automatically
+4. **Sign in** — Settings → Tools → GitHub Copilot → Log in to GitHub
+5. **Install the CLI** — `npm install -g @github/copilot` (Node 22+ required)
+
+That is it. No Copilot-specific configuration beyond what is committed to the repo.
+
+## Audit Logs (Business / Enterprise)
+
+All Copilot interactions are logged for compliance. View them at:
+**Organization Settings → Copilot → Audit log**
+
+Logged events include:
+- `suggestion.accepted` / `suggestion.dismissed`
+- `chat.opened`
+- `chat.message.sent`
+- `policy.updated`
+
+## Content Exclusions
+
+Prevent Copilot from reading specific files or paths for the entire organization:
+
+1. **Organization Settings → Copilot → Content exclusions**
+2. Add glob patterns for files to exclude
+
+```
+# Example exclusions
+**/.env
+**/secrets/**
+**/internal-pricing/**
+**/customer-data/**
+```
+
+Excluded files are not sent to the Copilot model for any member of the organization.
+
+## Recommended Team Workflow
+
+| Phase | Copilot Usage |
+|-------|-------------|
+| Issue planning | `@github-copilot` in issue comments for design input |
+| Implementation | IntelliJ inline completions + CLI for multi-file tasks |
+| Code review | `@github-copilot review` in PRs before human reviewers |
+| PR description | Copilot Summary → edit → publish |
+| Bug investigation | CLI with piped test or CI output |
+| Refactoring | CLI with a precise multi-file prompt in Normal mode |
+
+<KeyPoints items={[
+  'Commit copilot-instructions.md, .copilotignore, and AGENTS.md — zero-setup for new team members',
+  'Org admins enable Copilot and set policies in Organization Settings → Copilot',
+  'Content exclusions at the org level prevent sensitive files from being sent to the model',
+  'Enterprise Knowledge Bases let Copilot search internal docs and wikis',
+  'Audit logs capture every Copilot interaction for compliance',
+  'New developers only need a GitHub seat — all config comes from the repo',
+]} />

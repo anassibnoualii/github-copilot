@@ -1,0 +1,84 @@
+## Step 1 — Install the GitHub Copilot Plugin for IntelliJ
+
+Open IntelliJ IDEA and go to **Settings → Plugins → Marketplace**. Search for **"GitHub Copilot"** and install the official plugin by GitHub (`com.github.copilot`).
+
+Or install directly from the JetBrains Marketplace:
+
+1. Go to **Settings** (`Ctrl+Alt+S` / `⌘,`)
+2. Select **Plugins → Marketplace**
+3. Search **GitHub Copilot**
+4. Click **Install** → **Restart IDE**
+
+<Callout variant="tip" label="Compatible IDEs">
+The GitHub Copilot plugin works across all JetBrains IDEs: IntelliJ IDEA, PyCharm, WebStorm, GoLand, Rider, CLion, and others. Install the same plugin from the same Marketplace.
+</Callout>
+
+## Step 2 — Sign In to GitHub
+
+After the IDE restarts:
+
+1. Go to **Settings → Tools → GitHub Copilot**
+2. Click **Log in to GitHub**
+3. A browser window opens — authorize the plugin to access your GitHub account
+4. Return to IntelliJ — the Copilot status icon appears in the bottom status bar
+
+Your account needs an active Copilot subscription (Free, Pro, Pro+, Business, or Enterprise).
+
+<Callout variant="tip" label="Status bar icon">
+The GitHub Copilot icon in the bottom-right status bar shows connection state. Click it to enable/disable completions or open Copilot settings without navigating to the Settings menu.
+</Callout>
+
+## Step 3 — Install the Copilot CLI
+
+The CLI lets you run agentic tasks from your terminal. Node.js 22 or later is required.
+
+```bash
+# Via npm (recommended — works everywhere)
+npm install -g @github/copilot
+
+# Via Homebrew (macOS / Linux)
+brew install copilot-cli
+
+# Via winget (Windows)
+winget install GitHub.Copilot
+```
+
+Verify the install:
+
+```bash
+copilot --version
+```
+
+Start your first session from a project root:
+
+```bash
+cd your-project
+copilot
+```
+
+<Callout variant="warning" label="Node.js version">
+The CLI requires Node.js 22 or later. Check with `node --version`. Use `nvm install 22 && nvm use 22` to upgrade without affecting other projects.
+</Callout>
+
+## Step 4 — Authenticate the CLI
+
+On first run, `copilot` opens a browser window for GitHub OAuth. Authorize the app and return to your terminal — the token is stored in your system keychain automatically.
+
+## Step 5 — Verify Everything Works
+
+In IntelliJ, open any Java file and start typing a method body — a grey ghost text suggestion should appear within 1–2 seconds. Press `Tab` to accept.
+
+```bash
+# In terminal — test the CLI
+copilot "list all Java files larger than 50KB in this directory"
+```
+
+Both should respond within a few seconds. If inline completions do not appear in IntelliJ, check **Settings → Tools → GitHub Copilot → Enable GitHub Copilot**.
+
+<KeyPoints items={[
+  'Install the GitHub Copilot plugin (com.github.copilot) from JetBrains Marketplace',
+  'Sign in via Settings → Tools → GitHub Copilot → Log in to GitHub',
+  'CLI install: npm install -g @github/copilot (Node 22+ required)',
+  'The CLI authenticates via GitHub OAuth on first run',
+  'Copilot status icon in the bottom status bar — click to toggle completions',
+]} />

@@ -1,0 +1,108 @@
+## What is AGENTS.md?
+
+`AGENTS.md` is a file at the root of your repository that tells autonomous AI agents how to work with your project. The GitHub Copilot CLI reads it before taking any action in agent sessions. It describes project structure, which commands are safe to run, and what to verify before finishing.
+
+```
+your-project/
+└── AGENTS.md
+```
+
+Commit it alongside your source code so every agent session — by any team member — follows the same rules.
+
+## Complete Example for a Spring Boot + Maven Project
+
+```markdown
+# Agent Instructions
+
+## Project Overview
+Spring Boot 3.x REST API with PostgreSQL. Java 21.
+Entry point: src/main/java/com/example/Application.java
+All REST controllers are in src/main/java/com/example/controllers/
+Business logic lives in src/main/java/com/example/services/
+
+## Before You Start
+1. Run ./mvnw validate to confirm the build descriptor is valid
+2. Read .github/copilot-instructions.md for code style and architecture rules
+3. Read src/main/java/com/example/exceptions/ to understand the typed error system
+
+## Project Layout
+- Source code: src/main/java/
+- Tests: src/test/java/
+- Resources: src/main/resources/
+- Database schema: src/main/resources/db/migration/ (Flyway)
+- Environment variables: .env.example (never read .env)
+
+## Safe Commands — Run Without Asking
+- ./mvnw compile — compile the project
+- ./mvnw test — run all unit tests
+- ./mvnw verify — compile + test + integration tests
+- ./mvnw checkstyle:check — lint with Google Java Style
+- ./mvnw dependency:tree — inspect dependencies
+
+## Commands That Require Approval
+Always ask before running:
+- ./mvnw flyway:migrate — applies database migrations
+- git push — pushes to remote
+- Any command that deletes files
+- Any command with --force or -f
+
+## Verification Steps
+After completing any task:
+1. ./mvnw checkstyle:check — fix all style violations
+2. ./mvnw compile — fix all compilation errors
+3. ./mvnw test — all tests must pass
+4. If you added a new service method, add a corresponding unit test
+5. If you changed a REST endpoint, update or add an integration test
+
+## What Not to Touch
+- .env — never read or modify
+- src/main/resources/db/migration/ — never edit existing migration files
+- pom.xml dependency versions — only change if explicitly asked
+```
+
+## Effective Agent Prompts
+
+The CLI agent works best when the prompt describes the outcome, not the steps:
+
+<PromptList items={[
+  'Add a password reset flow: POST /api/auth/reset-request (sends email), POST /api/auth/reset-confirm (validates token and updates password). Use the existing email service. Add JUnit 5 tests for both endpoints.',
+  'Refactor all database queries in src/main/java/com/example/services/ to use @Transactional where multiple writes happen together. Run ./mvnw test after each file.',
+  'Add SLF4J request logging middleware that logs method, path, status code, and duration. Use the Logback config already in src/main/resources/logback-spring.xml.',
+  'Find all TODO comments in src/ and implement the ones smaller than 20 lines. Skip any that mention external APIs or third-party services.',
+]} />
+
+## Running Agent Sessions
+
+Start a session from your project root:
+
+```bash
+cd your-spring-project
+copilot
+```
+
+Press `Shift+Tab` inside a session to toggle between **Normal mode** (approves each step) and **Autopilot mode** (runs autonomously).
+
+Use Normal mode for unfamiliar tasks so you can review each file change before it is applied. Switch to Autopilot for well-understood, repetitive tasks like adding logging or writing boilerplate tests.
+
+<Callout variant="tip" label="Create a git checkpoint first">
+Before running a large agent task, commit your current work: `git stash` or `git commit -m "wip: before agent task"`. If the agent makes unwanted changes, `git checkout .` undoes everything instantly.
+</Callout>
+
+## When to Use the CLI vs IntelliJ Chat
+
+| Scenario | Best tool |
+|----------|----------|
+| Quick question about a class | IntelliJ Copilot Chat |
+| Fix a specific method | Inline chat in IntelliJ (right-click → Copilot → Open Chat) |
+| Refactor multiple files together | CLI with a precise multi-file prompt |
+| Implement a full feature end-to-end | CLI in Normal mode |
+| Long background task | CLI with `&` prefix |
+
+<KeyPoints items={[
+  'Create AGENTS.md at the repo root — the CLI reads it before every agent session',
+  'List safe commands (compile, test, lint) and commands requiring approval (migrate, push)',
+  'Always specify verification steps: lint, compile, test must pass before finishing',
+  'Create a git checkpoint before large tasks so you can roll back in one command',
+  'Use Shift+Tab to toggle Normal / Autopilot mode inside a CLI session',
+  'Agent prompts should describe the outcome, not the steps — let the agent plan',
+]} />

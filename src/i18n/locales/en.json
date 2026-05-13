@@ -23,7 +23,8 @@
     "configBuilder": "Config Builder",
     "shortcutTrainer": "Shortcut Trainer",
     "promptBuilder": "Prompt Builder",
-    "javaGuide": "Java Guide"
+    "javaGuide": "Java Guide",
+    "projectGuide": "Project Guide"
   },
   "topbar": {
     "findMyLevel": "Find My Level",
@@ -54,7 +55,8 @@
       "configBuilder":   { "title": "Config Builder",     "desc": "Generate your VS Code settings.json visually" },
       "shortcutTrainer": { "title": "Shortcut Trainer",   "desc": "Drill the top Copilot shortcuts with flashcards" },
       "promptBuilder":   { "title": "Prompt Builder",     "desc": "Assemble perfect prompts with participants & context" },
-      "javaGuide":       { "title": "Java Guide",         "desc": "Complete Copilot setup for Spring Boot projects" }
+      "javaGuide":       { "title": "Java Guide",         "desc": "Complete Copilot setup for Spring Boot projects" },
+      "projectGuide":    { "title": "Project Guide",      "desc": "IntelliJ + CLI setup from installation to team config" }
     },
     "completionTitle": "You've completed all modules!",
     "completionSub": "{{count}} modules finished — you're a GitHub Copilot power user.",
@@ -263,6 +265,21 @@
       "cli": "Copilot CLI",
       "agent": "Agent Mode",
       "edits": "Copilot Edits"
+    }
+  },
+  "projectGuide": {
+    "badge": "Guide",
+    "title": "Real Project Setup",
+    "description": "From installation to team configuration — a complete GitHub Copilot setup guide for IntelliJ IDEA and the Copilot CLI.",
+    "tabs": {
+      "installation": "Installation",
+      "workspace": "IDE Setup",
+      "instructions": "Custom Instructions",
+      "agents": "AGENTS.md",
+      "extensions": "Extensions & MCP",
+      "github": "GitHub.com",
+      "cli": "Copilot CLI",
+      "team": "Team Config"
     }
   },
   "lang": {

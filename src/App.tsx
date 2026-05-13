@@ -11,6 +11,7 @@ import ConfigBuilderPage from '@/pages/ConfigBuilderPage'
 import ShortcutTrainerPage from '@/pages/ShortcutTrainerPage'
 import PromptBuilderPage from '@/pages/PromptBuilderPage'
 import JavaGuidePage from '@/pages/JavaGuidePage'
+import ProjectGuidePage from '@/pages/ProjectGuidePage'
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="shortcut-trainer" element={<ShortcutTrainerPage />} />
         <Route path="prompt-builder" element={<PromptBuilderPage />} />
         <Route path="java-guide" element={<JavaGuidePage />} />
+        <Route path="project-guide" element={<ProjectGuidePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

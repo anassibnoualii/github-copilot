@@ -23,7 +23,8 @@
     "configBuilder": "Constructeur de config",
     "shortcutTrainer": "Entraîneur de raccourcis",
     "promptBuilder": "Constructeur d'invites",
-    "javaGuide": "Guide Java"
+    "javaGuide": "Guide Java",
+    "projectGuide": "Guide Projet"
   },
   "topbar": {
     "findMyLevel": "Mon niveau",
@@ -54,7 +55,8 @@
       "configBuilder":   { "title": "Constructeur de config",   "desc": "Générez votre settings.json VS Code visuellement" },
       "shortcutTrainer": { "title": "Entraîneur de raccourcis", "desc": "Apprenez les raccourcis clavier Copilot avec des cartes mémoire" },
       "promptBuilder":   { "title": "Constructeur d'invites",   "desc": "Assemblez des invites parfaites avec participants et contexte" },
-      "javaGuide":       { "title": "Guide Java",               "desc": "Configuration Copilot complète pour Spring Boot" }
+      "javaGuide":       { "title": "Guide Java",               "desc": "Configuration Copilot complète pour Spring Boot" },
+      "projectGuide":    { "title": "Guide Projet",             "desc": "Configuration IntelliJ + CLI de l'installation à la config équipe" }
     },
     "completionTitle": "Vous avez terminé tous les modules !",
     "completionSub": "{{count}} modules terminés — vous êtes un utilisateur avancé de GitHub Copilot.",
@@ -263,6 +265,21 @@
       "cli": "Copilot CLI",
       "agent": "Mode Agent",
       "edits": "Copilot Edits"
+    }
+  },
+  "projectGuide": {
+    "badge": "Guide",
+    "title": "Configuration projet réel",
+    "description": "De l'installation à la configuration équipe — un guide complet de GitHub Copilot pour IntelliJ IDEA et le Copilot CLI.",
+    "tabs": {
+      "installation": "Installation",
+      "workspace": "Config IDE",
+      "instructions": "Instructions",
+      "agents": "AGENTS.md",
+      "extensions": "Extensions & MCP",
+      "github": "GitHub.com",
+      "cli": "Copilot CLI",
+      "team": "Config équipe"
     }
   },
   "lang": {

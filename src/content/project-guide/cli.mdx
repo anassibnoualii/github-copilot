@@ -1,0 +1,126 @@
+## Daily Workflow Patterns
+
+The Copilot CLI is an agentic terminal assistant. Start a session from your project root:
+
+```bash
+cd your-project
+copilot
+```
+
+Press **Shift+Tab** inside a session to toggle between **Normal mode** (approves each step) and **Autopilot mode** (runs autonomously). Use Normal for unfamiliar tasks; Autopilot for well-understood, repetitive work.
+
+## Fix Failing Tests
+
+```bash
+./mvnw test 2>&1 | copilot "fix the test failures"
+```
+
+Copilot reads the test output, finds the failing tests, reads the relevant source files, and applies fixes. Review the diff before accepting in Normal mode.
+
+## After a Failed CI Run
+
+```bash
+# Pipe CI output directly — no copy-paste needed
+cat ci-output.log | copilot "fix everything that is failing"
+
+# Or fetch from GitHub Actions
+gh run view --log-failed | copilot "fix the build failures"
+```
+
+## Code Review Before Opening a PR
+
+```bash
+git diff main | copilot "review these changes for bugs, security issues, and missing error handling"
+```
+
+## Refactor a Package
+
+```bash
+copilot "Add SLF4J logging to all public methods in src/main/java/com/example/services/ that do not have it"
+
+copilot "Replace all field injection with constructor injection in src/main/java/com/example/controllers/"
+
+copilot "Find all places where exceptions are caught but not logged, and add proper SLF4J error logging"
+```
+
+## Write a Dockerfile
+
+```bash
+copilot "Write a multi-stage Dockerfile for this Spring Boot app. Use Java 21 slim base. Run as non-root user. Expose port 8080."
+```
+
+## Background Tasks with `&`
+
+The `&` prefix offloads a task to a cloud-hosted agent so you can keep working:
+
+```
+› & Write integration tests for all endpoints in OrderController using Testcontainers and @SpringBootTest
+```
+
+The agent runs in the background. You receive a notification when it finishes. Use this for long-running tasks (writing tests, generating documentation, large refactors) while you work on something else.
+
+<Callout variant="tip" label="Background tasks are cloud-run">
+Tasks prefixed with `&` run on GitHub's cloud infrastructure, not your local machine. They have access to your repo but not to local environment variables or running services.
+</Callout>
+
+## Model Switching
+
+Switch AI models within a session without restarting:
+
+```
+› /model
+```
+
+Copilot lists available models. Select one and the session continues with the new model. Use a faster model for quick tasks; switch to a more capable model for complex reasoning.
+
+## Session Management
+
+```bash
+# Resume an interrupted session (session ID shown in output history)
+copilot
+› /resume <session-id>
+
+# List recent sessions
+copilot --list-sessions
+```
+
+## Keyboard Shortcuts in a CLI Session
+
+| Shortcut | Action |
+|----------|--------|
+| `Shift+Tab` | Toggle Normal / Autopilot mode |
+| `Ctrl+C` | Cancel current step (does not exit session) |
+| `Ctrl+D` | Exit the session |
+| `↑` / `↓` | Navigate prompt history |
+
+## Safety Patterns
+
+Always create a git checkpoint before large Autopilot tasks:
+
+```bash
+git stash          # save in-progress work
+copilot            # run the agent task
+# review results
+git stash pop      # restore your work if something went wrong
+```
+
+If Autopilot makes unwanted changes:
+
+```bash
+git checkout .     # discard all unstaged changes instantly
+git clean -fd      # remove untracked files added by the agent
+```
+
+<Callout variant="warning" label="Autopilot on shared branches">
+Never run Autopilot on a branch that others are working on. Always work on a dedicated branch and use Normal mode when you are unsure about the scope of changes.
+</Callout>
+
+<KeyPoints items={[
+  'Run copilot from your project root so it has full file access',
+  'Shift+Tab toggles Normal / Autopilot mode inside a session',
+  'Pipe shell output directly: ./mvnw test 2>&1 | copilot "fix the failures"',
+  '& prefix runs long tasks in the cloud — keep working while they complete',
+  '/model switches AI models mid-session without restarting',
+  '/resume continues an interrupted session by ID',
+  'git stash before big Autopilot tasks — one command to undo everything',
+]} />

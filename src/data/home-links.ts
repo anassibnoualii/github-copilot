@@ -7,4 +7,5 @@ export const QUICK_LINK_KEYS = [
   { to: '/shortcut-trainer', key: 'shortcutTrainer' },
   { to: '/prompt-builder',   key: 'promptBuilder' },
   { to: '/java-guide',       key: 'javaGuide' },
+  { to: '/project-guide',    key: 'projectGuide' },
 ] as const
