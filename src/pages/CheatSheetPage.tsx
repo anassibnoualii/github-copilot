@@ -6,6 +6,17 @@ import SearchInput from '@/components/shared/SearchInput'
 import { useCheatsheetSearch } from '@/hooks/useCheatsheetSearch'
 import { useLocalisedCheatsheet } from '@/hooks/useLocalisedData'
 import type { OS } from '@/types'
+import type { TextSegment } from '@/lib/utils'
+
+function Highlighted({ segments }: { segments: TextSegment[] }) {
+  return (
+    <>
+      {segments.map((seg, i) =>
+        seg.match ? <mark key={i}>{seg.text}</mark> : <span key={i}>{seg.text}</span>
+      )}
+    </>
+  )
+}
 
 const OS_OPTIONS: { value: OS; label: string; icon: React.ReactNode }[] = [
   { value: 'mac',   label: 'Mac',     icon: <Apple size={12} /> },
@@ -66,8 +77,8 @@ export default function CheatSheetPage() {
               const displayCmd = resolveCmd(item.cmd, item.platforms, os)
               return (
                 <div key={item.cmd} className="cs-item">
-                  <div className="cs-item-cmd" dangerouslySetInnerHTML={{ __html: highlight(displayCmd) }} />
-                  <div className="cs-item-desc" dangerouslySetInnerHTML={{ __html: highlight(item.desc) }} />
+                  <div className="cs-item-cmd"><Highlighted segments={highlight(displayCmd)} /></div>
+                  <div className="cs-item-desc"><Highlighted segments={highlight(item.desc)} /></div>
                 </div>
               )
             })}

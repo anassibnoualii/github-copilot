@@ -54,8 +54,15 @@ export function calculateProgress(current: number, total: number): number {
   return total > 0 ? Math.round((current / total) * 100) : 0
 }
 
-export function highlight(text: string, query: string): string {
-  if (!query) return text
+export interface TextSegment {
+  text: string
+  match: boolean
+}
+
+export function splitHighlight(text: string, query: string): TextSegment[] {
+  if (!query) return [{ text, match: false }]
   const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>')
+  const parts = text.split(new RegExp(`(${escaped})`, 'gi'))
+  const lq = query.toLowerCase()
+  return parts.filter(p => p.length > 0).map(p => ({ text: p, match: p.toLowerCase() === lq }))
 }

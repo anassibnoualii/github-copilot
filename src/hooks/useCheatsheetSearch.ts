@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import type { CheatsheetGroup } from '@/types'
-import { highlight } from '@/lib/utils'
+import { splitHighlight, type TextSegment } from '@/lib/utils'
 
 export function useCheatsheetSearch(groups: CheatsheetGroup[]) {
   const [query, setQuery] = useState('')
@@ -19,7 +19,7 @@ export function useCheatsheetSearch(groups: CheatsheetGroup[]) {
     [groups, q]
   )
 
-  const hl = (text: string) => highlight(text, q)
+  const highlight = (text: string): TextSegment[] => splitHighlight(text, q)
 
-  return { query, setQuery, filtered, highlight: hl }
+  return { query, setQuery, filtered, highlight }
 }
