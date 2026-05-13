@@ -1,13 +1,13 @@
 ## What is AGENTS.md?
 
-`AGENTS.md` is a file at the root of your repository that tells autonomous AI agents how to work with your project. The GitHub Copilot CLI reads it before taking any action in agent sessions. It describes project structure, which commands are safe to run, and what to verify before finishing.
+`AGENTS.md` is an open standard — created by GitHub and adopted by Copilot, Claude Code, Cursor, Codex, and Aider. Write it once; every compatible AI agent reads it before taking any action. Place it at the root of your repository.
 
 ```
 your-project/
 └── AGENTS.md
 ```
 
-Commit it alongside your source code so every agent session — by any team member — follows the same rules.
+Commit it alongside your source code so every agent session — by any developer, with any tool — follows the same rules.
 
 ## Complete Example for a Spring Boot + Maven Project
 
@@ -20,10 +20,14 @@ Entry point: src/main/java/com/example/Application.java
 All REST controllers are in src/main/java/com/example/controllers/
 Business logic lives in src/main/java/com/example/services/
 
-## Before You Start
-1. Run ./mvnw validate to confirm the build descriptor is valid
-2. Read .github/copilot-instructions.md for code style and architecture rules
-3. Read src/main/java/com/example/exceptions/ to understand the typed error system
+## Environment Setup
+Ensure these versions are available before starting:
+- Java 21: java -version
+- Maven wrapper: ./mvnw -version
+- Node 22 (for frontend tasks): node --version
+
+One-liner setup after clone:
+./mvnw -q dependency:resolve
 
 ## Project Layout
 - Source code: src/main/java/
@@ -46,18 +50,35 @@ Always ask before running:
 - Any command that deletes files
 - Any command with --force or -f
 
+## Never
+- Never read or modify .env or application-prod.yml
+- Never edit existing files in src/main/resources/db/migration/
+- Never change dependency versions in pom.xml without explicit approval
+- Never push directly to main or release branches
+- Never add new Maven dependencies without approval
+
 ## Verification Steps
 After completing any task:
 1. ./mvnw checkstyle:check — fix all style violations
 2. ./mvnw compile — fix all compilation errors
 3. ./mvnw test — all tests must pass
-4. If you added a new service method, add a corresponding unit test
+4. If you added a service method, add a unit test for it
 5. If you changed a REST endpoint, update or add an integration test
+```
 
-## What Not to Touch
-- .env — never read or modify
-- src/main/resources/db/migration/ — never edit existing migration files
-- pom.xml dependency versions — only change if explicitly asked
+## The "Never" Block — Most Commonly Missed
+
+Analysis of 2,500+ AGENTS.md files found that teams consistently get the most value from an explicit **Never** section. Without it, agents make plausible but unwanted choices: editing migration files, bumping dependency versions, or pushing to protected branches.
+
+List every action that is easy for an agent to do but catastrophic if done without review:
+
+```markdown
+## Never
+- Never modify Flyway migration files that already exist
+- Never add or upgrade Maven dependencies without approval
+- Never commit secrets, keys, or certificates
+- Never push to main, develop, or release/* branches
+- Never call the production database — use the test schema only
 ```
 
 ## Effective Agent Prompts
@@ -99,10 +120,10 @@ Before running a large agent task, commit your current work: `git stash` or `git
 | Long background task | CLI with `&` prefix |
 
 <KeyPoints items={[
-  'Create AGENTS.md at the repo root — the CLI reads it before every agent session',
-  'List safe commands (compile, test, lint) and commands requiring approval (migrate, push)',
+  'AGENTS.md is an open standard — works with Copilot, Claude Code, Cursor, Codex, and Aider',
+  'Include an explicit "Never" block — agents will do anything plausible without it',
+  'List safe commands and commands requiring approval — agents default to running everything',
+  'Specify environment versions and a one-liner setup command (./mvnw -q dependency:resolve)',
   'Always specify verification steps: lint, compile, test must pass before finishing',
   'Create a git checkpoint before large tasks so you can roll back in one command',
-  'Use Shift+Tab to toggle Normal / Autopilot mode inside a CLI session',
-  'Agent prompts should describe the outcome, not the steps — let the agent plan',
 ]} />

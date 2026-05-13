@@ -13,14 +13,14 @@ All Copilot configuration lives in **Settings → Tools → GitHub Copilot**. Th
 
 ## Per-Language Control
 
-Disable completions for file types where they add noise:
+Disable completions for file types where they add noise. IntelliJ uses **language IDs**, not file extensions, in the Disabled languages list:
 
 1. Go to **Settings → Tools → GitHub Copilot**
 2. Under **Completions**, find **Disabled languages**
-3. Add: `.env`, `.properties` (for secrets), XML files if desired
+3. Add: **Properties** (covers `.properties` files), **XML**, **JSON** if desired
 
-<Callout variant="warning" label="Never enable Copilot on .env files">
-Disable completions for `.env` and `.properties` files to prevent secrets from being sent to the model as context. Add them to the Disabled languages list.
+<Callout variant="warning" label=".env files — use Content Exclusions, not language toggles">
+`.env` files have no language ID in IntelliJ, so the Disabled languages list does not cover them. The correct way to exclude `.env` files from Copilot is via **org-level Content Exclusions** (enforced server-side) or a `.copilotignore` file (client-side hint). Both approaches are described below.
 </Callout>
 
 ## IntelliJ Keyboard Shortcuts for Copilot
@@ -53,15 +53,20 @@ To chat about a specific selection:
   'What design pattern would best replace this switch statement?',
 ]} />
 
-## Exclude Files from Copilot Context
+## File Exclusions: Two Layers
 
-Create a `.copilotignore` file at the repo root (same syntax as `.gitignore`) to exclude files from Copilot's context window:
+There are two ways to exclude files from Copilot — they serve different purposes:
+
+### `.copilotignore` — client-side, per-repo
+
+Create a `.copilotignore` file at the repo root (same syntax as `.gitignore`). This prevents Copilot from using these files as context when you have them open in the editor. Commit it so the whole team benefits.
 
 ```
 .env
 .env.*
 *.pem
 *.key
+*.pfx
 secrets/
 target/
 build/
@@ -69,8 +74,16 @@ build/
 *.iml
 ```
 
-<Callout variant="tip" label="Commit .copilotignore">
-Add `.copilotignore` to version control. Every developer who clones the repo gets the same exclusions automatically, with no additional setup in IntelliJ.
+<Callout variant="info" label="Limitation of .copilotignore">
+`.copilotignore` is a client-side hint — it prevents Copilot from proactively reading excluded files. However, content you manually paste into chat is still sent. For guaranteed server-side enforcement, use org-level Content Exclusions.
+</Callout>
+
+### Org-Level Content Exclusions — server-side, enforced
+
+Configured in **Organization Settings → Copilot → Content Exclusions**. Excluded files are never sent to the Copilot model, regardless of what any developer does in the IDE.
+
+<Callout variant="warning" label="Propagation delay">
+After adding or changing org-level content exclusions, it can take up to 30 minutes for the change to take effect in already-open IDE sessions. Developers must reload the IDE or wait for the next session.
 </Callout>
 
 ## Enabling Custom Instructions
@@ -79,9 +92,9 @@ For IntelliJ to load `.github/copilot-instructions.md` automatically, the plugin
 
 <KeyPoints items={[
   'All Copilot settings are in Settings → Tools → GitHub Copilot — no config file needed',
-  'Disable completions for .env and .properties in the Disabled languages list',
-  'Tab accepts, Esc dismisses, Alt+] / Alt+[ cycle through suggestions',
-  'Open chat on a selection: right-click → GitHub Copilot → Open Chat',
-  'Add .copilotignore at the repo root to exclude secrets and generated files',
-  'Custom instructions load from .github/copilot-instructions.md automatically',
+  'Disabled languages uses language IDs, not file extensions — "Properties" not ".properties"',
+  '.env files have no language ID: exclude them via .copilotignore or org Content Exclusions',
+  '.copilotignore is a client-side hint; org Content Exclusions are server-side enforced',
+  'Content exclusion changes take up to 30 minutes to propagate to open IDE sessions',
+  'Custom instructions load from .github/copilot-instructions.md automatically (plugin ≥ 1.5.20)',
 ]} />

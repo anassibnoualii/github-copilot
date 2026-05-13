@@ -56,31 +56,37 @@ type(scope): short description
 Types: feat, fix, refactor, test, docs, chore
 ```
 
-## What to Include
+## What to Include — and What to Skip
 
-**Always include:**
-- Language version and major frameworks
-- Code style rules (injection style, null handling, naming)
-- Architecture rules (which layer owns what)
-- Test conventions (naming, tooling, coverage expectations)
-- Build commands Copilot can run to verify changes
+**Include things Copilot would get wrong without your context:**
+- Your injection style (constructor, not field `@Autowired`)
+- Your null handling approach (`Optional<T>`, not `null` returns)
+- Your naming conventions that deviate from Java defaults
+- Which layers own which responsibilities
+- Which annotations are allowed vs forbidden
+- Build commands Copilot can run to verify its own changes
 
-**Keep it concise:**
-Instructions under 500 lines load fastest. Use headers to separate concerns so Copilot can quickly locate the relevant section for any task.
+**Skip generic advice that wastes tokens:**
+- "Write clean code", "follow SOLID", "use meaningful names" — Copilot already knows these
+- Language basics and standard library usage
+- Framework docs already in Copilot's training data
 
-## Per-File Instructions (Advanced)
+Instructions over 500 lines cause Copilot to silently truncate context. Test whether your instructions are being applied by asking Copilot to repeat back key rules: `"What injection style should I use in this project?"`
 
-For large projects, add additional instruction files in `.github/instructions/`:
+## Per-File Instructions for Large Projects
+
+For large projects or monorepos, add scoped instruction files in `.github/instructions/`:
 
 ```
 .github/
-├── copilot-instructions.md         ← applies to all files
+├── copilot-instructions.md             ← applies to everything
 └── instructions/
-    ├── tests.instructions.md       ← extra rules for test files
-    └── api.instructions.md         ← extra rules for controller files
+    ├── tests.instructions.md           ← only test files
+    ├── api.instructions.md             ← only controller files
+    └── services/payments.instructions.md  ← only the payments service
 ```
 
-Each file declares which files it applies to with a front-matter `applyTo` field:
+Each file uses a YAML front-matter `applyTo` glob:
 
 ```markdown
 ---
@@ -88,7 +94,19 @@ applyTo: "src/test/**"
 ---
 
 All test classes must use @ExtendWith(MockitoExtension.class).
-Never use @SpringBootTest in unit tests — use @ExtendWith(MockitoExtension.class).
+Never use @SpringBootTest in unit tests.
+Use Testcontainers only in src/test/java/integration/.
+```
+
+**Monorepo pattern:** Keep the root `copilot-instructions.md` minimal (project overview, shared conventions). Put service-specific rules in scoped files:
+
+```markdown
+---
+applyTo: "services/payments/**"
+---
+
+Payments service uses Stripe SDK v12. Always pass idempotency keys to Stripe API calls.
+Never log full card numbers — mask to last 4 digits only.
 ```
 
 ## Instruction Load Order
@@ -100,15 +118,15 @@ Never use @SpringBootTest in unit tests — use @ExtendWith(MockitoExtension.cla
 
 All matching files are applied together — they are additive, not exclusive.
 
-<Callout variant="tip" label="Focus on what Copilot gets wrong">
-List what Copilot would not know without context: your injection style, your error handling pattern, what annotations are allowed. Skip generic best practices — Copilot already knows them.
+<Callout variant="tip" label="Verify your instructions are working">
+After committing `copilot-instructions.md`, ask Copilot in IntelliJ chat: "What injection style should I use in this project?" If it answers correctly, the file is being loaded. If not, verify the plugin version is ≥ 1.5.20.
 </Callout>
 
 <KeyPoints items={[
   'Create .github/copilot-instructions.md — Copilot loads it in IntelliJ, CLI, and GitHub.com',
-  'Commit it to version control for zero-setup consistency across the team',
-  'Include: stack, code style, architecture rules, test conventions, build commands',
-  'Keep the main file under 500 lines for reliable loading',
-  'Per-file instructions in .github/instructions/ use applyTo glob patterns',
-  'Instructions are additive — all matching files load together',
+  'Only list rules that deviate from defaults — skip generic advice, it wastes tokens',
+  'Test that instructions load: ask Copilot to repeat back a key rule',
+  'Keep the main file under 500 lines — larger files get silently truncated',
+  'Monorepos: minimal root file + scoped .github/instructions/ files with applyTo globs',
+  'Include build commands — agents use them to verify their own changes',
 ]} />

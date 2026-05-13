@@ -33,6 +33,22 @@ Or trigger a review from a PR comment:
 Copilot review adds comments but does not approve the PR. A human reviewer must still approve before merging. Use Copilot review as a first pass to catch obvious issues before requesting a human review.
 </Callout>
 
+## Automatic Copilot Review on Every PR
+
+Configure Copilot as an automatic reviewer so it reviews every PR without anyone manually triggering it:
+
+1. Go to **Repository Settings → Branches → Branch protection rules**
+2. Add or edit the rule for `main`
+3. Under **Require pull request reviews before merging**, enable **Require review from Code Owners**
+4. Add `@github-copilot` as a code owner in `.github/CODEOWNERS`:
+
+```
+# .github/CODEOWNERS
+* @github-copilot
+```
+
+With this in place, Copilot automatically reviews every PR that targets the protected branch. Teams use this to ensure a baseline quality check before human reviewers even see the PR.
+
 ## Copilot in Issue and PR Comments
 
 Mention `@github-copilot` in any issue or PR comment to get Copilot's input:
@@ -53,8 +69,8 @@ Copilot Workspace turns a GitHub Issue into a full implementation plan:
 4. Review and edit the plan — you stay in control
 5. Let Copilot implement the plan, then create a PR directly from Workspace
 
-<Callout variant="info" label="Workspace is for feature-level work">
-Use Copilot Workspace when implementing an issue from scratch. For smaller tasks (fixing a bug, adding a method), the CLI in Normal mode is faster.
+<Callout variant="warning" label="Workspace requirements and limitations">
+Copilot Workspace requires a **GitHub Copilot Enterprise** plan — it is not available on Business or lower. It runs entirely on GitHub.com with no IntelliJ integration. It does not have access to your local environment, running services, or environment variables. Use the CLI for tasks that need local context.
 </Callout>
 
 ## Code Search
@@ -84,8 +100,8 @@ Use natural language to search across repositories on GitHub.com:
 <KeyPoints items={[
   'Click the Copilot icon in the description field to generate a PR summary',
   'Always edit the generated summary — add issue links, breaking changes, and migration notes',
-  '@github-copilot review in a PR comment triggers an inline code review',
-  'Copilot Workspace implements entire GitHub issues from plan to PR',
+  '@github-copilot in CODEOWNERS triggers automatic review on every PR — no manual step needed',
+  'Copilot Workspace requires Enterprise plan and runs on GitHub.com only, not locally',
   'Use @github-copilot in issue comments for design suggestions before writing code',
   'Copilot review is a first pass — still require human approval before merging',
 ]} />

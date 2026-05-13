@@ -24,6 +24,10 @@ After the IDE restarts:
 
 Your account needs an active Copilot subscription (Free, Pro, Pro+, Business, or Enterprise).
 
+<Callout variant="warning" label="SAML SSO organizations — extra step required">
+If your organization enforces SAML SSO, authentication will silently fail with 403 errors after sign-in. Fix it: go to **GitHub.com → Settings → Developer Settings → Personal access tokens**, find the token named "GitHub Copilot Plugin", click **Configure SSO**, and authorize it for your organization. This step is required once per account per org.
+</Callout>
+
 <Callout variant="tip" label="Status bar icon">
 The GitHub Copilot icon in the bottom-right status bar shows connection state. Click it to enable/disable completions or open Copilot settings without navigating to the Settings menu.
 </Callout>
@@ -64,7 +68,31 @@ The CLI requires Node.js 22 or later. Check with `node --version`. Use `nvm inst
 
 On first run, `copilot` opens a browser window for GitHub OAuth. Authorize the app and return to your terminal — the token is stored in your system keychain automatically.
 
-## Step 5 — Verify Everything Works
+## Step 5 — Network and Proxy Setup (Enterprise)
+
+If your organization uses a corporate proxy or TLS inspection, complete this before Step 2.
+
+**Configure IntelliJ proxy:**
+1. Go to **Settings → Appearance & Behavior → System Settings → HTTP Proxy**
+2. Select **Manual proxy configuration**
+3. Enter your proxy host and port
+4. Enable **Proxy authentication** if required
+
+**Required domains to whitelist** (add to your firewall/proxy allowlist):
+
+```
+github.com
+api.github.com
+copilot.github.com
+copilot-proxy.githubusercontent.com
+default.exp-tas.com
+```
+
+<Callout variant="warning" label="TLS inspection / self-signed certificates">
+If your proxy performs TLS inspection, the CA certificate must be trusted by IntelliJ's JVM. Go to **Settings → Tools → Server Certificates → Accept non-trusted certificates automatically** as a last resort, or add the CA cert to IntelliJ's trust store at **Help → Edit Custom VM Options** using `-Djavax.net.ssl.trustStore`. The Copilot plugin uses a separate trust chain from your OS trust store.
+</Callout>
+
+## Step 6 — Verify Everything Works
 
 In IntelliJ, open any Java file and start typing a method body — a grey ghost text suggestion should appear within 1–2 seconds. Press `Tab` to accept.
 
@@ -78,7 +106,8 @@ Both should respond within a few seconds. If inline completions do not appear in
 <KeyPoints items={[
   'Install the GitHub Copilot plugin (com.github.copilot) from JetBrains Marketplace',
   'Sign in via Settings → Tools → GitHub Copilot → Log in to GitHub',
+  'SAML SSO orgs: authorize the Copilot token for SSO in GitHub personal access token settings',
   'CLI install: npm install -g @github/copilot (Node 22+ required)',
-  'The CLI authenticates via GitHub OAuth on first run',
+  'Corporate proxy: whitelist copilot-proxy.githubusercontent.com and configure IntelliJ HTTP proxy',
   'Copilot status icon in the bottom status bar — click to toggle completions',
 ]} />

@@ -6,35 +6,128 @@ The goal is zero-setup for new team members. Commit these files to the repo and 
 your-project/
 ├── .github/
 │   ├── copilot-instructions.md        ← repo-wide rules (auto-loaded)
+│   ├── CODEOWNERS                      ← add @github-copilot for auto-review
 │   └── instructions/
 │       ├── tests.instructions.md      ← rules for test files
 │       └── api.instructions.md        ← rules for controller files
 ├── .copilotignore                      ← files excluded from context
-└── AGENTS.md                           ← agent mode instructions
+└── AGENTS.md                           ← agent instructions (cross-tool standard)
 ```
 
 A new developer clones the repo, installs the IntelliJ Copilot plugin, signs in to GitHub, and Copilot immediately understands the project's conventions — no manual configuration.
 
 ## GitHub Copilot for Business / Enterprise
 
-For organizations on Copilot Business or Enterprise:
+### Seat Assignment — Avoid the Billing Trap
+
+<Callout variant="warning" label="'Allow for all members' bills every member immediately">
+Enabling Copilot with "Allow for all members" assigns a paid seat to every current and future org member instantly — including contractors, external collaborators, and dormant accounts. Instead, assign seats by team or group to control costs precisely.
+</Callout>
+
+**Recommended seat assignment approach:**
+
+1. Go to **Organization Settings → Copilot → Access**
+2. Choose **"Selected members"** instead of "Allow for all members"
+3. Click **Add teams** or **Add members** to assign seats by group
+4. Seats can be revoked at any time — usage is prorated
 
 ### Enabling Copilot for an Organization
 
 1. Go to **GitHub.com** → **Organization Settings** → **Copilot**
-2. Choose **"Allow for all members"** or configure seat assignments
-3. Members install the IntelliJ plugin (`com.github.copilot`) and sign in — Copilot activates with org policies automatically
+2. Choose **"Selected members"** → assign teams
+3. Members install the IntelliJ plugin (`com.github.copilot`) and sign in
 
 ### Organization-Level Policies
 
 | Policy | What it controls |
 |--------|-----------------|
-| **Public code suggestions** | Whether Copilot can suggest code that matches public GitHub repos |
+| **Public code suggestions** | Block suggestions that match public GitHub repositories (reduces IP risk) |
 | **Copilot in GitHub.com** | PR summaries, code review, Copilot search on github.com |
 | **Copilot in CLI** | Whether members can use the Copilot CLI |
 | **IDE plugins** | Which IDE integrations are permitted |
 
 Configure policies at: **Organization Settings → Copilot → Policies**
+
+## Phased Rollout — Recommended Approach
+
+Big-bang rollouts show 62% of seats underutilized at 6 months. GitHub's own field data recommends a cohort approach:
+
+| Phase | Duration | Goal |
+|-------|----------|------|
+| **Pilot** | 1–2 weeks | 5–10 developers, gather feedback, identify blockers |
+| **Champion cohort** | 2–4 weeks | Expand to 30–50 developers, refine AGENTS.md and instructions |
+| **Org-wide rollout** | Ongoing | Full rollout with adoption metrics gate at each stage |
+
+Between phases, review acceptance rate in **Organization Settings → Copilot → Insights**. A rate below 25% usually indicates the instruction files need tuning or the team needs more training.
+
+## Adoption Metrics Dashboard
+
+Track rollout success at **Organization Settings → Copilot → Insights**:
+
+| Metric | What to watch |
+|--------|--------------|
+| **Active users (28-day)** | Seat utilization — reclaim unused seats |
+| **Acceptance rate** | % of suggestions accepted — target > 30% |
+| **Suggestions by language** | Which languages get the most value |
+| **Chat activity** | Adoption of Chat vs completions-only |
+
+The dashboard supports NDJSON export for BI tools. Use this data to justify license cost to leadership and to identify teams that need additional training.
+
+## Onboarding a New Developer
+
+When a new developer joins:
+
+1. **Org admin** grants a Copilot seat (Organization Settings → Copilot → Access → Add member)
+2. **Developer** installs the GitHub Copilot plugin from JetBrains Marketplace
+3. **Developer** clones the repo — `.github/copilot-instructions.md` and `AGENTS.md` load automatically
+4. **Developer** signs in: **Settings → Tools → GitHub Copilot → Log in to GitHub**
+5. **If the org uses SAML SSO**: authorize the Copilot token at **GitHub.com → Settings → Developer Settings → Personal access tokens → Configure SSO**
+6. **Developer** installs the CLI: `npm install -g @github/copilot` (Node 22+ required)
+7. **If behind a corporate proxy**: configure IntelliJ HTTP proxy and whitelist required domains
+
+## Content Exclusions
+
+### Org-Level Exclusions (server-side enforced)
+
+Go to **Organization Settings → Copilot → Content Exclusions** and add glob patterns. These are enforced for every org member regardless of IDE settings.
+
+```
+# Secrets and credentials
+**/.env
+**/.env.*
+**/secrets/**
+**/certs/**
+**/*.pem
+**/*.key
+**/*.pfx
+**/*.p12
+
+# Sensitive business data
+**/internal-pricing/**
+**/customer-data/**
+**/customer-pii/**
+
+# Infrastructure as code with secrets
+**/terraform/**
+**/infrastructure/**
+
+# Production config
+**/application-prod.yml
+**/application-staging.yml
+**/application-prod.properties
+```
+
+### Enterprise-Level Exclusions
+
+If you manage multiple organizations under a GitHub Enterprise account, set exclusions at the enterprise level so they apply to all orgs simultaneously:
+
+**Enterprise Settings → Policies → Copilot → Content Exclusions**
+
+Enterprise-level exclusions take precedence over org-level exclusions. Use the enterprise level for company-wide security requirements; use the org level for team-specific patterns.
+
+<Callout variant="warning" label="Propagation delay">
+Content exclusion changes take up to 30 minutes to propagate to already-open IDE sessions. Notify developers to restart IntelliJ or wait for the change to take effect.
+</Callout>
 
 ### Knowledge Bases (Enterprise only)
 
@@ -46,20 +139,8 @@ Copilot Enterprise supports **Knowledge Bases** — indexed collections of inter
 4. Members reference the knowledge base in chat
 
 <Callout variant="info" label="Knowledge bases vs copilot-instructions.md">
-`copilot-instructions.md` injects rules into every interaction. Knowledge bases are searchable indexed content — Copilot searches them when relevant, not automatically. Use instructions for rules; use knowledge bases for reference docs, internal wikis, and architecture documentation.
+`copilot-instructions.md` injects rules into every interaction. Knowledge bases are searchable indexed content — Copilot searches them when relevant, not automatically. Use instructions for mandatory rules; use knowledge bases for architecture docs, internal APIs, and team wikis.
 </Callout>
-
-## Onboarding a New Developer
-
-When a new developer joins, they need:
-
-1. **GitHub account** with Copilot access (org admin grants a seat)
-2. **IntelliJ IDEA** with the `GitHub Copilot` plugin installed from JetBrains Marketplace
-3. **Clone the repo** — `.github/copilot-instructions.md` and `AGENTS.md` load automatically
-4. **Sign in** — Settings → Tools → GitHub Copilot → Log in to GitHub
-5. **Install the CLI** — `npm install -g @github/copilot` (Node 22+ required)
-
-That is it. No Copilot-specific configuration beyond what is committed to the repo.
 
 ## Audit Logs (Business / Enterprise)
 
@@ -68,26 +149,11 @@ All Copilot interactions are logged for compliance. View them at:
 
 Logged events include:
 - `suggestion.accepted` / `suggestion.dismissed`
-- `chat.opened`
-- `chat.message.sent`
+- `chat.opened` / `chat.message.sent`
 - `policy.updated`
+- `seat.assigned` / `seat.revoked`
 
-## Content Exclusions
-
-Prevent Copilot from reading specific files or paths for the entire organization:
-
-1. **Organization Settings → Copilot → Content exclusions**
-2. Add glob patterns for files to exclude
-
-```
-# Example exclusions
-**/.env
-**/secrets/**
-**/internal-pricing/**
-**/customer-data/**
-```
-
-Excluded files are not sent to the Copilot model for any member of the organization.
+Export audit logs to your SIEM or compliance platform via the GitHub Audit Log API for long-term retention.
 
 ## Recommended Team Workflow
 
@@ -101,10 +167,10 @@ Excluded files are not sent to the Copilot model for any member of the organizat
 | Refactoring | CLI with a precise multi-file prompt in Normal mode |
 
 <KeyPoints items={[
-  'Commit copilot-instructions.md, .copilotignore, and AGENTS.md — zero-setup for new team members',
-  'Org admins enable Copilot and set policies in Organization Settings → Copilot',
-  'Content exclusions at the org level prevent sensitive files from being sent to the model',
-  'Enterprise Knowledge Bases let Copilot search internal docs and wikis',
-  'Audit logs capture every Copilot interaction for compliance',
-  'New developers only need a GitHub seat — all config comes from the repo',
+  'Assign seats by team, not "Allow for all members" — avoid unexpected billing for every org member',
+  'Use phased rollout: pilot → champion cohort → org-wide, gated by acceptance rate metrics',
+  'Track adoption in Organization Settings → Copilot → Insights — target > 30% acceptance rate',
+  'SAML SSO orgs: developers must authorize their Copilot token for SSO after first sign-in',
+  'Enterprise-level content exclusions override org-level — use for company-wide security rules',
+  'Export audit logs to your SIEM via the GitHub Audit Log API for compliance retention',
 ]} />
