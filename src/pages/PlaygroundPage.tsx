@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Play, RotateCcw, Terminal } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { usePlayground } from '@/hooks/usePlayground'
 import TabBar from '@/components/shared/TabBar'
 import NavPair from '@/components/shared/NavPair'
@@ -75,9 +74,9 @@ export default function PlaygroundPage() {
             wrapClass="cli-mode-select"
             btnClass="cli-mode-btn"
           />
-          <Button variant="ghost" className="pg-reset-btn" onClick={reset}>
+          <button type="button" className="pg-reset-btn" onClick={reset}>
             <RotateCcw size={13} /> {t('playground.reset')}
-          </Button>
+          </button>
         </div>
       </div>
 
@@ -136,9 +135,9 @@ export default function PlaygroundPage() {
             placeholder={t('playground.inputPlaceholder')}
             autoFocus
           />
-          <Button variant="ghost" size="icon" className="pg-run-btn" onClick={() => run(input)} disabled={!input.trim()}>
+          <button type="button" className="pg-run-btn" onClick={() => run(input)} disabled={!input.trim()}>
             <Play size={13} />
-          </Button>
+          </button>
         </div>
       </div>
 
@@ -181,13 +180,13 @@ export default function PlaygroundPage() {
               nextDisabled={guidedStep === examples.length - 1}
               nextLabel={t('playground.next')}
             >
-              <Button
-                variant="ghost"
+              <button
+                type="button"
                 className="pg-guided-run"
                 onClick={() => { if (currentExample) run(currentExample.task, currentExample.mode) }}
               >
                 <Play size={13} /> {t('playground.runThis')}
-              </Button>
+              </button>
             </NavPair>
           </div>
         </div>

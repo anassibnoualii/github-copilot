@@ -30,9 +30,9 @@ export default function HomePage() {
             <span className="completion-title">{t('home.completionTitle')}</span>
             <span className="completion-sub">{t('home.completionSub', { count: totalCount })}</span>
           </div>
-          <Button variant="ghost" className="completion-reset" onClick={reset}>
+          <button type="button" className="completion-reset" onClick={reset}>
             <RotateCcw size={13} /> {t('home.completionReset')}
-          </Button>
+          </button>
         </div>
       )}
 

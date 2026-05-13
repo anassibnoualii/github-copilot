@@ -526,33 +526,6 @@ p { color: var(--gh-text2); margin: 0 0 12px; }
   margin-bottom: 6px;
 }
 
-/* ── Buttons ── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: var(--radius);
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: background .15s, border-color .15s, color .15s;
-  text-decoration: none;
-}
-.btn-primary {
-  background: var(--gh-purple);
-  color: #fff;
-  border-color: var(--gh-purple);
-}
-.btn-primary:hover { background: var(--gh-purple-dim); border-color: var(--gh-purple-dim); }
-.btn-ghost {
-  background: transparent;
-  color: var(--gh-text2);
-  border-color: var(--gh-border);
-}
-.btn-ghost:hover { background: var(--gh-surface2); color: var(--gh-text); }
-.btn-sm { padding: 5px 12px; font-size: 0.8rem; }
 
 /* ── Badges ── */
 .badge {
@@ -578,6 +551,9 @@ p { color: var(--gh-text2); margin: 0 0 12px; }
 .grid-2 { grid-template-columns: repeat(2,1fr); }
 
 .module-card {
+  appearance: none;
+  font: inherit;
+  text-align: left;
   background: var(--gh-surface);
   border: 1px solid var(--gh-border);
   border-radius: var(--radius);
@@ -586,6 +562,7 @@ p { color: var(--gh-text2); margin: 0 0 12px; }
   transition: border-color .2s, background .2s, transform .15s;
   text-decoration: none;
   display: block;
+  width: 100%;
 }
 .module-card:hover {
   border-color: var(--gh-purple);
@@ -618,6 +595,9 @@ p { color: var(--gh-text2); margin: 0 0 12px; }
 /* ── Quick Links ── */
 .quick-links { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 16px; }
 .quick-link {
+  appearance: none;
+  font: inherit;
+  text-align: left;
   background: var(--gh-surface);
   border: 1px solid var(--gh-border);
   border-radius: var(--radius);
@@ -626,6 +606,7 @@ p { color: var(--gh-text2); margin: 0 0 12px; }
   transition: border-color .2s, background .2s;
   text-decoration: none;
   display: block;
+  width: 100%;
 }
 .quick-link:hover { border-color: var(--gh-purple); background: var(--gh-surface2); }
 .quick-link h3 { margin: 0 0 4px; }
@@ -785,21 +766,6 @@ tr:hover td { background: rgba(255,255,255,.015); }
   border-top: 1px solid var(--gh-border);
 }
 .module-nav a { flex: 1; }
-.btn-prev-next {
-  display: block;
-  width: 100%;
-  text-align: center;
-  padding: 10px 20px;
-  background: var(--gh-surface);
-  border: 1px solid var(--gh-border);
-  border-radius: var(--radius);
-  color: var(--gh-text2);
-  text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: border-color .2s, background .2s, color .2s;
-}
-.btn-prev-next:hover { border-color: var(--gh-purple); color: var(--gh-text); background: var(--gh-surface2); }
 
 /* ── Playground ── */
 /* ── Playground terminal sandbox ── */

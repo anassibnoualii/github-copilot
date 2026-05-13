@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckCircle, XCircle, RotateCcw, ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import type { ModuleQuizQuestion } from '@/types'
 
 interface Props {
@@ -81,13 +80,13 @@ export default function ModuleQuiz({ questions, heading }: Props) {
                 {selected === q.correct ? t('moduleQuiz.correct') : t('moduleQuiz.incorrect')}
               </div>
               <p>{q.explanation}</p>
-              <Button variant="ghost" className="mq-next-btn" onClick={next}>
+              <button type="button" className="mq-next-btn" onClick={next}>
                 {current + 1 < questions.length ? (
                   <><ChevronRight size={14} /> {t('moduleQuiz.nextQuestion')}</>
                 ) : (
                   <><ChevronRight size={14} /> {t('moduleQuiz.seeResults')}</>
                 )}
-              </Button>
+              </button>
             </div>
           )}
         </>
@@ -103,9 +102,9 @@ export default function ModuleQuiz({ questions, heading }: Props) {
               ? t('moduleQuiz.scoreGood')
               : t('moduleQuiz.scoreRetry')}
           </p>
-          <Button variant="ghost" className="mq-restart-btn" onClick={restart}>
+          <button type="button" className="mq-restart-btn" onClick={restart}>
             <RotateCcw size={13} /> {t('moduleQuiz.tryAgain')}
-          </Button>
+          </button>
         </div>
       )}
     </div>
