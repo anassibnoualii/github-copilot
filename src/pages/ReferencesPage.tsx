@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import PageHeader from '@/components/shared/PageHeader'
 import FilterBar from '@/components/shared/FilterBar'
@@ -10,10 +10,10 @@ export default function ReferencesPage() {
   const references = useLocalisedReferences()
   const [activeType, setActiveType] = useState('all')
 
-  const TYPE_OPTIONS = [
+  const TYPE_OPTIONS = useMemo(() => [
     { value: 'all', label: t('references.allTypes') },
     ...REFERENCE_TYPE_KEYS.map(k => ({ value: k, label: t(`references.type.${k}`) })),
-  ]
+  ], [t])
 
   return (
     <div className="page">

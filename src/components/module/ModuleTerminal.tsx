@@ -24,7 +24,7 @@ export default function ModuleTerminal({ tutorial }: Props) {
 
   function runFree() {
     if (!freeInput.trim()) return
-    setFreeOutput(simulateResponse(freeInput))
+    setFreeOutput(simulateResponse(freeInput.trim()))
     setRan(true)
   }
 

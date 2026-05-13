@@ -49,6 +49,12 @@ export default function Sidebar({ isOpen, onClose, onSearch }: SidebarProps) {
   const intermediates = useMemo(() => modules.filter(m => m.level === 'intermediate'), [modules])
   const advanceds     = useMemo(() => modules.filter(m => m.level === 'advanced'),     [modules])
 
+  const levelSections = useMemo(() => [
+    { label: t('nav.beginner'),     modules: beginners },
+    { label: t('nav.intermediate'), modules: intermediates },
+    { label: t('nav.advanced'),     modules: advanceds },
+  ], [t, beginners, intermediates, advanceds])
+
   const doneCount = completed.length
   const totalCount = modules.length
 
@@ -102,11 +108,7 @@ export default function Sidebar({ isOpen, onClose, onSearch }: SidebarProps) {
             ))}
           </div>
 
-          {[
-            { label: t('nav.beginner'),     modules: beginners },
-            { label: t('nav.intermediate'), modules: intermediates },
-            { label: t('nav.advanced'),     modules: advanceds },
-          ].map(({ label, modules: mods }) => (
+          {levelSections.map(({ label, modules: mods }) => (
             <div key={label} className="nav-section">
               <div className="nav-section-label">{label}</div>
               <ModuleLinks modules={mods} completed={completed} onClose={onClose} />

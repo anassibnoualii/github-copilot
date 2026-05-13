@@ -1784,6 +1784,7 @@ section { margin-bottom: 48px; }
 .ref-type-video { background: var(--gh-orange-bg);  color: var(--gh-orange); }
 
 /* ── Config Builder ── */
+.page-wide { max-width: 100%; padding: 40px 40px 80px; }
 .cb-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;

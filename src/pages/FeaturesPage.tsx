@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import LevelBadge from '@/components/shared/LevelBadge'
@@ -27,8 +27,8 @@ export default function FeaturesPage() {
     useFeaturesFilter(localisedFeatures)
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null)
 
-  const LEVELS     = LEVEL_FILTER_VALUES.map(v => ({ value: v, label: t(LEVEL_LABEL_KEYS[v]) }))
-  const CATEGORIES = CATEGORY_FILTER_VALUES.map(v => ({ value: v, label: t(CATEGORY_LABEL_KEYS[v]) }))
+  const LEVELS     = useMemo(() => LEVEL_FILTER_VALUES.map(v => ({ value: v, label: t(LEVEL_LABEL_KEYS[v]) })), [t])
+  const CATEGORIES = useMemo(() => CATEGORY_FILTER_VALUES.map(v => ({ value: v, label: t(CATEGORY_LABEL_KEYS[v]) })), [t])
 
   function toggleExpand(i: number) {
     setExpandedIdx(prev => (prev === i ? null : i))

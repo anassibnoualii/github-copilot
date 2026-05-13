@@ -81,15 +81,13 @@ export default function GlobalSearch({ open, onClose }: Props) {
 
   useEffect(() => {
     if (open) {
-      setTimeout(() => {
-        setQuery('')
-        setActive(0)
-        inputRef.current?.focus()
-      }, 0)
+      setQuery('')
+      setActive(0)
+      inputRef.current?.focus()
     }
   }, [open])
 
-  useEffect(() => { setTimeout(() => setActive(0), 0) }, [query])
+  useEffect(() => { setActive(0) }, [query])
 
   const go = useCallback((path: string) => {
     navigate(path)

@@ -23,7 +23,7 @@ export default function ConfigBuilderPage() {
   const json = buildJson(enabled, GROUPS)
 
   return (
-    <div className="page" style={{ maxWidth: '100%', padding: '40px 40px 80px' }}>
+    <div className="page page-wide">
       <PageHeader
         badge={t('configBuilder.badge')}
         title={t('configBuilder.title')}
