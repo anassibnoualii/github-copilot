@@ -1,0 +1,58 @@
+## Agent Mode for Java
+
+Agent Mode is best for multi-step tasks that span several files and need terminal commands to
+verify correctness. Write prompts as numbered specifications — Copilot plans, implements, and
+verifies each step.
+
+## Example 1 — Add JWT authentication
+
+```text
+Add a complete JWT authentication system to this Spring Boot app:
+
+1. Create a User entity with fields: id, email, passwordHash, roles (Set<String>), createdAt
+2. Create UserRepository extending JpaRepository
+3. Add Spring Security config with a JWT filter (parse Bearer token, set SecurityContext)
+4. Implement /api/auth/register (hash password with BCrypt, save user, return JWT)
+5. Implement /api/auth/login (verify password, return JWT)
+6. Write unit tests for AuthService (mock UserRepository)
+7. Write an integration test for /api/auth/login using Testcontainers PostgreSQL
+
+Follow the patterns already used in this project.
+Run ./mvnw test at the end to confirm everything passes.
+```
+
+## Example 2 — Refactor service quality
+
+```text
+Refactor UserService to improve quality:
+
+1. Replace all methods that return null with Optional<T>
+2. Add @Transactional(readOnly = true) to all read-only methods
+3. Extract input validation logic into a new UserValidator class
+4. Update all callers of changed method signatures
+5. Run ./mvnw test to verify no regressions
+
+Do not change the REST API contract — only internal implementation.
+```
+
+## When to use which mode
+
+| Mode | Best for | Example |
+|---|---|---|
+| **Agent Mode** (VS Code) | Multi-step tasks touching 5+ files, needs terminal commands | "Add authentication", "Set up CI pipeline" |
+| **CLI Normal** (interactive) | Guided tasks with back-and-forth, piping Maven/test output | `./mvnw test 2>&1 \| copilot "fix these failures"` |
+| **CLI Autopilot** (`--autopilot`) | Autonomous batch tasks, no approval at each step | Add `@RequiredArgsConstructor` to 30 service classes |
+| **`/delegate`** (cloud agent) | Long tasks to offload entirely while you work on something else | `& Write integration tests for all 12 controllers` |
+| **Copilot Chat** (IDE) | Questions, single-file fixes, `/explain`, `/fix`, `/tests` | `/explain #selection — why is @EntityGraph needed here?` |
+| **Copilot Edits** (IDE) | Coordinated multi-file changes with a known bounded working set | "Rename UserDto to UserResponse in these 4 files" |
+
+<Callout variant="tip" label="Always verify at the end">
+Include a verification step in every agent prompt (`Run ./mvnw test`). Without it, Copilot
+may stop after writing code without checking whether it compiles or tests pass.
+</Callout>
+
+<Callout variant="info" label="Steering mid-task">
+You can send new prompts at any time during active agent execution to redirect it — e.g.,
+"stop, UserValidator should be an interface not a class". Copilot processes each message as
+part of the current task without discarding progress.
+</Callout>

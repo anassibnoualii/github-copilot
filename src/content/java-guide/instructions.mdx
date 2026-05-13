@@ -1,0 +1,105 @@
+## .github/copilot-instructions.md
+
+Automatically injected into every Copilot Chat session, CLI session, and Agent Mode run.
+Customize it with your actual stack, team conventions, and architecture rules.
+VS Code requires `"github.copilot.chat.codeGeneration.useInstructionFiles": true` in settings.json.
+
+```markdown
+# GitHub Copilot Instructions — Spring Boot Project
+
+## Stack
+- Java 21, Spring Boot 3.x, Maven
+- JUnit 5, Mockito, Testcontainers for integration tests
+- Lombok for boilerplate reduction
+- MapStruct for DTO mapping
+
+## Code Style
+- Follow Google Java Style Guide
+- Use 2-space indentation
+- Prefer constructor injection over @Autowired field injection
+- Return Optional<T> instead of null from service methods
+- Use var for local variables where the type is obvious
+
+## Naming
+- Test methods: methodName_scenario_expectedResult
+  e.g. getUserById_userNotFound_throwsEntityNotFoundException
+- DTOs end in Dto (UserDto, OrderDto)
+- Mappers end in Mapper (UserMapper)
+
+## Architecture Rules
+- Controllers are thin — delegate all logic to services
+- @Transactional belongs on service methods, not controllers
+- Never expose JPA entities directly from REST endpoints — always use DTOs
+- Services talk to repositories only, not to other services directly
+
+## Lombok Allowed
+- @Getter, @Setter, @Builder, @Data, @RequiredArgsConstructor
+- Avoid @SneakyThrows
+
+## Build Commands
+- Build: ./mvnw clean package -DskipTests
+- Test:  ./mvnw test
+- Single test: ./mvnw test -Dtest=UserServiceTest
+- Run:   ./mvnw spring-boot:run
+
+## Git Commit Format
+<type>(<scope>): <summary>
+
+Types: feat, fix, refactor, test, docs, chore
+Example: feat(orders): add POST /api/v1/orders endpoint
+```
+
+## Path-specific instructions
+
+Create files in `.github/instructions/` with a YAML frontmatter `applyTo` glob to target specific
+file types. The `excludeAgent` field prevents specific agents from seeing them.
+
+```markdown
+---
+applyTo: "**/*Test.java,**/*IT.java"
+excludeAgent: "code-review"
+---
+
+# Test Conventions
+- Use JUnit 5 — @Test, @BeforeEach, @AfterEach
+- Name tests: methodName_scenario_expectedResult
+- Use Mockito for unit test mocks
+- Use Testcontainers for integration tests that need a real database
+- Assert with AssertJ — assertThat(result).isEqualTo(expected)
+- Never use Thread.sleep() in tests — use Awaitility for async assertions
+```
+
+## AGENTS.md
+
+Placed at the repo root, this file has **stronger weight** on autonomous agents than
+`copilot-instructions.md`. Use it for operational constraints: where files go, what
+to verify after changes, what never to touch.
+
+```markdown
+# Agent Instructions — Spring Boot Project
+
+## Before Making Changes
+1. Read the relevant service/controller files to understand existing patterns
+2. Check if a similar implementation already exists before creating new files
+3. Verify the database schema by reading existing entity classes
+
+## Build & Test After Changes
+- Always run ./mvnw test after modifying service or repository classes
+- For controller changes: ./mvnw test -Dtest="*IT"
+
+## File Creation Rules
+- Entities  → src/main/java/com/example/domain/
+- DTOs      → src/main/java/com/example/dto/
+- Services  → src/main/java/com/example/service/
+- Tests mirror source: src/test/java/...
+
+## Do Not
+- Modify src/main/resources/application.properties directly
+- Add dependencies to pom.xml without explaining why
+- Change existing database migration files in src/main/resources/db/migration/
+```
+
+<Callout variant="tip" label="Enable instruction files in VS Code">
+Add `"github.copilot.chat.codeGeneration.useInstructionFiles": true` to your `.vscode/settings.json`.
+Without it, Copilot ignores all `.md` instruction files.
+</Callout>

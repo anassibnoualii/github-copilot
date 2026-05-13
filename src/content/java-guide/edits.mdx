@@ -1,0 +1,47 @@
+## Copilot Edits for Java
+
+Copilot Edits is ideal for coordinated changes across a known set of files — adding logging to
+all services, migrating injection patterns, or updating method signatures across a package.
+Build your working set first, then prompt.
+
+## Example 1 — Add logging across the service layer
+
+```text
+Working set: all *Service.java files from src/main/java/com/example/service/ + pom.xml
+
+Prompt:
+Add SLF4J logging to every public method in the service classes:
+- Log method entry at DEBUG level, including parameter values
+- Log method exit at DEBUG level with return value summary
+- Log all caught exceptions at ERROR level with stack trace
+- Add the slf4j-api dependency to pom.xml if not already present
+
+Review tip: Accept changes file-by-file. Review pom.xml last.
+```
+
+## Example 2 — Migrate to constructor injection
+
+```text
+Working set: all files containing "@Autowired"
+(Keep under 15 files — split by package if larger)
+
+Prompt:
+Replace all @Autowired field injection with constructor injection.
+Where the class has only injected fields, add @RequiredArgsConstructor
+from Lombok and remove the explicit constructor if present.
+Do not change any @Autowired on methods or constructors.
+
+Safety: Run ./mvnw test after accepting to catch any missed injection points.
+```
+
+<Callout variant="tip" label="Working set limit">
+Keep working sets under 15 files. For larger refactors, split by package and run Edits in
+batches. Changes stream file-by-file — accept or reject each hunk independently. For 30+ files,
+use the Copilot CLI with `--autopilot` or `/fleet` instead.
+</Callout>
+
+<Callout variant="warning" label="Review pom.xml carefully">
+Copilot may add or update dependency versions. Always check the `pom.xml` diff before
+accepting — dependency changes can break the build in non-obvious ways, especially with
+Spring Boot BOM version management.
+</Callout>

@@ -1,0 +1,53 @@
+## .vscode/settings.json
+
+Commit this file to your repository so every team member gets the same Copilot and Java IDE
+configuration without manual setup.
+
+```json
+{
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "properties": false
+  },
+  "github.copilot.enable.dotenv": false,
+
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+
+  "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+  "java.format.settings.profile": "GoogleStyle",
+  "java.completion.enabled": true,
+  "java.debug.settings.enableRunDebugCodeLens": true,
+  "java.test.defaultConfig": "junit5",
+
+  "files.associations": {
+    "*.java": "java"
+  },
+
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "pom.xml": ".mvn, mvnw, mvnw.cmd",
+    "build.gradle": "gradlew, gradlew.bat, settings.gradle"
+  }
+}
+```
+
+<Callout variant="warning" label="Security">
+`"github.copilot.enable.dotenv": false` prevents Copilot from reading `.env` files.
+Keep it disabled to avoid leaking credentials into suggestions.
+</Callout>
+
+## Key settings explained
+
+| Setting | What it does |
+|---|---|
+| `useInstructionFiles` | Enables `.github/copilot-instructions.md`, `AGENTS.md`, and path-specific instruction files |
+| `github.copilot.enable["*"]` | Enable completions globally; override per language key below |
+| `java.format.settings.url` | Enforces Google Java Style via Eclipse formatter config (`formatOnSave` applies it) |
+| `java.test.defaultConfig` | Tells the Java Test Runner to use JUnit 5 by default |
+| `explorer.fileNesting.patterns` | Nests `mvnw` / `gradlew` under the build file to reduce sidebar noise |

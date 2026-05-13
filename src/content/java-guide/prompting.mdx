@@ -1,0 +1,21 @@
+## Prompting patterns for Java
+
+The difference between a vague prompt and an effective one is specificity: name the class,
+endpoint, constraint, and expected behaviour. Give Copilot the same context you would give
+a junior developer joining your team.
+
+| Task | Poor prompt | Effective prompt |
+|---|---|---|
+| REST endpoint | "add endpoint" | "@workspace Add a POST /api/v1/orders endpoint to OrderController. Validate with @Valid. Return 201 Created with the saved OrderDto." |
+| Write tests | "write tests" | "Select getUserById → /tests. Add edge cases: user not found (expect EntityNotFoundException), null id (expect IllegalArgumentException)." |
+| Fix bug | "fix this" | "/fix — NullPointerException at UserService:42. The user's roles list is lazily loaded but accessed outside a transaction." |
+| Refactor | "improve code" | "Refactor this method to use Stream API. Keep the same return type. Prefer Java 21 features where they improve readability." |
+| Explain | "explain" | "/explain #selection — focus on why the @EntityGraph annotation is needed here and what N+1 problem it prevents." |
+| Add logging | "add logs" | "Add SLF4J logging to all public methods in UserService: DEBUG on entry with params, ERROR on exception with stack trace." |
+| Generate mock | "mock this" | "@workspace Generate a Mockito mock for PaymentGateway. Stub chargeCard() to return PaymentResult.success() for amounts under 1000, throw PaymentException above." |
+
+<Callout variant="tip" label="The three-part pattern">
+Every effective prompt has three parts — **what** (the task), **where** (class / method / endpoint),
+and **constraints** (exceptions to throw, format to return, patterns to follow).
+If the task spans multiple files, prefix with `@workspace`.
+</Callout>

@@ -1,0 +1,42 @@
+## Why setup matters
+
+Out of the box, GitHub Copilot knows nothing about your project's conventions, architecture,
+or constraints. A few configuration files change that — they inject context into every interaction
+so Copilot produces suggestions that fit your codebase rather than generic Java code.
+
+## How the pieces connect
+
+**copilot-instructions.md** sets standing rules (stack, style, architecture) — auto-loaded into
+every Chat session, Agent Mode run, and CLI session. **settings.json** controls which file types
+get completions and enables instruction files. **AGENTS.md** tells autonomous agents how to
+explore and verify before touching files. Together they turn vague suggestions into targeted,
+project-aware output.
+
+```
+your-java-project/
+├── .github/
+│   ├── copilot-instructions.md          ← repo-level rules (Chat, CLI, Agent, Edits)
+│   └── instructions/
+│       └── tests.instructions.md        ← path-specific rules (e.g. for *Test.java only)
+├── .vscode/
+│   └── settings.json                    ← Copilot config + Java IDE settings
+├── AGENTS.md                            ← instructions read by autonomous agents
+└── pom.xml / build.gradle
+```
+
+## Custom instructions load order
+
+| File | Scope |
+|---|---|
+| `~/.copilot/copilot-instructions.md` | Global — all your projects |
+| `.github/copilot-instructions.md` | Repository-wide |
+| `.github/instructions/*.instructions.md` | Path-specific (YAML frontmatter with `applyTo` glob) |
+| `AGENTS.md` at repo root | Primary — stronger weight on autonomous agents |
+
+Repository instructions override global. All matching files are applied together.
+Changes load immediately on save — no restart required.
+
+<Callout variant="tip" label="Start here">
+Create `.github/copilot-instructions.md` first. It is the highest-leverage file — a single
+commit improves completions, Chat, Edits, and the CLI simultaneously.
+</Callout>

@@ -1,0 +1,208 @@
+## Installation
+
+The Copilot CLI is a standalone npm package (`@github/copilot`) — separate from the VS Code
+extension. Requires Node.js 22+ for the npm path. On first launch type `/login` to authenticate
+via GitHub OAuth.
+
+```bash
+# npm — all platforms (Node.js 22+ required)
+npm install -g @github/copilot
+
+# Homebrew — macOS / Linux
+brew install copilot-cli
+
+# WinGet — Windows
+winget install GitHub.Copilot
+
+# Install script — macOS / Linux (supports PREFIX and VERSION env vars)
+curl -fsSL https://gh.io/copilot-install | bash
+
+# Verify
+copilot version
+
+# First launch — authenticate via GitHub OAuth
+copilot        # then type /login at the prompt
+```
+
+<Callout variant="warning" label="Authentication in CI">
+Only **fine-grained PATs** work for programmatic/CI use — classic PATs (`ghp_` prefix) are
+**silently rejected**. Set `COPILOT_GITHUB_TOKEN` in your environment or CI secrets.
+For interactive use, `/login` (OAuth device flow) is recommended.
+</Callout>
+
+## Java-specific tasks
+
+Inside an interactive Copilot session, type tasks at the prompt. Pipe command output directly —
+Maven test results, compilation errors, or grep output. Use `-p` for non-interactive single-shot execution.
+
+```bash
+# Pipe Maven test failures directly to Copilot (inside a session)
+./mvnw test 2>&1 | copilot "analyse these test failures and fix the root causes"
+
+# Non-interactive — single prompt, captures output, no session
+copilot -p "Write a commit message for staged changes" -s \
+  --allow-tool='shell(git:*)'
+
+copilot -p "Review src/main/java/com/example/service/UserService.java for missing error handling" -s
+
+# Autopilot — fully autonomous, no approval prompts
+copilot --autopilot --yolo --max-autopilot-continues 10 \
+  -p "Add @RequiredArgsConstructor and remove explicit constructors in all service classes"
+```
+
+## Tool permissions
+
+Copilot uses a two-layer model: **availability** (what the AI knows exists) and **permission**
+(what it can execute). Deny always beats allow. Grant only the tools your task needs.
+
+```bash
+# Grant Maven and git access, block accidental pushes
+copilot --allow-tool='shell(./mvnw:*)' \
+        --allow-tool='shell(git:*)' \
+        --deny-tool='shell(git push)'
+
+# Allow file writes + Maven + npm test runner
+copilot --allow-tool='write' \
+        --allow-tool='shell(./mvnw:*)' \
+        --allow-tool='shell(npm run test:*)'
+
+# Block all file writes — read-only exploration session
+copilot --deny-tool='write'
+
+# Grant all permissions (use with care — best for isolated environments)
+copilot --allow-all
+
+# Mid-session commands
+# /allow-all or /yolo      — grant all permissions for this session
+# /reset-allowed-tools     — revoke session permissions granted so far
+```
+
+<Callout variant="tip" label="Two-layer distinction">
+`--available-tools` controls what the AI *knows exists* (availability).
+`--allow-tool` controls what the AI can *actually execute* (permission).
+A tool not in `--available-tools` cannot run even if `--allow-tool` is set.
+</Callout>
+
+## Delegating to the cloud agent (/delegate)
+
+The `&` prefix is an alias for `/delegate` — it offloads a task to GitHub's cloud agent, commits
+your current state as a checkpoint, creates a draft PR, and works asynchronously. You can close
+the CLI session entirely.
+
+```bash
+# Type inside a copilot session at the prompt:
+& Write integration tests for all endpoints in OrderController using Testcontainers PostgreSQL
+
+# Equivalent slash command form:
+/delegate Write integration tests for all endpoints in OrderController
+
+# Non-interactively via -p flag:
+copilot -p "& Refactor all service classes to use constructor injection" \
+  --allow-tool='write' --allow-tool='shell(./mvnw:*)'
+```
+
+<Callout variant="warning" label="/delegate requirements">
+`/delegate` requires GitHub authentication and does **not** work with custom (BYOK) model providers.
+</Callout>
+
+## Plan mode, autopilot & /fleet
+
+```bash
+# Start directly in plan mode
+copilot --plan
+
+# Inside a session: press Shift+Tab until "plan" shows in the status bar
+# Copilot writes plan.md — review it, then press Enter to approve and execute
+
+# Ctrl+Y — open plan.md in your default editor to modify before approval
+
+# /fleet — distribute work across subagents in parallel
+# 1. Enter plan mode, describe the feature
+# 2. Finalize the plan with Copilot
+# 3. At the prompt type:
+/fleet implement the plan
+# Monitor: Enter to inspect a subtask, k to stop one, Esc to exit task list
+```
+
+<Callout variant="tip" label="Plan mode for risky refactors">
+Use plan mode (Shift+Tab) before any change touching more than 5 files. Copilot writes `plan.md`
+first — use **Ctrl+Y** to edit it in your editor before a single file is touched.
+</Callout>
+
+## Session management, models & rollback
+
+```bash
+# Resume sessions
+copilot --continue        # resume most recent session (also auto-enables remote control)
+copilot --resume          # open picker to choose from recent sessions
+copilot -n "spring-auth-refactor"  # name a session for easy retrieval
+
+# Session slash commands
+/help                    # list all slash commands
+/context                 # visual token-usage overview of current context
+/clear                   # clear conversation history (keep working files)
+/new                     # start a fresh session
+/session                 # display current session ID
+/resume <session-id>     # switch to a specific previous session
+/compact                 # manually compress history to free context space
+
+# Model selection
+/model auto              # Copilot chooses best model (default — reduced latency)
+/model claude-opus-4-5   # Claude Opus 4.5 — complex architecture, hard debugging
+/model claude-sonnet-4-5 # Claude Sonnet 4.5 — routine daily coding, fast
+/model gpt-5.2-codex     # GPT-5.2 Codex — code generation and review
+
+# Rollback / undo
+/undo                    # open checkpoint picker (alias: /rewind)
+# Or: press Esc twice with empty input — same picker
+# Copilot keeps up to 10 snapshots per session.
+
+# Verify state after rollback:
+! git status
+! git log --oneline -3
+```
+
+<Callout variant="warning" label="Rollback is irreversible">
+Rolling back permanently deletes all session history and snapshots after the chosen checkpoint.
+It requires at least one git commit in the repository. It cannot be undone.
+</Callout>
+
+## Pull request & code review workflows
+
+```bash
+# ── Pull request commands (inside a copilot session) ──────────────────
+/pr                      # view current branch PR status
+/pr create               # create PR (respects your repo's PR template)
+/pr fix ci               # read CI logs, identify root cause, apply fix
+/pr fix feedback         # apply actionable feedback from reviewers
+/pr fix conflicts        # sync branch with base and resolve conflicts
+/pr fix all              # run all three fix phases sequentially
+/pr auto                 # create PR then iterate until all checks pass
+/pr view web             # open PR in browser
+
+# Custom title prefix
+/pr create prefix the PR title "JIRA-42: "
+
+# ── Code review (before committing) ──────────────────────────────────
+/review src/main/java/com/example/service/   # scope to a package
+/review                                       # all staged changes
+
+# Non-interactively:
+copilot -p "/review changes vs main" -s --allow-tool='shell(git:*)'
+```
+
+## Keyboard shortcuts reference
+
+| Shortcut | Action |
+|---|---|
+| `Shift+Tab` | Toggle between Normal / Plan / Autopilot modes |
+| `Ctrl+Y` | Open `plan.md` in your editor before execution |
+| `Ctrl+T` | Toggle model reasoning visibility (persists across sessions) |
+| `Ctrl+V` | Paste image from clipboard as context |
+| `Esc Esc` | Open rollback checkpoint picker (empty input required) |
+| `Ctrl+L` | Clear screen |
+| `Ctrl+R` | Reverse history search |
+| `@filename` | Include file contents in current prompt |
+| `!command` | Execute shell command directly (e.g. `! git status`) |
+| `Tab` | Complete file paths |
+| `Ctrl+C` twice | Exit session |
