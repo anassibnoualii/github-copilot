@@ -2,12 +2,12 @@ import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Play, RotateCcw, Terminal, ChevronRight, ChevronLeft } from 'lucide-react'
 import { usePlayground } from '@/hooks/usePlayground'
-import type { PlaygroundMode } from '@/types'
+import type { PlaygroundMode, TerminalLine } from '@/types'
 
 type HistoryEntry =
   | { kind: 'system'; text: string }
   | { kind: 'user'; text: string; mode: PlaygroundMode }
-  | { kind: 'output'; html: string }
+  | { kind: 'output'; lines: TerminalLine[] }
 
 export default function PlaygroundPage() {
   const { t } = useTranslation()
@@ -38,7 +38,7 @@ export default function PlaygroundPage() {
     setHistory(prev => [
       ...prev,
       { kind: 'user', text: task, mode: m },
-      { kind: 'output', html: build(task, m) },
+      { kind: 'output', lines: build(task, m) },
     ])
     setInput('')
     setTimeout(() => inputRef.current?.focus(), 0)
@@ -120,11 +120,11 @@ export default function PlaygroundPage() {
               )
             }
             return (
-              <div
-                key={i}
-                className="pg-entry-output"
-                dangerouslySetInnerHTML={{ __html: entry.html }}
-              />
+              <div key={i} className="pg-entry-output">
+                {entry.lines.map((line, j) => (
+                  <div key={j} className={`cli-${line.kind}`}>{line.text}</div>
+                ))}
+              </div>
             )
           })}
         </div>

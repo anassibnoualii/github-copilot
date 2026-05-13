@@ -2,10 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Copy, Check } from 'lucide-react'
 import PageHeader from '@/components/shared/PageHeader'
-
-const PARTICIPANTS = ['@workspace', '@vscode', '@terminal', '@github', '@docker', '@sentry']
-const SLASH_COMMANDS = ['/explain', '/fix', '/tests', '/doc', '/review', '/new']
-const CONTEXT_VARS = ['#file', '#selection', '#codebase', '#terminalLastCommand', '#problems']
+import { PARTICIPANTS, SLASH_COMMANDS, CONTEXT_VARS } from '@/data/prompt-builder'
 
 function assemblePrompt(
   participant: string,

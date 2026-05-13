@@ -1,6 +1,6 @@
 import { useLocalisedPlayground } from '@/hooks/useLocalisedData'
 import playgroundData from '@/data/playground'
-import type { PlaygroundData, PlaygroundMode } from '@/types'
+import type { PlaygroundData, PlaygroundMode, TerminalLine } from '@/types'
 
 function resolveEntry(task: string, localised: PlaygroundData) {
   if (localised.responseDb[task]) return localised.responseDb[task]
@@ -9,21 +9,32 @@ function resolveEntry(task: string, localised: PlaygroundData) {
   return null
 }
 
-export function buildResponseHtml(task: string, mode: PlaygroundMode, localised: PlaygroundData): string {
+export function buildResponseLines(task: string, mode: PlaygroundMode, localised: PlaygroundData): TerminalLine[] {
   const entry = resolveEntry(task, localised)
   if (!entry) {
-    return `<span class="cli-label">Thinking about your request...</span>\n<span class="cli-result">No pre-built response for this task — try an example below.</span>`
+    return [
+      { kind: 'label',  text: 'Thinking about your request...' },
+      { kind: 'result', text: 'No pre-built response for this task — try an example below.' },
+    ]
   }
-  const plan = entry.plan.map((s, i) => `<span class="cli-result">  ${i + 1}. ${s}</span>`).join('\n')
+
   const executing = mode === 'autopilot' ? 'Executing (autopilot)...' : 'Executing...'
-  return `<span class="cli-label">Plan:</span>\n${plan}\n\n<span class="cli-label">${executing}</span>\n\n${entry.steps}\n\n<span class="cli-success">✓ Done.</span>`
+  const planLines: TerminalLine[] = entry.plan.map((s, i) => ({ kind: 'result', text: `  ${i + 1}. ${s}` }))
+
+  return [
+    { kind: 'label', text: 'Plan:' },
+    ...planLines,
+    { kind: 'label', text: executing },
+    ...entry.steps,
+    { kind: 'success', text: '✓ Done.' },
+  ]
 }
 
 export function usePlayground() {
   const localised = useLocalisedPlayground()
 
-  function build(task: string, mode: PlaygroundMode): string {
-    return buildResponseHtml(task, mode, localised)
+  function build(task: string, mode: PlaygroundMode): TerminalLine[] {
+    return buildResponseLines(task, mode, localised)
   }
 
   return { build, examples: localised.examples }

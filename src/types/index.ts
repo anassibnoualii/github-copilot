@@ -54,9 +54,16 @@ export interface PlaygroundExample {
   mode: PlaygroundMode
 }
 
+export type TerminalLineKind = 'label' | 'result' | 'cmd' | 'success'
+
+export interface TerminalLine {
+  kind: TerminalLineKind
+  text: string
+}
+
 export interface PlaygroundResponse {
   plan: string[]
-  steps: string
+  steps: TerminalLine[]
 }
 
 export interface PlaygroundData {

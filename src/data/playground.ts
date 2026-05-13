@@ -1,20 +1,25 @@
-import type { PlaygroundData } from '@/types'
+import type { PlaygroundData, TerminalLine } from '@/types'
+
+const l = (text: string): TerminalLine => ({ kind: 'label',   text })
+const r = (text: string): TerminalLine => ({ kind: 'result',  text })
+const c = (text: string): TerminalLine => ({ kind: 'cmd',     text })
+const s = (text: string): TerminalLine => ({ kind: 'success', text })
 
 const playgroundData: PlaygroundData = {
   examples: [
-    { task: 'Fix the failing tests in the auth module', mode: 'normal' },
-    { task: 'Find all files that make API calls to /users endpoint', mode: 'normal' },
-    { task: 'Explain the overall architecture of this project', mode: 'normal' },
-    { task: 'Add input validation to all form components', mode: 'autopilot' },
-    { task: 'Set up Docker configuration for this Node.js app', mode: 'autopilot' },
-    { task: 'Add unit tests for all service files', mode: 'autopilot' },
-    { task: 'Refactor database queries to use async/await', mode: 'normal' },
-    { task: 'Create a REST API route for user profile updates', mode: 'autopilot' },
-    { task: 'Write tests for the UserService class', mode: 'normal' },
-    { task: 'Add TypeScript types to this JavaScript file', mode: 'autopilot' },
-    { task: 'Set up GitHub Actions CI workflow', mode: 'autopilot' },
-    { task: 'Find and fix the memory leak in the event listeners', mode: 'normal' },
-    { task: 'Generate API documentation from the route handlers', mode: 'normal' },
+    { task: 'Fix the failing tests in the auth module',              mode: 'normal'    },
+    { task: 'Find all files that make API calls to /users endpoint', mode: 'normal'    },
+    { task: 'Explain the overall architecture of this project',      mode: 'normal'    },
+    { task: 'Add input validation to all form components',           mode: 'autopilot' },
+    { task: 'Set up Docker configuration for this Node.js app',      mode: 'autopilot' },
+    { task: 'Add unit tests for all service files',                  mode: 'autopilot' },
+    { task: 'Refactor database queries to use async/await',          mode: 'normal'    },
+    { task: 'Create a REST API route for user profile updates',      mode: 'autopilot' },
+    { task: 'Write tests for the UserService class',                 mode: 'normal'    },
+    { task: 'Add TypeScript types to this JavaScript file',          mode: 'autopilot' },
+    { task: 'Set up GitHub Actions CI workflow',                     mode: 'autopilot' },
+    { task: 'Find and fix the memory leak in the event listeners',   mode: 'normal'    },
+    { task: 'Generate API documentation from the route handlers',    mode: 'normal'    },
   ],
   responseDb: {
     'Fix the failing tests in the auth module': {
@@ -25,47 +30,44 @@ const playgroundData: PlaygroundData = {
         'Apply fixes to the test files',
         'Run tests again to confirm they pass',
       ],
-      steps: `<span class="cli-label">Reading auth test files...</span>
-<span class="cli-result">  Found: src/auth/__tests__/auth.test.ts</span>
-<span class="cli-result">  Found: src/auth/__tests__/session.test.ts</span>
-
-<span class="cli-label">Analysing failures...</span>
-<span class="cli-result">  ✗ auth.test.ts:42 — mock for hashPassword is not returning a Promise</span>
-<span class="cli-result">  ✗ session.test.ts:17 — SESSION_SECRET env var not set in test environment</span>
-
-<span class="cli-label">Applying fix to auth.test.ts...</span>
-<span class="cli-cmd">  vi.mock('../utils/crypto', () => ({</span>
-<span class="cli-cmd">    hashPassword: vi.fn().mockResolvedValue('hashed_pw'),</span>
-<span class="cli-cmd">  }))</span>
-
-<span class="cli-label">Applying fix to session.test.ts...</span>
-<span class="cli-cmd">  beforeAll(() => { process.env.SESSION_SECRET = 'test-value' })</span>
-
-<span class="cli-result">  ✓ auth.test.ts — 8 tests passed</span>
-<span class="cli-result">  ✓ session.test.ts — 5 tests passed</span>`,
+      steps: [
+        l('Reading auth test files...'),
+        r('  Found: src/auth/__tests__/auth.test.ts'),
+        r('  Found: src/auth/__tests__/session.test.ts'),
+        l('Analysing failures...'),
+        r('  ✗ auth.test.ts:42 — mock for hashPassword is not returning a Promise'),
+        r('  ✗ session.test.ts:17 — SESSION_SECRET env var not set in test environment'),
+        l('Applying fix to auth.test.ts...'),
+        c("  vi.mock('../utils/crypto', () => ({"),
+        c("    hashPassword: vi.fn().mockResolvedValue('hashed_pw'),"),
+        c('  }))'),
+        l('Applying fix to session.test.ts...'),
+        c("  beforeAll(() => { process.env.SESSION_SECRET = 'test-value' })"),
+        r('  ✓ auth.test.ts — 8 tests passed'),
+        r('  ✓ session.test.ts — 5 tests passed'),
+      ],
     },
+
     'Find all files that make API calls to /users endpoint': {
       plan: [
         'Search codebase for fetch/axios calls containing /users',
         'Check for environment-based base URL patterns',
         'List results grouped by file',
       ],
-      steps: `<span class="cli-label">Searching for /users API calls...</span>
-
-<span class="cli-result">  src/services/userService.ts:12</span>
-<span class="cli-cmd">    await api.get('/users')</span>
-
-<span class="cli-result">  src/services/userService.ts:34</span>
-<span class="cli-cmd">    await api.post('/users', payload)</span>
-
-<span class="cli-result">  src/components/UserList.tsx:28</span>
-<span class="cli-cmd">    const res = await fetch(\`\${baseUrl}/users\`)</span>
-
-<span class="cli-result">  src/pages/admin/Users.tsx:55</span>
-<span class="cli-cmd">    axios.delete(\`/users/\${userId}\`)</span>
-
-<span class="cli-label">Summary: 4 call sites in 3 files</span>`,
+      steps: [
+        l('Searching for /users API calls...'),
+        r('  src/services/userService.ts:12'),
+        c("    await api.get('/users')"),
+        r('  src/services/userService.ts:34'),
+        c("    await api.post('/users', payload)"),
+        r('  src/components/UserList.tsx:28'),
+        c('    const res = await fetch(`${baseUrl}/users`)'),
+        r('  src/pages/admin/Users.tsx:55'),
+        c('    axios.delete(`/users/${userId}`)'),
+        l('Summary: 4 call sites in 3 files'),
+      ],
     },
+
     'Explain the overall architecture of this project': {
       plan: [
         'Read package.json and entry points',
@@ -73,25 +75,24 @@ const playgroundData: PlaygroundData = {
         'Identify layers: UI, services, data, config',
         'Summarise relationships',
       ],
-      steps: `<span class="cli-label">Reading project structure...</span>
-
-<span class="cli-result">  Architecture: React SPA + Express API</span>
-
-<span class="cli-result">  Frontend (src/)</span>
-<span class="cli-cmd">    pages/     → Route-level page components</span>
-<span class="cli-cmd">    components/→ Reusable UI components</span>
-<span class="cli-cmd">    services/  → API client functions (axios)</span>
-<span class="cli-cmd">    hooks/     → Custom React hooks</span>
-<span class="cli-cmd">    store/     → Zustand state management</span>
-
-<span class="cli-result">  Backend (server/)</span>
-<span class="cli-cmd">    routes/    → Express route handlers</span>
-<span class="cli-cmd">    middleware/→ Auth, validation, error handling</span>
-<span class="cli-cmd">    models/    → Mongoose schema definitions</span>
-<span class="cli-cmd">    services/  → Business logic layer</span>
-
-<span class="cli-label">State flows from Zustand store → hooks → components</span>`,
+      steps: [
+        l('Reading project structure...'),
+        r('  Architecture: React SPA + Express API'),
+        r('  Frontend (src/)'),
+        c('    pages/     → Route-level page components'),
+        c('    components/→ Reusable UI components'),
+        c('    services/  → API client functions (axios)'),
+        c('    hooks/     → Custom React hooks'),
+        c('    store/     → Zustand state management'),
+        r('  Backend (server/)'),
+        c('    routes/    → Express route handlers'),
+        c('    middleware/→ Auth, validation, error handling'),
+        c('    models/    → Mongoose schema definitions'),
+        c('    services/  → Business logic layer'),
+        l('State flows from Zustand store → hooks → components'),
+      ],
     },
+
     'Add input validation to all form components': {
       plan: [
         'Find all form components',
@@ -99,20 +100,21 @@ const playgroundData: PlaygroundData = {
         'Add Zod schemas and react-hook-form validation',
         'Show error messages inline',
       ],
-      steps: `<span class="cli-label">Scanning for form components...</span>
-<span class="cli-result">  Found 6 form components to update</span>
-
-<span class="cli-label">Adding Zod schema to LoginForm...</span>
-<span class="cli-cmd">  const loginSchema = z.object({</span>
-<span class="cli-cmd">    email: z.string().email('Invalid email address'),</span>
-<span class="cli-cmd">    password: z.string().min(8, 'Password must be 8+ characters'),</span>
-<span class="cli-cmd">  })</span>
-
-<span class="cli-label">Wiring react-hook-form resolver...</span>
-<span class="cli-label">Updating RegisterForm, ProfileForm, PasswordForm...</span>
-<span class="cli-result">  ✓ 6 forms updated with Zod validation</span>
-<span class="cli-result">  ✓ Inline error messages added below each field</span>`,
+      steps: [
+        l('Scanning for form components...'),
+        r('  Found 6 form components to update'),
+        l('Adding Zod schema to LoginForm...'),
+        c('  const loginSchema = z.object({'),
+        c("    email: z.string().email('Invalid email address'),"),
+        c("    password: z.string().min(8, 'Password must be 8+ characters'),"),
+        c('  })'),
+        l('Wiring react-hook-form resolver...'),
+        l('Updating RegisterForm, ProfileForm, PasswordForm...'),
+        r('  ✓ 6 forms updated with Zod validation'),
+        r('  ✓ Inline error messages added below each field'),
+      ],
     },
+
     'Set up Docker configuration for this Node.js app': {
       plan: [
         'Detect Node.js version from package.json engines field',
@@ -120,24 +122,24 @@ const playgroundData: PlaygroundData = {
         'Write docker-compose.yml with app + database',
         'Add .dockerignore',
       ],
-      steps: `<span class="cli-label">Detected Node.js 20, using node:20-alpine base</span>
-
-<span class="cli-label">Writing Dockerfile...</span>
-<span class="cli-cmd">  FROM node:20-alpine AS builder</span>
-<span class="cli-cmd">  WORKDIR /app</span>
-<span class="cli-cmd">  COPY package*.json ./</span>
-<span class="cli-cmd">  RUN npm ci --only=production</span>
-<span class="cli-cmd">  COPY . .</span>
-<span class="cli-cmd">  RUN npm run build</span>
-
-<span class="cli-label">Writing docker-compose.yml...</span>
-<span class="cli-result">  Services: app (port 3000), mongodb (port 27017)</span>
-
-<span class="cli-label">Writing .dockerignore...</span>
-<span class="cli-result">  ✓ Dockerfile created</span>
-<span class="cli-result">  ✓ docker-compose.yml created</span>
-<span class="cli-result">  ✓ .dockerignore created</span>`,
+      steps: [
+        l('Detected Node.js 20, using node:20-alpine base'),
+        l('Writing Dockerfile...'),
+        c('  FROM node:20-alpine AS builder'),
+        c('  WORKDIR /app'),
+        c('  COPY package*.json ./'),
+        c('  RUN npm ci --only=production'),
+        c('  COPY . .'),
+        c('  RUN npm run build'),
+        l('Writing docker-compose.yml...'),
+        r('  Services: app (port 3000), mongodb (port 27017)'),
+        l('Writing .dockerignore...'),
+        r('  ✓ Dockerfile created'),
+        r('  ✓ docker-compose.yml created'),
+        r('  ✓ .dockerignore created'),
+      ],
     },
+
     'Add unit tests for all service files': {
       plan: [
         'List all files in services/',
@@ -145,37 +147,39 @@ const playgroundData: PlaygroundData = {
         'Mock external dependencies',
         'Cover happy path and error cases',
       ],
-      steps: `<span class="cli-label">Found 5 service files...</span>
-<span class="cli-result">  userService.ts, authService.ts, emailService.ts,</span>
-<span class="cli-result">  paymentService.ts, notificationService.ts</span>
-
-<span class="cli-label">Generating userService.test.ts...</span>
-<span class="cli-cmd">  describe('UserService', () => {</span>
-<span class="cli-cmd">    it('should return user by id', async () => { ... })</span>
-<span class="cli-cmd">    it('should throw NotFoundError for missing user', async () => { ... })</span>
-<span class="cli-cmd">  })</span>
-
-<span class="cli-label">Generating remaining 4 test files...</span>
-<span class="cli-result">  ✓ 5 test files created (42 test cases)</span>
-<span class="cli-result">  ✓ External APIs mocked with vi.mock()</span>`,
+      steps: [
+        l('Found 5 service files...'),
+        r('  userService.ts, authService.ts, emailService.ts,'),
+        r('  paymentService.ts, notificationService.ts'),
+        l('Generating userService.test.ts...'),
+        c("  describe('UserService', () => {"),
+        c('    it(\'should return user by id\', async () => { ... })'),
+        c('    it(\'should throw NotFoundError for missing user\', async () => { ... })'),
+        c('  })'),
+        l('Generating remaining 4 test files...'),
+        r('  ✓ 5 test files created (42 test cases)'),
+        r('  ✓ External APIs mocked with vi.mock()'),
+      ],
     },
+
     'Refactor database queries to use async/await': {
       plan: [
         'Find callback-style or .then()/.catch() database calls',
         'Convert each to async/await with try/catch',
         'Preserve error handling behaviour',
       ],
-      steps: `<span class="cli-label">Scanning for callback/promise chains...</span>
-<span class="cli-result">  Found 12 queries to refactor in 4 files</span>
-
-<span class="cli-label">Refactoring userModel.ts...</span>
-<span class="cli-cmd">  - User.findById(id).then(u => cb(null,u)).catch(cb)</span>
-<span class="cli-cmd">  + const user = await User.findById(id)</span>
-
-<span class="cli-label">Refactoring orderModel.ts, productModel.ts...</span>
-<span class="cli-result">  ✓ 12 queries refactored to async/await</span>
-<span class="cli-result">  ✓ Error handling preserved with try/catch</span>`,
+      steps: [
+        l('Scanning for callback/promise chains...'),
+        r('  Found 12 queries to refactor in 4 files'),
+        l('Refactoring userModel.ts...'),
+        c('  - User.findById(id).then(u => cb(null,u)).catch(cb)'),
+        c('  + const user = await User.findById(id)'),
+        l('Refactoring orderModel.ts, productModel.ts...'),
+        r('  ✓ 12 queries refactored to async/await'),
+        r('  ✓ Error handling preserved with try/catch'),
+      ],
     },
+
     'Create a REST API route for user profile updates': {
       plan: [
         'Define the route: PATCH /users/:id',
@@ -183,23 +187,23 @@ const playgroundData: PlaygroundData = {
         'Implement the controller and service method',
         'Add integration test',
       ],
-      steps: `<span class="cli-label">Creating PATCH /users/:id route...</span>
-
-<span class="cli-label">Writing validation schema...</span>
-<span class="cli-cmd">  const updateProfileSchema = z.object({</span>
-<span class="cli-cmd">    name: z.string().min(2).optional(),</span>
-<span class="cli-cmd">    bio:  z.string().max(500).optional(),</span>
-<span class="cli-cmd">    avatar: z.string().url().optional(),</span>
-<span class="cli-cmd">  })</span>
-
-<span class="cli-label">Writing controller and service method...</span>
-<span class="cli-result">  server/routes/users.ts     — route registered</span>
-<span class="cli-result">  server/controllers/users.ts — updateProfile()</span>
-<span class="cli-result">  server/services/userService.ts — updateUser()</span>
-
-<span class="cli-label">Writing integration test...</span>
-<span class="cli-result">  ✓ PATCH /users/:id route created and tested</span>`,
+      steps: [
+        l('Creating PATCH /users/:id route...'),
+        l('Writing validation schema...'),
+        c('  const updateProfileSchema = z.object({'),
+        c('    name: z.string().min(2).optional(),'),
+        c('    bio:  z.string().max(500).optional(),'),
+        c('    avatar: z.string().url().optional(),'),
+        c('  })'),
+        l('Writing controller and service method...'),
+        r('  server/routes/users.ts     — route registered'),
+        r('  server/controllers/users.ts — updateProfile()'),
+        r('  server/services/userService.ts — updateUser()'),
+        l('Writing integration test...'),
+        r('  ✓ PATCH /users/:id route created and tested'),
+      ],
     },
+
     'Write tests for the UserService class': {
       plan: [
         'Read UserService to understand methods and dependencies',
@@ -207,23 +211,24 @@ const playgroundData: PlaygroundData = {
         'Write describe blocks for each public method',
         'Cover happy path, edge cases, and error conditions',
       ],
-      steps: `<span class="cli-label">Reading UserService...</span>
-<span class="cli-result">  Found 4 public methods: getById, create, update, delete</span>
-<span class="cli-result">  Dependencies: db (postgres), emailService, logger</span>
-
-<span class="cli-label">Setting up mocks...</span>
-<span class="cli-cmd">  vi.mock('../db', () => ({ query: vi.fn() }))</span>
-<span class="cli-cmd">  vi.mock('../emailService', () => ({ send: vi.fn() }))</span>
-
-<span class="cli-label">Generating test suite...</span>
-<span class="cli-result">  describe('UserService')</span>
-<span class="cli-result">    describe('getById')</span>
-<span class="cli-result">      ✓ returns user when found</span>
-<span class="cli-result">      ✓ throws NotFoundError when missing</span>
-<span class="cli-result">    describe('create')</span>
-<span class="cli-result">      ✓ creates user and sends welcome email</span>
-<span class="cli-result">      ✓ throws ValidationError for duplicate email</span>`,
+      steps: [
+        l('Reading UserService...'),
+        r('  Found 4 public methods: getById, create, update, delete'),
+        r('  Dependencies: db (postgres), emailService, logger'),
+        l('Setting up mocks...'),
+        c("  vi.mock('../db', () => ({ query: vi.fn() }))"),
+        c("  vi.mock('../emailService', () => ({ send: vi.fn() }))"),
+        l('Generating test suite...'),
+        r("  describe('UserService')"),
+        r("    describe('getById')"),
+        r('      ✓ returns user when found'),
+        r('      ✓ throws NotFoundError when missing'),
+        r("    describe('create')"),
+        r('      ✓ creates user and sends welcome email'),
+        r('      ✓ throws ValidationError for duplicate email'),
+      ],
     },
+
     'Add TypeScript types to this JavaScript file': {
       plan: [
         'Analyse function signatures and data shapes',
@@ -231,20 +236,20 @@ const playgroundData: PlaygroundData = {
         'Add interfaces for complex objects',
         'Migrate .js to .ts with strict mode',
       ],
-      steps: `<span class="cli-label">Analysing JavaScript file...</span>
-<span class="cli-result">  Found 6 functions, 3 object shapes, 2 callbacks</span>
-
-<span class="cli-label">Generating interfaces...</span>
-<span class="cli-cmd">  interface User { id: string; name: string; email: string }</span>
-<span class="cli-cmd">  interface ApiResponse<T> { data: T; status: number; error?: string }</span>
-
-<span class="cli-label">Adding types to functions...</span>
-<span class="cli-result">  fetchUser(id: string): Promise&lt;User&gt;          ✓</span>
-<span class="cli-result">  updateUser(id: string, patch: Partial&lt;User&gt;)  ✓</span>
-<span class="cli-result">  deleteUser(id: string): Promise&lt;void&gt;         ✓</span>
-
-<span class="cli-success">✓ 0 TypeScript errors. File renamed to .ts</span>`,
+      steps: [
+        l('Analysing JavaScript file...'),
+        r('  Found 6 functions, 3 object shapes, 2 callbacks'),
+        l('Generating interfaces...'),
+        c('  interface User { id: string; name: string; email: string }'),
+        c('  interface ApiResponse<T> { data: T; status: number; error?: string }'),
+        l('Adding types to functions...'),
+        r('  fetchUser(id: string): Promise<User>          ✓'),
+        r('  updateUser(id: string, patch: Partial<User>)  ✓'),
+        r('  deleteUser(id: string): Promise<void>         ✓'),
+        s('✓ 0 TypeScript errors. File renamed to .ts'),
+      ],
     },
+
     'Set up GitHub Actions CI workflow': {
       plan: [
         'Detect the project type and test runner',
@@ -252,24 +257,25 @@ const playgroundData: PlaygroundData = {
         'Add lint, type-check, and test steps',
         'Configure caching for node_modules',
       ],
-      steps: `<span class="cli-label">Detecting project...</span>
-<span class="cli-result">  Node.js 20 · TypeScript · Vitest · ESLint</span>
-
-<span class="cli-label">Writing .github/workflows/ci.yml...</span>
-<span class="cli-cmd">  on: [push, pull_request]</span>
-<span class="cli-cmd">  jobs:</span>
-<span class="cli-cmd">    ci:</span>
-<span class="cli-cmd">      steps:</span>
-<span class="cli-cmd">        - uses: actions/checkout@v4</span>
-<span class="cli-cmd">        - uses: actions/setup-node@v4</span>
-<span class="cli-cmd">          with: { node-version: 20, cache: npm }</span>
-<span class="cli-cmd">        - run: npm ci</span>
-<span class="cli-cmd">        - run: npm run lint</span>
-<span class="cli-cmd">        - run: npm run typecheck</span>
-<span class="cli-cmd">        - run: npm test</span>
-
-<span class="cli-success">✓ CI workflow created</span>`,
+      steps: [
+        l('Detecting project...'),
+        r('  Node.js 20 · TypeScript · Vitest · ESLint'),
+        l('Writing .github/workflows/ci.yml...'),
+        c('  on: [push, pull_request]'),
+        c('  jobs:'),
+        c('    ci:'),
+        c('      steps:'),
+        c('        - uses: actions/checkout@v4'),
+        c('        - uses: actions/setup-node@v4'),
+        c('          with: { node-version: 20, cache: npm }'),
+        c('        - run: npm ci'),
+        c('        - run: npm run lint'),
+        c('        - run: npm run typecheck'),
+        c('        - run: npm test'),
+        s('✓ CI workflow created'),
+      ],
     },
+
     'Find and fix the memory leak in the event listeners': {
       plan: [
         'Search for addEventListener calls without matching removeEventListener',
@@ -277,21 +283,21 @@ const playgroundData: PlaygroundData = {
         'Identify timers not cleared on unmount',
         'Apply fixes with proper cleanup patterns',
       ],
-      steps: `<span class="cli-label">Scanning for event listener leaks...</span>
-<span class="cli-result">  src/hooks/useSocket.ts:18 — listener added, never removed</span>
-<span class="cli-result">  src/components/Map.tsx:44 — resize handler not cleaned up</span>
-
-<span class="cli-label">Fixing useSocket.ts...</span>
-<span class="cli-cmd">  useEffect(() => {</span>
-<span class="cli-cmd">    socket.on('message', handler)</span>
-<span class="cli-cmd">  + return () => socket.off('message', handler)</span>
-<span class="cli-cmd">  }, [])</span>
-
-<span class="cli-label">Fixing Map.tsx...</span>
-<span class="cli-cmd">  + return () => window.removeEventListener('resize', onResize)</span>
-
-<span class="cli-success">✓ 2 memory leaks fixed</span>`,
+      steps: [
+        l('Scanning for event listener leaks...'),
+        r('  src/hooks/useSocket.ts:18 — listener added, never removed'),
+        r('  src/components/Map.tsx:44 — resize handler not cleaned up'),
+        l('Fixing useSocket.ts...'),
+        c('  useEffect(() => {'),
+        c("    socket.on('message', handler)"),
+        c("  + return () => socket.off('message', handler)"),
+        c('  }, [])'),
+        l('Fixing Map.tsx...'),
+        c("  + return () => window.removeEventListener('resize', onResize)"),
+        s('✓ 2 memory leaks fixed'),
+      ],
     },
+
     'Generate API documentation from the route handlers': {
       plan: [
         'Read all route handler files',
@@ -299,20 +305,20 @@ const playgroundData: PlaygroundData = {
         'Generate OpenAPI 3.0 spec',
         'Write docs/api.md with usage examples',
       ],
-      steps: `<span class="cli-label">Reading route files...</span>
-<span class="cli-result">  Found 12 routes across 4 files</span>
-
-<span class="cli-label">Extracting endpoint metadata...</span>
-<span class="cli-result">  GET    /users          → User[]</span>
-<span class="cli-result">  POST   /users          → User</span>
-<span class="cli-result">  GET    /users/:id      → User</span>
-<span class="cli-result">  PATCH  /users/:id      → User</span>
-<span class="cli-result">  DELETE /users/:id      → 204</span>
-
-<span class="cli-label">Writing docs/api.md...</span>
-<span class="cli-success">✓ API documentation generated (12 endpoints)</span>`,
+      steps: [
+        l('Reading route files...'),
+        r('  Found 12 routes across 4 files'),
+        l('Extracting endpoint metadata...'),
+        r('  GET    /users          → User[]'),
+        r('  POST   /users          → User'),
+        r('  GET    /users/:id      → User'),
+        r('  PATCH  /users/:id      → User'),
+        r('  DELETE /users/:id      → 204'),
+        l('Writing docs/api.md...'),
+        s('✓ API documentation generated (12 endpoints)'),
+      ],
     },
-  }
+  },
 }
 
 export default playgroundData
