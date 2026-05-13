@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked, Settings2, CheckCircle2, Keyboard, Wand2, Search, Coffee, FolderOpen } from 'lucide-react'
@@ -44,9 +45,9 @@ export default function Sidebar({ isOpen, onClose, onSearch }: SidebarProps) {
   const modules = useLocalisedModules()
   const { completed } = useProgress()
 
-  const beginners     = modules.filter(m => m.level === 'beginner')
-  const intermediates = modules.filter(m => m.level === 'intermediate')
-  const advanceds     = modules.filter(m => m.level === 'advanced')
+  const beginners     = useMemo(() => modules.filter(m => m.level === 'beginner'),     [modules])
+  const intermediates = useMemo(() => modules.filter(m => m.level === 'intermediate'), [modules])
+  const advanceds     = useMemo(() => modules.filter(m => m.level === 'advanced'),     [modules])
 
   const doneCount = completed.length
   const totalCount = modules.length
@@ -87,7 +88,7 @@ export default function Sidebar({ isOpen, onClose, onSearch }: SidebarProps) {
             <div className="sidebar-progress-bar">
               <div className="sidebar-progress-fill" style={{ width: `${calculateProgress(doneCount, totalCount)}%` }} />
             </div>
-            <span className="sidebar-progress-label">{doneCount}/{totalCount} done</span>
+            <span className="sidebar-progress-label">{t('sidebar.progress', { current: doneCount, total: totalCount })}</span>
           </div>
         )}
 

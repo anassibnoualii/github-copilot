@@ -49,7 +49,7 @@ export default function HomePage() {
               <div className="hero-progress-bar">
                 <div className="hero-progress-fill" style={{ width: `${pct}%` }} />
               </div>
-              <span className="hero-progress-label">{doneCount}/{totalCount} modules completed</span>
+              <span className="hero-progress-label">{t('home.progressLabel', { current: doneCount, total: totalCount })}</span>
             </div>
           )}
         </div>

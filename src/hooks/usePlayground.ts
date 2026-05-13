@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useLocalisedPlayground } from '@/hooks/useLocalisedData'
 import playgroundData from '@/data/playground'
 import type { PlaygroundData, PlaygroundMode, TerminalLine } from '@/types'
@@ -9,32 +10,30 @@ function resolveEntry(task: string, localised: PlaygroundData) {
   return null
 }
 
-export function buildResponseLines(task: string, mode: PlaygroundMode, localised: PlaygroundData): TerminalLine[] {
-  const entry = resolveEntry(task, localised)
-  if (!entry) {
-    return [
-      { kind: 'label',  text: 'Thinking about your request...' },
-      { kind: 'result', text: 'No pre-built response for this task — try an example below.' },
-    ]
-  }
-
-  const executing = mode === 'autopilot' ? 'Executing (autopilot)...' : 'Executing...'
-  const planLines: TerminalLine[] = entry.plan.map((s, i) => ({ kind: 'result', text: `  ${i + 1}. ${s}` }))
-
-  return [
-    { kind: 'label', text: 'Plan:' },
-    ...planLines,
-    { kind: 'label', text: executing },
-    ...entry.steps,
-    { kind: 'success', text: '✓ Done.' },
-  ]
-}
-
 export function usePlayground() {
+  const { t } = useTranslation()
   const localised = useLocalisedPlayground()
 
   function build(task: string, mode: PlaygroundMode): TerminalLine[] {
-    return buildResponseLines(task, mode, localised)
+    const entry = resolveEntry(task, localised)
+
+    if (!entry) {
+      return [
+        { kind: 'label',  text: t('playground.thinking') },
+        { kind: 'result', text: t('playground.noResponse') },
+      ]
+    }
+
+    const executingKey = mode === 'autopilot' ? 'playground.executingAutopilot' : 'playground.executing'
+    const planLines: TerminalLine[] = entry.plan.map((s, i) => ({ kind: 'result', text: `  ${i + 1}. ${s}` }))
+
+    return [
+      { kind: 'label',   text: t('playground.plan') },
+      ...planLines,
+      { kind: 'label',   text: t(executingKey) },
+      ...entry.steps,
+      { kind: 'success', text: t('playground.done') },
+    ]
   }
 
   return { build, examples: localised.examples }

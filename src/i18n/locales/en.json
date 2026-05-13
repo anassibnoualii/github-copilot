@@ -1,7 +1,8 @@
 {
   "common": {
     "copy": "Copy",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "loading": "Loading…"
   },
   "app": {
     "name": "GitHub Copilot",
@@ -25,6 +26,9 @@
     "promptBuilder": "Prompt Builder",
     "javaGuide": "Java Guide",
     "projectGuide": "Project Guide"
+  },
+  "sidebar": {
+    "progress": "{{current}}/{{total}} done"
   },
   "topbar": {
     "findMyLevel": "Find My Level",
@@ -58,6 +62,7 @@
       "javaGuide":       { "title": "Java Guide",         "desc": "Complete Copilot setup for Spring Boot projects" },
       "projectGuide":    { "title": "Project Guide",      "desc": "IntelliJ + CLI setup from installation to team config" }
     },
+    "progressLabel": "{{current}}/{{total}} modules completed",
     "completionTitle": "You've completed all modules!",
     "completionSub": "{{count}} modules finished — you're a GitHub Copilot power user.",
     "completionReset": "Reset progress"
@@ -84,6 +89,7 @@
     "result": {
       "heading": "Your recommended starting point",
       "basedOn": "Based on your answers (score: {{score}})",
+      "moduleNum": "Module {{id}}",
       "goToModule": "Go to Module {{id}}",
       "retake": "Retake Quiz"
     }
@@ -161,6 +167,12 @@
     }
   },
   "playground": {
+    "thinking": "Thinking about your request...",
+    "plan": "Plan:",
+    "executing": "Executing...",
+    "executingAutopilot": "Executing (autopilot)...",
+    "done": "✓ Done.",
+    "noResponse": "No pre-built response for this task — try an example below.",
     "freeType": "Free Type",
     "guided": "Guided",
     "normal": "Normal",

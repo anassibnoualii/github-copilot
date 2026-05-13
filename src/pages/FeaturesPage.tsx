@@ -9,6 +9,17 @@ import { useFeaturesFilter } from '@/hooks/useFeaturesFilter'
 import { useLocalisedFeatures } from '@/hooks/useLocalisedData'
 import { LEVEL_FILTER_VALUES, CATEGORY_FILTER_VALUES } from '@/data/features'
 
+const LEVEL_LABEL_KEYS: Record<string, string> = {
+  all: 'features.allLevels', beginner: 'levels.beginner',
+  intermediate: 'levels.intermediate', advanced: 'levels.advanced',
+}
+
+const CATEGORY_LABEL_KEYS: Record<string, string> = {
+  all: 'features.allCategories', IDE: 'features.categories.IDE',
+  CLI: 'features.categories.CLI', 'GitHub.com': 'features.categories.githubCom',
+  Extensions: 'features.categories.extensions', Enterprise: 'features.categories.enterprise',
+}
+
 export default function FeaturesPage() {
   const { t } = useTranslation()
   const localisedFeatures = useLocalisedFeatures()
@@ -16,18 +27,8 @@ export default function FeaturesPage() {
     useFeaturesFilter(localisedFeatures)
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null)
 
-  const LEVEL_LABEL_KEYS: Record<string, string> = {
-    all: 'features.allLevels', beginner: 'levels.beginner',
-    intermediate: 'levels.intermediate', advanced: 'levels.advanced',
-  }
-  const CATEGORY_LABEL_KEYS: Record<string, string> = {
-    all: 'features.allCategories', IDE: 'features.categories.IDE',
-    CLI: 'features.categories.CLI', 'GitHub.com': 'features.categories.githubCom',
-    Extensions: 'features.categories.extensions', Enterprise: 'features.categories.enterprise',
-  }
-
-  const LEVELS      = LEVEL_FILTER_VALUES.map(v => ({ value: v, label: t(LEVEL_LABEL_KEYS[v]) }))
-  const CATEGORIES  = CATEGORY_FILTER_VALUES.map(v => ({ value: v, label: t(CATEGORY_LABEL_KEYS[v]) }))
+  const LEVELS     = LEVEL_FILTER_VALUES.map(v => ({ value: v, label: t(LEVEL_LABEL_KEYS[v]) }))
+  const CATEGORIES = CATEGORY_FILTER_VALUES.map(v => ({ value: v, label: t(CATEGORY_LABEL_KEYS[v]) }))
 
   function toggleExpand(i: number) {
     setExpandedIdx(prev => (prev === i ? null : i))

@@ -52,7 +52,7 @@ export default function TabbedMdxPage({ badgeKey, titleKey, descKey, tabs, glob 
 
       <div className="jg-panel module-content">
         <MDXProvider components={mdxComponents}>
-          <Suspense fallback={<p className="muted">Loading…</p>}>
+          <Suspense fallback={<p className="muted">{t('common.loading')}</p>}>
             <Content />
           </Suspense>
         </MDXProvider>

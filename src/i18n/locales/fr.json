@@ -1,7 +1,8 @@
 {
   "common": {
     "copy": "Copier",
-    "copied": "Copié !"
+    "copied": "Copié !",
+    "loading": "Chargement…"
   },
   "app": {
     "name": "GitHub Copilot",
@@ -25,6 +26,9 @@
     "promptBuilder": "Constructeur d'invites",
     "javaGuide": "Guide Java",
     "projectGuide": "Guide Projet"
+  },
+  "sidebar": {
+    "progress": "{{current}}/{{total}} terminés"
   },
   "topbar": {
     "findMyLevel": "Mon niveau",
@@ -58,6 +62,7 @@
       "javaGuide":       { "title": "Guide Java",               "desc": "Configuration Copilot complète pour Spring Boot" },
       "projectGuide":    { "title": "Guide Projet",             "desc": "Configuration IntelliJ + CLI de l'installation à la config équipe" }
     },
+    "progressLabel": "{{current}}/{{total}} modules terminés",
     "completionTitle": "Vous avez terminé tous les modules !",
     "completionSub": "{{count}} modules terminés — vous êtes un utilisateur avancé de GitHub Copilot.",
     "completionReset": "Réinitialiser la progression"
@@ -84,6 +89,7 @@
     "result": {
       "heading": "Votre point de départ recommandé",
       "basedOn": "Selon vos réponses (score : {{score}})",
+      "moduleNum": "Module {{id}}",
       "goToModule": "Aller au module {{id}}",
       "retake": "Recommencer le quiz"
     }
@@ -161,6 +167,12 @@
     }
   },
   "playground": {
+    "thinking": "Réflexion en cours...",
+    "plan": "Plan :",
+    "executing": "Exécution...",
+    "executingAutopilot": "Exécution (autopilote)...",
+    "done": "✓ Terminé.",
+    "noResponse": "Pas de réponse pré-construite pour cette tâche — essayez un exemple ci-dessous.",
     "freeType": "Saisie libre",
     "guided": "Guidé",
     "normal": "Normal",

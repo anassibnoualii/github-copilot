@@ -21,7 +21,7 @@ export default function QuizPage() {
             <h2>{t('quiz.result.heading')}</h2>
             <p>{t('quiz.result.basedOn', { score: total })}</p>
             <div className="quiz-result-module">
-              <div className="quiz-result-module-num">Module {result.module}</div>
+              <div className="quiz-result-module-num">{t('quiz.result.moduleNum', { id: result.module })}</div>
               <div className="quiz-result-module-name">{result.name}</div>
               <p className="quiz-result-desc">{result.desc}</p>
             </div>
