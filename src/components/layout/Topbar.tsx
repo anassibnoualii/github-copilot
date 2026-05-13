@@ -32,6 +32,7 @@ export default function Topbar({ onMenuClick, onSearch }: TopbarProps) {
       '/config-builder':    t('nav.configBuilder'),
       '/shortcut-trainer':  t('nav.shortcutTrainer'),
       '/prompt-builder':    t('nav.promptBuilder'),
+      '/java-guide':        t('nav.javaGuide'),
     }
     return map[pathname] ?? t('app.breadcrumbRoot')
   }

@@ -16,6 +16,7 @@ const QUICK_LINK_KEYS = [
   { to: '/config-builder',   key: 'configBuilder' },
   { to: '/shortcut-trainer', key: 'shortcutTrainer' },
   { to: '/prompt-builder',   key: 'promptBuilder' },
+  { to: '/java-guide',       key: 'javaGuide' },
 ] as const
 
 export default function HomePage() {

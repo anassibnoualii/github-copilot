@@ -10,6 +10,7 @@ import ReferencesPage from '@/pages/ReferencesPage'
 import ConfigBuilderPage from '@/pages/ConfigBuilderPage'
 import ShortcutTrainerPage from '@/pages/ShortcutTrainerPage'
 import PromptBuilderPage from '@/pages/PromptBuilderPage'
+import JavaGuidePage from '@/pages/JavaGuidePage'
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="config-builder" element={<ConfigBuilderPage />} />
         <Route path="shortcut-trainer" element={<ShortcutTrainerPage />} />
         <Route path="prompt-builder" element={<PromptBuilderPage />} />
+        <Route path="java-guide" element={<JavaGuidePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

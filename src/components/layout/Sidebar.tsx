@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked, Settings2, CheckCircle2, Keyboard, Wand2, Search } from 'lucide-react'
+import { Home, Target, Terminal, BookOpen, LayoutGrid, BookMarked, Settings2, CheckCircle2, Keyboard, Wand2, Search, Coffee } from 'lucide-react'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { useProgress } from '@/hooks/useProgress'
 import { navLinkClass, LEVEL_NAV_BADGE, LEVEL_SHORT_LABEL } from '@/lib/utils'
@@ -64,6 +64,7 @@ export default function Sidebar({ isOpen, onClose, onSearch }: SidebarProps) {
     { to: '/config-builder',  icon: <Settings2 size={14} />,   label: t('nav.configBuilder') },
     { to: '/shortcut-trainer',icon: <Keyboard size={14} />,    label: t('nav.shortcutTrainer') },
     { to: '/prompt-builder',  icon: <Wand2 size={14} />,       label: t('nav.promptBuilder') },
+    { to: '/java-guide',      icon: <Coffee size={14} />,       label: t('nav.javaGuide') },
   ]
 
   return (

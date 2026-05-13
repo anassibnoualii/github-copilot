@@ -18,7 +18,8 @@
     "references": "References",
     "configBuilder": "Config Builder",
     "shortcutTrainer": "Shortcut Trainer",
-    "promptBuilder": "Prompt Builder"
+    "promptBuilder": "Prompt Builder",
+    "javaGuide": "Java Guide"
   },
   "topbar": {
     "findMyLevel": "Find My Level",
@@ -48,7 +49,8 @@
       "quiz":            { "title": "Quiz",               "desc": "Find the right starting module for you" },
       "configBuilder":   { "title": "Config Builder",     "desc": "Generate your VS Code settings.json visually" },
       "shortcutTrainer": { "title": "Shortcut Trainer",   "desc": "Drill the top Copilot shortcuts with flashcards" },
-      "promptBuilder":   { "title": "Prompt Builder",     "desc": "Assemble perfect prompts with participants & context" }
+      "promptBuilder":   { "title": "Prompt Builder",     "desc": "Assemble perfect prompts with participants & context" },
+      "javaGuide":       { "title": "Java Guide",         "desc": "Complete Copilot setup for Spring Boot projects" }
     },
     "completionTitle": "You've completed all modules!",
     "completionSub": "{{count}} modules finished — you're a GitHub Copilot power user.",
@@ -244,6 +246,20 @@
     "tip1": "Add a participant like @workspace when your task spans multiple files",
     "tip2": "Use #file or #selection to give Copilot precise code context",
     "tip3": "Constraints narrow the output — use them to enforce style, language, or API boundaries"
+  },
+  "javaGuide": {
+    "badge": "Reference",
+    "title": "GitHub Copilot for Java",
+    "description": "Custom instructions, VS Code config, prompting patterns, CLI tasks, Agent Mode, and Copilot Edits — all with real Spring Boot examples.",
+    "tabs": {
+      "overview": "Overview",
+      "instructions": "Custom Instructions",
+      "settings": "VS Code Settings",
+      "prompting": "Prompting",
+      "cli": "Copilot CLI",
+      "agent": "Agent Mode",
+      "edits": "Copilot Edits"
+    }
   },
   "lang": {
     "switcher": "Language"

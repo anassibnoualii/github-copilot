@@ -18,7 +18,8 @@
     "references": "Références",
     "configBuilder": "Constructeur de config",
     "shortcutTrainer": "Entraîneur de raccourcis",
-    "promptBuilder": "Constructeur d'invites"
+    "promptBuilder": "Constructeur d'invites",
+    "javaGuide": "Guide Java"
   },
   "topbar": {
     "findMyLevel": "Mon niveau",
@@ -48,7 +49,8 @@
       "quiz":            { "title": "Quiz",                     "desc": "Trouvez le bon module de départ pour vous" },
       "configBuilder":   { "title": "Constructeur de config",   "desc": "Générez votre settings.json VS Code visuellement" },
       "shortcutTrainer": { "title": "Entraîneur de raccourcis", "desc": "Apprenez les raccourcis clavier Copilot avec des cartes mémoire" },
-      "promptBuilder":   { "title": "Constructeur d'invites",   "desc": "Assemblez des invites parfaites avec participants et contexte" }
+      "promptBuilder":   { "title": "Constructeur d'invites",   "desc": "Assemblez des invites parfaites avec participants et contexte" },
+      "javaGuide":       { "title": "Guide Java",               "desc": "Configuration Copilot complète pour Spring Boot" }
     },
     "completionTitle": "Vous avez terminé tous les modules !",
     "completionSub": "{{count}} modules terminés — vous êtes un utilisateur avancé de GitHub Copilot.",
@@ -244,6 +246,20 @@
     "tip1": "Ajoutez un participant comme @workspace quand votre tâche couvre plusieurs fichiers",
     "tip2": "Utilisez #file ou #selection pour donner à Copilot un contexte de code précis",
     "tip3": "Les contraintes affinent la sortie — utilisez-les pour imposer un style, un langage ou des limites d'API"
+  },
+  "javaGuide": {
+    "badge": "Référence",
+    "title": "GitHub Copilot pour Java",
+    "description": "Instructions personnalisées, config VS Code, patterns de prompts, CLI, Mode Agent et Copilot Edits — avec des exemples Spring Boot réels.",
+    "tabs": {
+      "overview": "Vue d'ensemble",
+      "instructions": "Instructions personnalisées",
+      "settings": "Paramètres VS Code",
+      "prompting": "Prompts",
+      "cli": "Copilot CLI",
+      "agent": "Mode Agent",
+      "edits": "Copilot Edits"
+    }
   },
   "lang": {
     "switcher": "Langue"
