@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Copy, Check } from 'lucide-react'
 import PageHeader from '@/components/shared/PageHeader'
+import CopyButton from '@/components/shared/CopyButton'
 import { PARTICIPANTS, SLASH_COMMANDS, CONTEXT_VARS } from '@/data/prompt-builder'
 
 function assemblePrompt(
@@ -28,20 +28,10 @@ export default function PromptBuilderPage() {
   const [context, setContext] = useState<string[]>([])
   const [task, setTask] = useState('')
   const [constraints, setConstraints] = useState('')
-  const [copied, setCopied] = useState(false)
-
   const prompt = assemblePrompt(participant, command, context, task, constraints)
 
   function toggleContext(v: string) {
     setContext(prev => prev.includes(v) ? prev.filter(c => c !== v) : [...prev, v])
-  }
-
-  function copy() {
-    if (!prompt.trim()) return
-    navigator.clipboard.writeText(prompt).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    })
   }
 
   return (
@@ -125,9 +115,7 @@ export default function PromptBuilderPage() {
         <div className="pb-preview-panel">
           <div className="pb-preview-header">
             <span className="pb-preview-title">{t('promptBuilder.previewTitle')}</span>
-            <button className="pb-copy-btn" onClick={copy} disabled={!prompt.trim()}>
-              {copied ? <><Check size={13} /> {t('promptBuilder.copied')}</> : <><Copy size={13} /> {t('promptBuilder.copy')}</>}
-            </button>
+            <CopyButton text={prompt} disabled={!prompt.trim()} />
           </div>
           <pre className="pb-preview">
             {prompt.trim() || <span className="pb-preview-empty">{t('promptBuilder.previewEmpty')}</span>}

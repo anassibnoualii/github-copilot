@@ -1,7 +1,8 @@
 import { useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CheckCircle, XCircle, RotateCcw, ChevronRight, ChevronLeft, Brain } from 'lucide-react'
+import { CheckCircle, XCircle, RotateCcw, Brain } from 'lucide-react'
 import PageHeader from '@/components/shared/PageHeader'
+import NavPair from '@/components/shared/NavPair'
 import { useLocalisedCheatsheet } from '@/hooks/useLocalisedData'
 
 interface Card {
@@ -91,23 +92,18 @@ export default function ShortcutTrainerPage() {
               </button>
             </div>
           ) : (
-            <div className="st-nav">
-              <button
-                className="st-nav-btn"
-                onClick={() => { setIdx(i => Math.max(0, i - 1)); setFlipped(false) }}
-                disabled={idx === 0}
-              >
-                <ChevronLeft size={14} /> {t('shortcutTrainer.prev')}
-              </button>
+            <NavPair
+              wrapClass="st-nav"
+              btnClass="st-nav-btn"
+              onPrev={() => { setIdx(i => Math.max(0, i - 1)); setFlipped(false) }}
+              prevDisabled={idx === 0}
+              prevLabel={t('shortcutTrainer.prev')}
+              onNext={() => { setIdx(i => Math.min(allCards.length - 1, i + 1)); setFlipped(false) }}
+              nextDisabled={idx === allCards.length - 1}
+              nextLabel={t('shortcutTrainer.next')}
+            >
               <span className="st-nav-label">{t('shortcutTrainer.flipHint')}</span>
-              <button
-                className="st-nav-btn"
-                onClick={() => { setIdx(i => Math.min(allCards.length - 1, i + 1)); setFlipped(false) }}
-                disabled={idx === allCards.length - 1}
-              >
-                {t('shortcutTrainer.next')} <ChevronRight size={14} />
-              </button>
-            </div>
+            </NavPair>
           )}
 
           <div className="st-score-row">

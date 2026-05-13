@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Play, RotateCcw, Terminal, ChevronRight, ChevronLeft } from 'lucide-react'
+import { Play, RotateCcw, Terminal } from 'lucide-react'
 import { usePlayground } from '@/hooks/usePlayground'
+import TabBar from '@/components/shared/TabBar'
+import NavPair from '@/components/shared/NavPair'
 import type { PlaygroundMode, TerminalLine } from '@/types'
 
 type HistoryEntry =
@@ -56,33 +58,25 @@ export default function PlaygroundPage() {
   return (
     <div className="pg-wrap">
       <div className="pg-topbar">
-        <div className="pg-mode-tabs">
-          <button
-            className={`pg-mode-tab ${pgMode === 'free' ? 'active' : ''}`}
-            onClick={() => setPgMode('free')}
-          >
-            <Terminal size={13} /> {t('playground.freeType')}
-          </button>
-          <button
-            className={`pg-mode-tab ${pgMode === 'guided' ? 'active' : ''}`}
-            onClick={() => setPgMode('guided')}
-          >
-            <Play size={13} /> {t('playground.guided')}
-          </button>
-        </div>
+        <TabBar
+          tabs={[
+            { value: 'free',    label: <><Terminal size={13} /> {t('playground.freeType')}</> },
+            { value: 'guided',  label: <><Play size={13} /> {t('playground.guided')}</> },
+          ]}
+          active={pgMode}
+          onChange={(v) => setPgMode(v as 'free' | 'guided')}
+          wrapClass="pg-mode-tabs"
+          btnClass="pg-mode-tab"
+        />
 
         <div className="pg-topbar-right">
-          <div className="cli-mode-select">
-            {(['normal', 'autopilot'] as PlaygroundMode[]).map(m => (
-              <button
-                key={m}
-                className={`cli-mode-btn ${mode === m ? 'active' : ''}`}
-                onClick={() => setMode(m)}
-              >
-                {t(`playground.${m}`)}
-              </button>
-            ))}
-          </div>
+          <TabBar
+            tabs={(['normal', 'autopilot'] as PlaygroundMode[]).map(m => ({ value: m, label: t(`playground.${m}`) }))}
+            active={mode}
+            onChange={(v) => setMode(v as PlaygroundMode)}
+            wrapClass="cli-mode-select"
+            btnClass="cli-mode-btn"
+          />
           <button className="pg-reset-btn" onClick={reset}>
             <RotateCcw size={13} /> {t('playground.reset')}
           </button>
@@ -178,30 +172,23 @@ export default function PlaygroundPage() {
               )}
             </div>
             <p className="pg-guided-task">{currentExample?.task}</p>
-            <div className="pg-guided-actions">
-              <button
-                className="pg-guided-nav"
-                onClick={() => setGuidedStep(s => Math.max(0, s - 1))}
-                disabled={guidedStep === 0}
-              >
-                <ChevronLeft size={14} />
-                {t('playground.prev')}
-              </button>
+            <NavPair
+              wrapClass="pg-guided-actions"
+              btnClass="pg-guided-nav"
+              onPrev={() => setGuidedStep(s => Math.max(0, s - 1))}
+              prevDisabled={guidedStep === 0}
+              prevLabel={t('playground.prev')}
+              onNext={() => setGuidedStep(s => Math.min(examples.length - 1, s + 1))}
+              nextDisabled={guidedStep === examples.length - 1}
+              nextLabel={t('playground.next')}
+            >
               <button
                 className="pg-guided-run"
                 onClick={() => { if (currentExample) run(currentExample.task, currentExample.mode) }}
               >
                 <Play size={13} /> {t('playground.runThis')}
               </button>
-              <button
-                className="pg-guided-nav"
-                onClick={() => setGuidedStep(s => Math.min(examples.length - 1, s + 1))}
-                disabled={guidedStep === examples.length - 1}
-              >
-                {t('playground.next')}
-                <ChevronRight size={14} />
-              </button>
-            </div>
+            </NavPair>
           </div>
         </div>
       )}

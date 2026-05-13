@@ -2,6 +2,8 @@ import { lazy, Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MDXProvider } from '@mdx-js/react'
 import mdxComponents from '@/components/mdx/mdx-components'
+import PageHeader from '@/components/shared/PageHeader'
+import TabBar from '@/components/shared/TabBar'
 
 type TabId = 'overview' | 'instructions' | 'settings' | 'prompting' | 'cli' | 'agent' | 'edits'
 
@@ -35,21 +37,19 @@ export default function JavaGuidePage() {
 
   return (
     <div className="page">
-      <div className="section-label">{t('javaGuide.badge')}</div>
-      <h1>{t('javaGuide.title')}</h1>
-      <p className="page-desc">{t('javaGuide.description')}</p>
+      <PageHeader
+        badge={t('javaGuide.badge')}
+        title={t('javaGuide.title')}
+        desc={t('javaGuide.description')}
+      />
 
-      <div className="jg-tabs">
-        {TABS.map(({ id, label }) => (
-          <button
-            key={id}
-            className={`jg-tab${tab === id ? ' active' : ''}`}
-            onClick={() => setTab(id)}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+      <TabBar
+        tabs={TABS.map(({ id, label }) => ({ value: id, label }))}
+        active={tab}
+        onChange={(v) => setTab(v as TabId)}
+        wrapClass="jg-tabs"
+        btnClass="jg-tab"
+      />
 
       <div className="jg-panel module-content">
         <MDXProvider components={mdxComponents}>

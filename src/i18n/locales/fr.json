@@ -1,4 +1,8 @@
 {
+  "common": {
+    "copy": "Copier",
+    "copied": "Copié !"
+  },
   "app": {
     "name": "GitHub Copilot",
     "subtitle": "Atelier Interactif",

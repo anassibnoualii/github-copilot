@@ -1,7 +1,8 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Copy, Check, Settings } from 'lucide-react'
+import { Settings } from 'lucide-react'
+import { useState } from 'react'
 import PageHeader from '@/components/shared/PageHeader'
+import CopyButton from '@/components/shared/CopyButton'
 import GROUPS from '@/data/config-builder'
 
 function buildJson(enabled: Record<string, boolean>): string {
@@ -42,16 +43,8 @@ export default function ConfigBuilderPage() {
     }
   }
   const [enabled, setEnabled] = useState(initial)
-  const [copied, setCopied] = useState(false)
-
   function toggle(key: string) {
     setEnabled(prev => ({ ...prev, [key]: !prev[key] }))
-  }
-
-  function copy() {
-    navigator.clipboard.writeText(buildJson(enabled))
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
   }
 
   const json = buildJson(enabled)
@@ -97,9 +90,7 @@ export default function ConfigBuilderPage() {
             <div className="cb-preview-title">
               <Settings size={13} /> {t('configBuilder.previewTitle')}
             </div>
-            <button className="cb-copy-btn" onClick={copy}>
-              {copied ? <><Check size={12} /> {t('configBuilder.copied')}</> : <><Copy size={12} /> {t('configBuilder.copy')}</>}
-            </button>
+            <CopyButton text={json} />
           </div>
           <pre className="cb-json">{json}</pre>
           <p className="cb-hint">{t('configBuilder.hint')}</p>

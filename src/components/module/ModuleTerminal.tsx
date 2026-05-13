@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Play, RotateCcw, ChevronRight, ChevronLeft, Terminal } from 'lucide-react'
+import { Play, RotateCcw, Terminal } from 'lucide-react'
+import TabBar from '@/components/shared/TabBar'
+import NavPair from '@/components/shared/NavPair'
+import StepDots from '@/components/shared/StepDots'
 import type { TutorialStep } from '@/types'
 
 interface Props {
@@ -50,31 +53,24 @@ export default function ModuleTerminal({ tutorial }: Props) {
 
   return (
     <div className="mt-wrap">
-      <div className="mt-tabs">
-        <button
-          className={`mt-tab ${tab === 'guided' ? 'active' : ''}`}
-          onClick={() => setTab('guided')}
-        >
-          <Play size={11} /> {t('moduleTerminal.guided')}
-        </button>
-        <button
-          className={`mt-tab ${tab === 'free' ? 'active' : ''}`}
-          onClick={() => setTab('free')}
-        >
-          <Terminal size={11} /> {t('moduleTerminal.tryIt')}
-        </button>
-      </div>
+      <TabBar
+        tabs={[
+          { value: 'guided', label: <><Play size={11} /> {t('moduleTerminal.guided')}</> },
+          { value: 'free',   label: <><Terminal size={11} /> {t('moduleTerminal.tryIt')}</> },
+        ]}
+        active={tab}
+        onChange={(v) => setTab(v as 'guided' | 'free')}
+        wrapClass="mt-tabs"
+        btnClass="mt-tab"
+      />
 
       {tab === 'guided' ? (
         <div className="mt-guided">
-          <div className="mt-step-header">
-            <span className="mt-step-num">{t('moduleTerminal.step', { current: step + 1, total: totalSteps })}</span>
-            <div className="mt-step-dots">
-              {tutorial.map((_, i) => (
-                <span key={i} className={`mt-dot ${i === step ? 'active' : i < step ? 'done' : ''}`} />
-              ))}
-            </div>
-          </div>
+          <StepDots
+            current={step}
+            total={totalSteps}
+            label={t('moduleTerminal.step', { current: step + 1, total: totalSteps })}
+          />
 
           <div className="mt-step-input">
             <span className="mt-prompt-glyph">›</span>
@@ -83,22 +79,17 @@ export default function ModuleTerminal({ tutorial }: Props) {
 
           <pre className="mt-step-output">{current.output}</pre>
 
-          <div className="mt-step-nav">
-            <button
-              className="mt-nav-btn"
-              onClick={() => setStep(s => s - 1)}
-              disabled={step === 0}
-            >
-              <ChevronLeft size={13} /> {t('moduleTerminal.prev')}
-            </button>
-            <button
-              className="mt-nav-btn"
-              onClick={() => setStep(s => s + 1)}
-              disabled={step === totalSteps - 1}
-            >
-              {t('moduleTerminal.next')} <ChevronRight size={13} />
-            </button>
-          </div>
+          <NavPair
+            wrapClass="mt-step-nav"
+            btnClass="mt-nav-btn"
+            onPrev={() => setStep(s => s - 1)}
+            prevDisabled={step === 0}
+            prevLabel={t('moduleTerminal.prev')}
+            onNext={() => setStep(s => s + 1)}
+            nextDisabled={step === totalSteps - 1}
+            nextLabel={t('moduleTerminal.next')}
+            iconSize={13}
+          />
         </div>
       ) : (
         <div className="mt-free">
