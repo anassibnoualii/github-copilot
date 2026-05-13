@@ -32,6 +32,7 @@ function TabPanel({ active, children }: { active: boolean; children: React.React
   return <div className="jg-panel">{children}</div>
 }
 
+// ── Tab 2: Custom Instructions ────────────────────────────────────────
 const INSTRUCTIONS_CODE = `# GitHub Copilot Instructions — Spring Boot Project
 
 ## Stack
@@ -65,9 +66,9 @@ const INSTRUCTIONS_CODE = `# GitHub Copilot Instructions — Spring Boot Project
 
 ## Build Commands
 - Build: ./mvnw clean package -DskipTests
-- Test: ./mvnw test
+- Test:  ./mvnw test
 - Single test: ./mvnw test -Dtest=UserServiceTest
-- Run: ./mvnw spring-boot:run
+- Run:   ./mvnw spring-boot:run
 
 ## Git Commit Format
 <type>(<scope>): <summary>
@@ -75,6 +76,29 @@ const INSTRUCTIONS_CODE = `# GitHub Copilot Instructions — Spring Boot Project
 Types: feat, fix, refactor, test, docs, chore
 Example: feat(orders): add POST /api/v1/orders endpoint`
 
+const AGENTS_MD_CODE = `# Agent Instructions — Spring Boot Project
+
+## Before Making Changes
+1. Read the relevant service/controller files to understand existing patterns
+2. Check if a similar implementation already exists before creating new files
+3. Verify the database schema by reading existing entity classes
+
+## Build & Test After Changes
+- Always run ./mvnw test after modifying service or repository classes
+- For controller changes: ./mvnw test -Dtest="*IT"
+
+## File Creation Rules
+- Entities  → src/main/java/com/example/domain/
+- DTOs      → src/main/java/com/example/dto/
+- Services  → src/main/java/com/example/service/
+- Tests mirror source: src/test/java/...
+
+## Do Not
+- Modify src/main/resources/application.properties directly
+- Add dependencies to pom.xml without explaining why
+- Change existing database migration files in src/main/resources/db/migration/`
+
+// ── Tab 3: VS Code Settings ───────────────────────────────────────────
 const SETTINGS_CODE = `{
   "github.copilot.enable": {
     "*": true,
@@ -107,77 +131,194 @@ const SETTINGS_CODE = `{
   }
 }`
 
-const AGENTS_MD_CODE = `# Agent Instructions — Spring Boot Project
+// ── Tab 5: CLI ────────────────────────────────────────────────────────
+const CLI_INSTALL_CODE = `# npm (requires Node.js 22+) — all platforms
+npm install -g @github/copilot
 
-## Before Making Changes
-1. Read the relevant service/controller files to understand existing patterns
-2. Check if a similar implementation already exists before creating new files
-3. Verify the database schema by reading existing entity classes
+# Homebrew — macOS / Linux
+brew install copilot-cli
 
-## Build & Test After Changes
-- Always run ./mvnw test after modifying service or repository classes
-- For controller changes, run integration tests: ./mvnw test -Dtest="*IT"
+# WinGet — Windows
+winget install GitHub.Copilot
 
-## File Creation Rules
-- New entities go in src/main/java/com/example/domain/
-- New DTOs go in src/main/java/com/example/dto/
-- New services go in src/main/java/com/example/service/
-- Tests mirror source: src/test/java/...
+# Install script — macOS / Linux (supports PREFIX and VERSION env vars)
+curl -fsSL https://gh.io/copilot-install | bash
 
-## Do Not
-- Modify src/main/resources/application.properties directly
-- Add dependencies to pom.xml without explaining why
-- Change existing database migration files in src/main/resources/db/migration/`
+# Verify
+copilot version
 
-const CLI_CODE = `# Fix failing tests — pipe Maven output to Copilot
+# First launch — authenticate via GitHub OAuth
+copilot        # then type /login`
+
+const CLI_JAVA_TASKS_CODE = `# ── Pipe Maven output directly to Copilot ────────────────────────────
 ./mvnw test 2>&1 | copilot "analyse these test failures and fix the root causes"
 
-# Add error handling to a whole package
-copilot "Add try/catch with SLF4J logging to all public methods in \\
-  src/main/java/com/example/service/ — log entry at DEBUG, exceptions at ERROR"
+# ── Add error handling across a package ──────────────────────────────
+# (start copilot session, then type the task at the prompt)
+Add try/catch with SLF4J logging to all public methods in
+src/main/java/com/example/service/ — log entry at DEBUG, exceptions at ERROR
 
-# Write a production Dockerfile
-copilot "Write a multi-stage Dockerfile for this Spring Boot app. \\
-  Use eclipse-temurin:21-jre-alpine as runtime. Run as non-root user."
+# ── Generate a production Dockerfile ─────────────────────────────────
+Write a multi-stage Dockerfile for this Spring Boot app.
+Use eclipse-temurin:21-jre-alpine as runtime. Run as non-root user.
 
-# Find unhandled checked exceptions
-copilot "Find all methods in src/ that declare throws but callers don't handle them"
+# ── Find unhandled checked exceptions ────────────────────────────────
+Find all methods in src/ that declare throws but callers don't handle them
 
-# Generate Testcontainers integration test (background — runs in cloud)
-copilot "& Write integration tests for all endpoints in OrderController \\
-  using Testcontainers PostgreSQL. Follow existing test patterns."
+# ── Non-interactive: single prompt, no session ────────────────────────
+copilot -p "Write a commit message for staged changes" -s \
+  --allow-tool='shell(git:*)'
 
-# Switch to plan mode before a risky refactor (Shift+Tab to toggle)
-# copilot will write plan.md first, then ask for approval
+copilot -p "Review src/main/java/com/example/service/UserService.java \
+  for missing error handling" -s
 
-# Explore → Plan → Code workflow
-copilot "Explore the UserService and its dependencies, then plan how to \\
-  add pagination to getAllUsers(). Show the plan before writing any code."
+# ── Autopilot: fully autonomous, no approval prompts ─────────────────
+copilot --autopilot --yolo --max-autopilot-continues 10 \
+  -p "Add @RequiredArgsConstructor and remove explicit constructors in all service classes"`
 
-# Select model for complex tasks
-# /model auto      — Copilot picks the best model
-# /model opus      — Opus 4.5 for complex multi-step reasoning
-# /model sonnet    — Sonnet 4.5 for balanced speed + quality`
+const CLI_DELEGATE_CODE = `# /delegate (& prefix) — offload to GitHub cloud agent
+# Use INSIDE a copilot session — type at the prompt:
 
-const CLI_TIPS_CODE = `# Session management commands
-/help              # List available slash commands
-/context           # Show what files are in Copilot's current context
-/clear             # Clear conversation history (keep context)
-/new               # Start a fresh session
-/resume <id>       # Resume a previous session by ID
+& Write integration tests for all endpoints in OrderController using Testcontainers PostgreSQL
 
-# Model selection
-/model auto        # Let Copilot choose (default)
-/model opus        # Claude Opus 4.5 — best for complex reasoning
-/model sonnet      # Claude Sonnet 4.5 — fast, balanced
+# Equivalent slash command form:
+/delegate Write integration tests for all endpoints in OrderController
 
-# Delegate long tasks to cloud agent
-copilot "& Refactor all service classes to use constructor injection \\
-  instead of @Autowired. Run ./mvnw test after each file."
+# What happens:
+# 1. Copilot commits your unstaged changes as a checkpoint
+# 2. Creates a draft PR on a new branch
+# 3. Cloud agent works asynchronously — safe to close the CLI session
+# 4. When done, agent requests your review on the PR
 
-# Plan mode — toggle with Shift+Tab
-# Copilot writes plan.md and waits for your approval before executing`
+# Note: /delegate requires GitHub authentication and does NOT work
+# with custom (BYOK) model providers.`
 
+const CLI_TOOLS_CODE = `# ── Tool permission flags ────────────────────────────────────────────
+# Grant Maven and git access, block accidental pushes
+copilot --allow-tool='shell(./mvnw:*)' \
+        --allow-tool='shell(git:*)' \
+        --deny-tool='shell(git push)'
+
+# Allow file writes + Maven + npm test runner
+copilot --allow-tool='write' \
+        --allow-tool='shell(./mvnw:*)' \
+        --allow-tool='shell(npm run test:*)'
+
+# Block all file writes (read-only exploration session)
+copilot --deny-tool='write'
+
+# Grant all permissions (use with care — best for isolated environments)
+copilot --allow-all
+
+# ── Two permission layers (important distinction) ─────────────────────
+# --available-tools  controls what the AI *knows exists* (availability)
+# --allow-tool       controls what the AI can *actually execute* (permission)
+# deny always beats allow; a tool not in --available-tools cannot run
+# even if --allow-tool is set
+
+# ── Mid-session permission commands ──────────────────────────────────
+# /allow-all          grant all permissions for this session
+# /yolo               alias for /allow-all
+# /reset-allowed-tools  revoke session permissions granted so far`
+
+const CLI_PLAN_MODE_CODE = `# ── Plan mode (Shift+Tab to toggle) ─────────────────────────────────
+# Copilot writes plan.md before touching any file.
+# Review and edit the plan, then approve to execute.
+
+# Start directly in plan mode:
+copilot --plan
+
+# Inside a session: press Shift+Tab until "plan" shows in the status bar
+# Ctrl+Y — open plan.md in your default editor to modify it before approval
+
+# ── Recommended workflow for risky refactors ──────────────────────────
+# 1. Shift+Tab → enter plan mode
+# 2. Describe the change (e.g. "Migrate all services to constructor injection")
+# 3. Copilot writes plan.md — review each step
+# 4. Ctrl+Y to edit the plan if needed
+# 5. Approve → Copilot executes step by step
+
+# ── /fleet — parallel subtask execution ──────────────────────────────
+# For large refactors, /fleet distributes work across multiple subagents.
+# Example workflow:
+# 1. Enter plan mode, describe the feature
+# 2. Finalize the plan with Copilot
+# 3. Type: /fleet implement the plan
+# 4. Monitor subtasks: press Enter to inspect, k to stop one, Esc to exit list`
+
+const CLI_SESSION_CODE = `# ── Session management ───────────────────────────────────────────────
+/help                  # list all slash commands
+/context               # visual token-usage overview of current context
+/clear                 # clear conversation history (keep working files)
+/new                   # start a fresh session
+/session               # display current session ID
+/resume <session-id>   # switch to a specific previous session
+/compact               # manually compress history to free context space
+
+# Resume most recent session (two equivalent forms):
+copilot --continue     # resume and auto-enable remote control
+copilot --resume       # open picker to choose from recent sessions
+
+# Name a session for easy retrieval:
+copilot -n "spring-auth-refactor"
+
+# ── Model selection ───────────────────────────────────────────────────
+/model auto             # Copilot chooses best model (default — reduced latency)
+/model claude-opus-4-5  # Claude Opus 4.5 — complex architecture, hard debugging
+/model claude-sonnet-4-5 # Claude Sonnet 4.5 — routine daily coding, fast
+/model gpt-5.2-codex    # GPT-5.2 Codex — code generation and review
+
+# ── Rollback / undo ───────────────────────────────────────────────────
+/undo                  # open checkpoint picker (alias: /rewind)
+# Or: press Esc twice with empty input — same checkpoint picker
+# Copilot keeps up to 10 snapshots per session.
+# WARNING: rollback is IRREVERSIBLE — all history after the chosen
+# checkpoint is permanently deleted. Requires at least one git commit.
+
+# Verify state after rollback:
+! git status
+! git log --oneline -3`
+
+const CLI_PR_CODE = `# ── Pull request workflows (inside a copilot session) ───────────────
+
+# View current branch PR status
+/pr
+
+# Create PR (respects your repo's PR template)
+/pr create
+
+# Create PR with a custom title prefix
+/pr create prefix the PR title "JIRA-42: "
+
+# Fix failing CI — Copilot reads CI logs, identifies root cause, applies fix
+/pr fix ci
+
+# Process review comments — Copilot applies actionable feedback from reviewers
+/pr fix feedback
+
+# Resolve merge conflicts with the base branch
+/pr fix conflicts
+
+# Run all three fix phases sequentially
+/pr fix all
+
+# Full autopilot: create PR then iterate fixes until all checks pass
+/pr auto
+
+# Open PR in browser
+/pr view web
+
+# ── Code review (before committing) ──────────────────────────────────
+# Scope to a specific package:
+/review src/main/java/com/example/service/
+
+# Review all staged changes vs main:
+/review
+
+# Or non-interactively:
+copilot -p "/review changes vs main" -s --allow-tool='shell(git:*)'`
+
+// ── Tab 6: Agent Mode ─────────────────────────────────────────────────
 const AGENT_PROMPT_1 = `Add a complete JWT authentication system to this Spring Boot app:
 
 1. Create a User entity with fields: id, email, passwordHash, roles (Set<String>), createdAt
@@ -201,18 +342,33 @@ const AGENT_PROMPT_2 = `Refactor UserService to improve quality:
 
 Do not change the REST API contract — only internal implementation.`
 
-const AGENT_TIPS_CODE = `# When to use Agent Mode vs Chat vs Edits
+const AGENT_TIPS_CODE = `# When to use each mode
 
-Agent Mode  — multi-step tasks that touch 5+ files, need terminal commands,
-              or require exploring the codebase before making changes.
-              Example: "Add authentication", "Set up CI pipeline"
+Agent Mode (VS Code)
+  Best for: multi-step tasks touching 5+ files, requiring terminal commands
+  Example:  "Add authentication", "Set up CI pipeline", "Scaffold CRUD module"
 
-Copilot Chat — questions, explanations, short code snippets, single-file fixes.
-              Example: "/explain #selection", "/fix", "@workspace find usages of X"
+Copilot CLI — Normal mode (interactive session)
+  Best for: guided tasks with back-and-forth, piping command output, exploration
+  Example:  ./mvnw test 2>&1 | copilot "fix these failures"
 
-Copilot Edits — targeted multi-file edits with a known working set.
-                Example: "Rename UserDto to UserResponse in these 4 files"`
+Copilot CLI — Autopilot mode (Shift+Tab → autopilot / --autopilot flag)
+  Best for: autonomous batch tasks, no approval needed at each step
+  Example:  Add @RequiredArgsConstructor to 30 service classes
 
+Copilot CLI — /delegate (cloud agent, & prefix)
+  Best for: long tasks you want to offload completely while you work on something else
+  Example:  & Write integration tests for all 12 controllers using Testcontainers
+
+Copilot Chat (IDE)
+  Best for: questions, single-file fixes, /explain, /fix, /tests on a selection
+  Example:  "/explain #selection — why is @EntityGraph needed here?"
+
+Copilot Edits (IDE)
+  Best for: coordinated multi-file changes with a known, bounded working set
+  Example:  "Rename UserDto to UserResponse in these 4 files"`
+
+// ── Tab 7: Copilot Edits ──────────────────────────────────────────────
 const EDITS_PROMPT_1 = `Add SLF4J logging to all public methods in the service layer.
 
 Working set: Add all *Service.java files from src/main/java/com/example/service/
@@ -272,59 +428,96 @@ export default function JavaGuidePage() {
         ))}
       </div>
 
+      {/* ── Overview ─────────────────────────────────────────────── */}
       <TabPanel active={tab === 'overview'}>
         <h2 className="jg-section-title">Why setup matters</h2>
         <p className="jg-section-desc">
           Out of the box, GitHub Copilot knows nothing about your project's conventions,
-          architecture, or constraints. A few configuration files change that — they feed
-          Copilot the context it needs to produce suggestions that actually fit your codebase
+          architecture, or constraints. A few configuration files change that — they inject
+          context into every interaction so Copilot produces suggestions that fit your codebase
           rather than generic Java code.
         </p>
 
         <h2 className="jg-section-title">How the pieces connect</h2>
         <p className="jg-section-desc">
-          <strong>copilot-instructions.md</strong> sets standing rules (stack, style, architecture).{' '}
-          <strong>settings.json</strong> controls which languages get completions and enables instruction files.{' '}
-          <strong>AGENTS.md</strong> tells Agent Mode how to explore and build before modifying files.{' '}
-          Together they turn vague completions into targeted, project-aware suggestions.
+          <strong>copilot-instructions.md</strong> sets standing rules (stack, style, architecture) —
+          auto-loaded into every Chat session, Agent Mode run, and CLI session.{' '}
+          <strong>settings.json</strong> controls which file types get completions and enables instruction files.{' '}
+          <strong>AGENTS.md</strong> tells Agent Mode how to explore and verify before touching files.{' '}
+          Together they turn vague suggestions into targeted, project-aware output.
         </p>
 
         <pre className="jg-tree">{`your-java-project/
 ├── .github/
-│   └── copilot-instructions.md   ← repo-level instructions for all Copilot interactions
+│   ├── copilot-instructions.md          ← repo-level rules (Chat, CLI, Agent, Edits)
+│   └── instructions/
+│       └── tests.instructions.md        ← path-specific rules (e.g. for *Test.java only)
 ├── .vscode/
-│   └── settings.json             ← Copilot config + Java IDE settings
-├── AGENTS.md                     ← instructions read by Agent Mode before acting
+│   └── settings.json                    ← Copilot config + Java IDE settings
+├── AGENTS.md                            ← instructions read by autonomous agents
 └── pom.xml / build.gradle`}</pre>
+
+        <h2 className="jg-section-title">Custom instructions load order</h2>
+        <table className="jg-table">
+          <thead>
+            <tr><th>File</th><th>Scope</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>~/.copilot/copilot-instructions.md</code></td><td>Global (all your projects)</td></tr>
+            <tr><td><code>.github/copilot-instructions.md</code></td><td>Repository-wide</td></tr>
+            <tr><td><code>.github/instructions/*.instructions.md</code></td><td>Path-specific (YAML frontmatter with <code>applyTo</code> glob)</td></tr>
+            <tr><td><code>AGENTS.md</code> at repo root</td><td>Primary — stronger effect on autonomous agents</td></tr>
+          </tbody>
+        </table>
+        <p className="jg-section-desc" style={{ marginTop: 0 }}>
+          Repository instructions override global. All matching files are applied together.
+        </p>
 
         <div className="jg-tip">
           <strong>Start here:</strong> Create <code>.github/copilot-instructions.md</code> first.
-          It is the highest-leverage file — it improves completions, Chat, Edits, and Agent Mode simultaneously.
+          It is the highest-leverage file — a single commit improves completions, Chat, Edits,
+          and the CLI simultaneously. No restart required; changes load immediately.
         </div>
       </TabPanel>
 
+      {/* ── Custom Instructions ───────────────────────────────────── */}
       <TabPanel active={tab === 'instructions'}>
         <h2 className="jg-section-title">.github/copilot-instructions.md</h2>
         <p className="jg-section-desc">
-          This file is automatically injected into every Copilot Chat session and Agent Mode run.
+          Automatically injected into every Copilot Chat session, CLI session, and Agent Mode run.
           Customize it with your actual stack, team conventions, and architecture rules.
+          VS Code must have <code>"github.copilot.chat.codeGeneration.useInstructionFiles": true</code> in settings.json.
         </p>
         <CopyBlock lang="markdown" label=".github/copilot-instructions.md" code={INSTRUCTIONS_CODE} />
 
+        <h2 className="jg-section-title">Path-specific instructions</h2>
+        <p className="jg-section-desc">
+          Create files in <code>.github/instructions/</code> with a YAML frontmatter <code>applyTo</code> glob
+          to target specific file types. The <code>excludeAgent</code> field prevents specific agents from seeing them.
+        </p>
+        <CopyBlock lang="markdown" label=".github/instructions/tests.instructions.md" code={`---
+applyTo: "**/*Test.java,**/*IT.java"
+excludeAgent: "code-review"
+---
+
+# Test Conventions
+- Use JUnit 5 — @Test, @BeforeEach, @AfterEach
+- Name tests: methodName_scenario_expectedResult
+- Use Mockito for unit test mocks
+- Use Testcontainers for integration tests that need a real database
+- Assert with AssertJ — assertThat(result).isEqualTo(expected)
+- Never use Thread.sleep() in tests — use Awaitility for async assertions`} />
+
         <h2 className="jg-section-title">AGENTS.md</h2>
         <p className="jg-section-desc">
-          Placed at the repo root, this file gives Agent Mode additional context: where to put
-          new files, what to verify after changes, and what to avoid touching.
+          Placed at the repo root, this file has stronger weight on autonomous agents than
+          copilot-instructions.md. Use it for operational constraints: where files go, what
+          to verify after changes, what never to touch.
         </p>
         <CopyBlock lang="markdown" label="AGENTS.md" code={AGENTS_MD_CODE} />
-
-        <div className="jg-tip">
-          <strong>Tip:</strong> VS Code must have{' '}
-          <code>"github.copilot.chat.codeGeneration.useInstructionFiles": true</code>{' '}
-          in settings.json for these files to take effect.
-        </div>
       </TabPanel>
 
+      {/* ── VS Code Settings ──────────────────────────────────────── */}
       <TabPanel active={tab === 'settings'}>
         <h2 className="jg-section-title">.vscode/settings.json</h2>
         <p className="jg-section-desc">
@@ -334,9 +527,9 @@ export default function JavaGuidePage() {
         <CopyBlock lang="json" label=".vscode/settings.json" code={SETTINGS_CODE} />
 
         <div className="jg-warn">
-          <strong>Note:</strong> <code>github.copilot.enable.dotenv: false</code> prevents
-          Copilot from reading <code>.env</code> files. This is a security best practice —
-          keep it disabled to avoid leaking secrets into suggestions.
+          <strong>Security:</strong> <code>"github.copilot.enable.dotenv": false</code> prevents
+          Copilot from reading <code>.env</code> files — keep it disabled to avoid leaking
+          credentials into suggestions.
         </div>
 
         <h2 className="jg-section-title">Key settings explained</h2>
@@ -347,30 +540,35 @@ export default function JavaGuidePage() {
           <tbody>
             <tr>
               <td><code>useInstructionFiles</code></td>
-              <td>Enables .github/copilot-instructions.md and AGENTS.md</td>
+              <td>Enables .github/copilot-instructions.md, AGENTS.md, and path-specific instruction files</td>
             </tr>
             <tr>
               <td><code>github.copilot.enable["*"]</code></td>
-              <td>Enable completions globally (override per language below)</td>
+              <td>Enable completions globally; override per language key below</td>
             </tr>
             <tr>
               <td><code>java.format.settings.url</code></td>
-              <td>Enforces Google Java Style via Eclipse formatter config</td>
+              <td>Enforces Google Java Style via Eclipse formatter config (formatOnSave applies it)</td>
             </tr>
             <tr>
               <td><code>java.test.defaultConfig</code></td>
               <td>Tells the Java Test Runner to use JUnit 5 by default</td>
             </tr>
+            <tr>
+              <td><code>explorer.fileNesting.patterns</code></td>
+              <td>Nests mvnw / gradlew under the build file to reduce sidebar noise</td>
+            </tr>
           </tbody>
         </table>
       </TabPanel>
 
+      {/* ── Prompting ─────────────────────────────────────────────── */}
       <TabPanel active={tab === 'prompting'}>
         <h2 className="jg-section-title">Prompting patterns for Java</h2>
         <p className="jg-section-desc">
           The difference between a vague prompt and an effective one is specificity: name the
-          endpoint, the class, the constraint, the expected behaviour. Give Copilot the same
-          context you would give a junior developer joining your team.
+          class, endpoint, constraint, and expected behaviour. Give Copilot the same context
+          you would give a junior developer joining your team.
         </p>
 
         <table className="jg-table">
@@ -408,43 +606,105 @@ export default function JavaGuidePage() {
               <td>"add logs"</td>
               <td>"Add SLF4J logging to all public methods in UserService: DEBUG on entry with params, ERROR on exception with stack trace."</td>
             </tr>
+            <tr>
+              <td>Generate mock</td>
+              <td>"mock this"</td>
+              <td>"@workspace Generate a Mockito mock for PaymentGateway. Stub chargeCard() to return PaymentResult.success() for amounts under 1000, throw PaymentException for amounts above."</td>
+            </tr>
           </tbody>
         </table>
 
         <div className="jg-tip">
           <strong>Pattern:</strong> Every effective prompt has three parts —
-          <em> what</em> (the task), <em>where</em> (specific class/method/endpoint),
+          <em> what</em> (the task), <em>where</em> (class / method / endpoint),
           and <em>constraints</em> (exceptions to throw, format to return, patterns to follow).
+          If the task spans multiple files, add <code>@workspace</code>.
         </div>
       </TabPanel>
 
+      {/* ── CLI ───────────────────────────────────────────────────── */}
       <TabPanel active={tab === 'cli'}>
-        <h2 className="jg-section-title">Copilot CLI for Java</h2>
+        <h2 className="jg-section-title">Installation</h2>
         <p className="jg-section-desc">
-          The Copilot CLI runs as an agentic terminal session. Pipe command output directly
-          to Copilot, delegate long tasks to a cloud agent with <code>&amp;</code>, and use
-          plan mode (Shift+Tab) before risky operations.
+          The Copilot CLI is a standalone npm package (<code>@github/copilot</code>) — separate
+          from the VS Code extension. It requires Node.js 22+ for the npm install path.
+          On first launch, type <code>/login</code> to authenticate via GitHub OAuth.
         </p>
-
-        <CopyBlock lang="bash" label="Java-specific CLI tasks" code={CLI_CODE} />
-
-        <h2 className="jg-section-title">Session commands &amp; model selection</h2>
-        <CopyBlock lang="bash" label="CLI session management" code={CLI_TIPS_CODE} />
-
-        <div className="jg-tip">
-          <strong>Best practice:</strong> Use <strong>plan mode</strong> (Shift+Tab) before
-          any refactor that touches more than 5 files. Copilot writes a <code>plan.md</code>{' '}
-          file you can review and edit before it executes — this prevents surprises on large
-          codebases.
-        </div>
+        <CopyBlock lang="bash" label="Install Copilot CLI" code={CLI_INSTALL_CODE} />
 
         <div className="jg-warn">
-          <strong>Security:</strong> The Copilot CLI only reads files in your current working
-          directory and shows you every change before applying it. Never run it with elevated
-          privileges or outside your project root.
+          <strong>Authentication:</strong> Only <strong>fine-grained PATs</strong> work for
+          programmatic/CI use — classic PATs (<code>ghp_</code> prefix) are silently rejected.
+          Set <code>COPILOT_GITHUB_TOKEN</code> in your environment or CI secrets.
+          For interactive use, <code>/login</code> (OAuth device flow) is recommended.
         </div>
+
+        <h2 className="jg-section-title">Java-specific tasks</h2>
+        <p className="jg-section-desc">
+          Inside an interactive Copilot session, type tasks at the prompt. Pipe command output
+          directly — Maven test results, compilation errors, or grep output. Use <code>-p</code>
+          for non-interactive single-shot execution.
+        </p>
+        <CopyBlock lang="bash" label="Java CLI tasks" code={CLI_JAVA_TASKS_CODE} />
+
+        <h2 className="jg-section-title">Tool permissions</h2>
+        <p className="jg-section-desc">
+          Copilot uses a two-layer permission model: <strong>availability</strong> (what the AI
+          knows exists) and <strong>permission</strong> (what it can execute). Deny always beats
+          allow. Grant only the tools your task needs.
+        </p>
+        <CopyBlock lang="bash" label="Tool permission flags" code={CLI_TOOLS_CODE} />
+
+        <h2 className="jg-section-title">Delegating to cloud agent (/delegate)</h2>
+        <p className="jg-section-desc">
+          The <code>&amp;</code> prefix (alias for <code>/delegate</code>) offloads a task to
+          GitHub's cloud agent. It commits your current state as a checkpoint, creates a draft PR,
+          and works asynchronously — you can close the CLI session entirely.
+        </p>
+        <CopyBlock lang="bash" label="/delegate — cloud agent" code={CLI_DELEGATE_CODE} />
+
+        <h2 className="jg-section-title">Plan mode, autopilot &amp; /fleet</h2>
+        <CopyBlock lang="bash" label="Plan mode & parallel execution" code={CLI_PLAN_MODE_CODE} />
+
+        <div className="jg-tip">
+          <strong>Ctrl+Y</strong> opens <code>plan.md</code> in your default editor so you can
+          edit the plan before Copilot executes it. This is the safest way to handle large
+          refactors — review every step before any file is touched.
+        </div>
+
+        <h2 className="jg-section-title">Session management, models &amp; rollback</h2>
+        <CopyBlock lang="bash" label="Session commands" code={CLI_SESSION_CODE} />
+
+        <h2 className="jg-section-title">Pull request &amp; code review workflows</h2>
+        <p className="jg-section-desc">
+          The <code>/pr</code> and <code>/review</code> commands turn the CLI into a full PR
+          lifecycle tool — create PRs, fix CI failures, process review feedback, and run
+          pre-commit reviews, all without leaving the terminal.
+        </p>
+        <CopyBlock lang="bash" label="/pr and /review commands" code={CLI_PR_CODE} />
+
+        <h2 className="jg-section-title">Keyboard shortcuts reference</h2>
+        <table className="jg-table">
+          <thead>
+            <tr><th>Shortcut</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>Shift+Tab</code></td><td>Toggle between Normal / Plan / Autopilot modes</td></tr>
+            <tr><td><code>Ctrl+Y</code></td><td>Open plan.md in your editor before execution</td></tr>
+            <tr><td><code>Ctrl+T</code></td><td>Toggle model reasoning visibility (persists across sessions)</td></tr>
+            <tr><td><code>Ctrl+V</code></td><td>Paste image from clipboard as context</td></tr>
+            <tr><td><code>Esc Esc</code></td><td>Open rollback checkpoint picker (empty input required)</td></tr>
+            <tr><td><code>Ctrl+L</code></td><td>Clear screen</td></tr>
+            <tr><td><code>Ctrl+R</code></td><td>Reverse history search</td></tr>
+            <tr><td><code>@filename</code></td><td>Include file contents in current prompt</td></tr>
+            <tr><td><code>!command</code></td><td>Execute shell command directly (e.g. <code>! git status</code>)</td></tr>
+            <tr><td><code>Tab</code></td><td>Complete file paths</td></tr>
+            <tr><td><code>Ctrl+C</code> (twice)</td><td>Exit session</td></tr>
+          </tbody>
+        </table>
       </TabPanel>
 
+      {/* ── Agent Mode ────────────────────────────────────────────── */}
       <TabPanel active={tab === 'agent'}>
         <h2 className="jg-section-title">Agent Mode for Java</h2>
         <p className="jg-section-desc">
@@ -465,16 +725,24 @@ export default function JavaGuidePage() {
         <div className="jg-tip">
           <strong>Tip:</strong> Always include a verification step at the end of agent prompts
           (<code>Run ./mvnw test</code>). Without it, Copilot may stop after writing code
-          without checking if it compiles or the tests pass.
+          without checking whether it compiles or the tests pass.
+        </div>
+
+        <div className="jg-warn">
+          <strong>Steering mid-task:</strong> You can send new prompts at any time during active
+          agent execution to redirect it — e.g., "stop, the UserValidator should be an interface
+          not a class". Copilot processes each message as part of the current task without
+          interrupting or discarding progress.
         </div>
       </TabPanel>
 
+      {/* ── Copilot Edits ─────────────────────────────────────────── */}
       <TabPanel active={tab === 'edits'}>
         <h2 className="jg-section-title">Copilot Edits for Java</h2>
         <p className="jg-section-desc">
-          Copilot Edits is ideal for coordinated changes across a known set of files — things
-          like adding logging to all services, migrating injection patterns, or updating method
-          signatures across a package. Build your working set first, then prompt.
+          Copilot Edits is ideal for coordinated changes across a known set of files — adding
+          logging to all services, migrating injection patterns, or updating method signatures
+          across a package. Build your working set first, then prompt.
         </p>
 
         <h2 className="jg-section-title">Example 1 — Add logging across the service layer</h2>
@@ -485,14 +753,15 @@ export default function JavaGuidePage() {
 
         <div className="jg-tip">
           <strong>Working set limit:</strong> Keep working sets under 15 files. For larger
-          refactors, split by package and run Edits in batches. Copilot Edits streams changes
-          file-by-file — you can accept or reject each hunk independently before moving on.
+          refactors, split by package and run Edits in batches. Changes stream file-by-file —
+          accept or reject each hunk independently before moving on. For 30+ files, use the
+          CLI with <code>--autopilot</code> or <code>/fleet</code> instead.
         </div>
 
         <div className="jg-warn">
           <strong>Review pom.xml changes carefully.</strong> Copilot may add or update
           dependency versions. Always check the diff before accepting — dependency changes
-          can break the build in non-obvious ways.
+          can break the build in non-obvious ways, especially with Spring Boot BOM management.
         </div>
       </TabPanel>
     </div>
