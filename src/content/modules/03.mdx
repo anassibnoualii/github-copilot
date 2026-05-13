@@ -48,13 +48,12 @@ Create a new file, component, or scaffold an entire structure.
   '/new Express REST API with CRUD routes for a Product model',
 ]} />
 
-### /review
+### /fixTestFailure
 
-Request a code review of your changes, as if a colleague were checking your PR.
+Find and fix a failing test. Copilot reads the test output and identifies the root cause.
 
 <PromptList items={[
-  '/review #selection',
-  '/review focus on security and error handling',
+  '/fixTestFailure',
 ]} />
 
 ## Context Variables Deep Dive
@@ -104,12 +103,13 @@ The most powerful prompts combine a slash command, a participant, and context va
 </Callout>
 
 <KeyPoints items={[
-  '/explain, /fix, /tests, /doc are the most-used slash commands',
+  '/explain, /fix, /tests are the most-used slash commands in VS Code',
+  '/fixTestFailure is the dedicated command for diagnosing failing tests',
   '#file pins a specific file as context — more precise than @workspace alone',
   '#codebase triggers semantic search — great for architecture questions',
   '#terminalLastCommand is perfect for debugging failed commands',
   'Combine commands + participants + context variables for precision prompts',
-  '/new can scaffold entire components, routes, and project structures',
+  '/new can scaffold entire projects and file structures',
 ]} />
 
 <ModuleQuiz questions={[

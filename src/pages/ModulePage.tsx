@@ -69,7 +69,7 @@ export default function ModulePage() {
           <div className="module-panel-section-label panel-level-tryit">
             {t('module.tryItYourself')}
           </div>
-          <ModuleTerminal tutorial={mod.tutorial} moduleId={mod.id} />
+          <ModuleTerminal tutorial={mod.tutorial} />
         </div>
 
         <div className="module-panel-section">

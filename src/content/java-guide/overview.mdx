@@ -28,12 +28,12 @@ your-java-project/
 
 | File | Scope |
 |---|---|
-| `~/.copilot/copilot-instructions.md` | Global — all your projects |
+| VS Code `settings.json` (`github.copilot.chat.codeGeneration.instructions`) | User-level — all your projects |
 | `.github/copilot-instructions.md` | Repository-wide |
 | `.github/instructions/*.instructions.md` | Path-specific (YAML frontmatter with `applyTo` glob) |
 | `AGENTS.md` at repo root | Primary — stronger weight on autonomous agents |
 
-Repository instructions override global. All matching files are applied together.
+Repository instructions take precedence over user settings. All matching files are applied together.
 Changes load immediately on save — no restart required.
 
 <Callout variant="tip" label="Start here">

@@ -1,10 +1,11 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Monitor, Apple, Terminal } from 'lucide-react'
 import PageHeader from '@/components/shared/PageHeader'
 import SearchInput from '@/components/shared/SearchInput'
 import { useCheatsheetSearch } from '@/hooks/useCheatsheetSearch'
 import { useLocalisedCheatsheet } from '@/hooks/useLocalisedData'
+import { useOSPreference } from '@/hooks/useOSPreference'
+import { resolveCmd } from '@/lib/utils'
 import type { OS } from '@/types'
 import type { TextSegment } from '@/lib/utils'
 
@@ -24,22 +25,11 @@ const OS_OPTIONS: { value: OS; label: string; icon: React.ReactNode }[] = [
   { value: 'linux', label: 'Linux',   icon: <Terminal size={12} /> },
 ]
 
-function resolveCmd(cmd: string, platforms: { mac: string; win: string } | undefined, os: OS): string {
-  if (!platforms) return cmd
-  if (os === 'mac') return platforms.mac
-  return platforms.win
-}
-
 export default function CheatSheetPage() {
   const { t } = useTranslation()
-  const [os, setOs] = useState<OS>(() => (localStorage.getItem('preferred-os') as OS) ?? 'mac')
+  const { os, switchOs } = useOSPreference()
   const localisedGroups = useLocalisedCheatsheet()
   const { query, setQuery, filtered, highlight } = useCheatsheetSearch(localisedGroups)
-
-  function switchOs(value: OS) {
-    setOs(value)
-    localStorage.setItem('preferred-os', value)
-  }
 
   return (
     <div className="page">

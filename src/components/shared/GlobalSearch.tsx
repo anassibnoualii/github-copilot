@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Search, BookOpen, LayoutGrid, BookMarked, X } from 'lucide-react'
@@ -77,7 +77,7 @@ export default function GlobalSearch({ open, onClose }: Props) {
   const [active, setActive] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const results = buildResults(query, modules)
+  const results = useMemo(() => buildResults(query, modules), [query, modules])
 
   useEffect(() => {
     if (open) {

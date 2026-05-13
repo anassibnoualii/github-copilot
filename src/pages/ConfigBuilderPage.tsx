@@ -1,37 +1,10 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Settings } from 'lucide-react'
-import { useState } from 'react'
 import PageHeader from '@/components/shared/PageHeader'
 import CopyButton from '@/components/shared/CopyButton'
 import GROUPS from '@/data/config-builder'
-
-function buildJson(enabled: Record<string, boolean>): string {
-  const settings: Record<string, unknown> = {}
-  const langExclusions: Record<string, boolean> = {}
-
-  for (const group of GROUPS) {
-    for (const t of group.toggles) {
-      if (group.isLangGroup) {
-        if (enabled[t.key]) {
-          langExclusions[t.settingKey.replace(/"/g, '')] = false
-        }
-      } else {
-        if (enabled[t.key]) {
-          settings[t.settingKey.replace(/"/g, '')] = t.settingVal
-        }
-      }
-    }
-  }
-
-  if (Object.keys(langExclusions).length > 0) {
-    settings['github.copilot.enable'] = {
-      '*': enabled['completions'] !== false,
-      ...langExclusions,
-    }
-  }
-
-  return JSON.stringify(settings, null, 2)
-}
+import { buildJson } from '@/lib/config'
 
 export default function ConfigBuilderPage() {
   const { t } = useTranslation()
@@ -47,7 +20,7 @@ export default function ConfigBuilderPage() {
     setEnabled(prev => ({ ...prev, [key]: !prev[key] }))
   }
 
-  const json = buildJson(enabled)
+  const json = buildJson(enabled, GROUPS)
 
   return (
     <div className="page" style={{ maxWidth: '100%', padding: '40px 40px 80px' }}>

@@ -1,5 +1,4 @@
 import { Code2, MessageSquare, Shield, Globe } from 'lucide-react'
-import { createElement } from 'react'
 
 export interface ToggleDef {
   key: string
@@ -18,7 +17,7 @@ export interface GroupDef {
 const configGroups: GroupDef[] = [
   {
     id: 'inlineCompletions',
-    icon: createElement(Code2, { size: 14 }),
+    icon: <Code2 size={14} />,
     isLangGroup: false,
     toggles: [
       { key: 'completions',   settingKey: 'github.copilot.enable',                          settingVal: { '*': true }, defaultOn: true  },
@@ -29,7 +28,7 @@ const configGroups: GroupDef[] = [
   },
   {
     id: 'chat',
-    icon: createElement(MessageSquare, { size: 14 }),
+    icon: <MessageSquare size={14} />,
     isLangGroup: false,
     toggles: [
       { key: 'chatEnabled', settingKey: 'github.copilot.chat.enabled',            settingVal: true,     defaultOn: true  },
@@ -39,7 +38,7 @@ const configGroups: GroupDef[] = [
   },
   {
     id: 'security',
-    icon: createElement(Shield, { size: 14 }),
+    icon: <Shield size={14} />,
     isLangGroup: false,
     toggles: [
       { key: 'publicCode', settingKey: 'github.copilot.advanced.duplicationDetection', settingVal: true, defaultOn: false },
@@ -48,7 +47,7 @@ const configGroups: GroupDef[] = [
   },
   {
     id: 'langExclusions',
-    icon: createElement(Globe, { size: 14 }),
+    icon: <Globe size={14} />,
     isLangGroup: true,
     toggles: [
       { key: 'exclMarkdown',  settingKey: 'markdown',  settingVal: false, defaultOn: false },

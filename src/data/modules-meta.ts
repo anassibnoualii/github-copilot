@@ -92,12 +92,12 @@ const modulesMeta: ModuleMeta[] = [
     duration: '30 min',
     description: 'Install and use the new agentic Copilot CLI for autonomous terminal tasks.',
     outcomes: [
-      'Install the Copilot CLI via the GitHub CLI extension',
-      'Use gh copilot suggest to get shell command suggestions',
-      'Use gh copilot explain to understand complex commands',
+      'Install the Copilot CLI via npm install -g @github/copilot',
+      'Start an interactive Copilot CLI session with the copilot command',
+      'Switch between Normal and Autopilot modes with Shift+Tab',
       'Run autonomous terminal tasks with natural language',
     ],
-    tryIt: 'Run gh copilot suggest "how do I find all files larger than 100MB and sort them by size" in your terminal.',
+    tryIt: 'Run npm install -g @github/copilot, then start a session with copilot and ask it to find all files larger than 100MB and sort them by size.',
     tutorial: [
       {
         input: '$ npm install -g @github/copilot',

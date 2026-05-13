@@ -7,17 +7,7 @@ import HeroTerminal from '@/components/shared/HeroTerminal'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { useProgress } from '@/hooks/useProgress'
 import { FIRST_MODULE_ID } from '@/lib/utils'
-
-const QUICK_LINK_KEYS = [
-  { to: '/playground',       key: 'playground' },
-  { to: '/cheatsheet',       key: 'cheatsheet' },
-  { to: '/features',         key: 'features' },
-  { to: '/quiz',             key: 'quiz' },
-  { to: '/config-builder',   key: 'configBuilder' },
-  { to: '/shortcut-trainer', key: 'shortcutTrainer' },
-  { to: '/prompt-builder',   key: 'promptBuilder' },
-  { to: '/java-guide',       key: 'javaGuide' },
-] as const
+import { QUICK_LINK_KEYS } from '@/data/home-links'
 
 export default function HomePage() {
   const { t } = useTranslation()

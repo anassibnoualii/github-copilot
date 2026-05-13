@@ -3,22 +3,7 @@ import { useTranslation } from 'react-i18next'
 import PageHeader from '@/components/shared/PageHeader'
 import CopyButton from '@/components/shared/CopyButton'
 import { PARTICIPANTS, SLASH_COMMANDS, CONTEXT_VARS } from '@/data/prompt-builder'
-
-function assemblePrompt(
-  participant: string,
-  command: string,
-  context: string[],
-  task: string,
-  constraints: string
-): string {
-  const parts: string[] = []
-  if (participant) parts.push(participant)
-  if (command) parts.push(command)
-  if (context.length > 0) parts.push(context.join(' '))
-  if (task.trim()) parts.push(task.trim())
-  if (constraints.trim()) parts.push(`\n\nConstraints:\n${constraints.trim()}`)
-  return parts.join(' ')
-}
+import { assemblePrompt } from '@/lib/prompt'
 
 export default function PromptBuilderPage() {
   const { t } = useTranslation()

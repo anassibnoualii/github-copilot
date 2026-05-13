@@ -9,8 +9,7 @@ const cheatsheetGroups: CheatsheetGroup[] = [
       { cmd: 'Esc', desc: 'Dismiss the current suggestion' },
       { cmd: 'Alt + ]', desc: 'Show next suggestion', platforms: { mac: 'Option + ]', win: 'Alt + ]' } },
       { cmd: 'Alt + [', desc: 'Show previous suggestion', platforms: { mac: 'Option + [', win: 'Alt + [' } },
-      { cmd: 'Ctrl + Enter', desc: 'Open the Copilot suggestion panel (10 options)' },
-      { cmd: 'Alt + \\', desc: 'Trigger inline suggestion manually', platforms: { mac: 'Option + \\', win: 'Alt + \\' } },
+      { cmd: 'Ctrl + Enter', desc: 'Open the Copilot suggestion panel' },
       { cmd: 'Ctrl + →', desc: 'Accept next word of suggestion', platforms: { mac: 'Cmd + →', win: 'Ctrl + →' } },
     ]
   },
@@ -18,7 +17,7 @@ const cheatsheetGroups: CheatsheetGroup[] = [
     title: 'Chat & Inline Chat',
     icon: '💬',
     items: [
-      { cmd: 'Ctrl+Alt+I', desc: 'Open Copilot Chat panel', platforms: { mac: 'Cmd+Shift+I', win: 'Ctrl+Alt+I' } },
+      { cmd: 'Ctrl+Shift+Alt+L', desc: 'Open Copilot quick chat', platforms: { mac: 'Shift+Option+Cmd+L', win: 'Ctrl+Shift+Alt+L' } },
       { cmd: 'Ctrl+I', desc: 'Open inline chat at cursor', platforms: { mac: 'Cmd+I', win: 'Ctrl+I' } },
       { cmd: 'Escape', desc: 'Close inline chat / dismiss suggestion' },
       { cmd: 'Enter', desc: 'Send message in chat panel' },
@@ -32,12 +31,11 @@ const cheatsheetGroups: CheatsheetGroup[] = [
     items: [
       { cmd: '/explain', desc: 'Explain the selected code or file' },
       { cmd: '/fix', desc: 'Suggest a fix for problems in the code' },
+      { cmd: '/fixTestFailure', desc: 'Find and fix a failing test' },
       { cmd: '/tests', desc: 'Generate unit tests for the selection' },
-      { cmd: '/doc', desc: 'Add documentation comments to the code' },
       { cmd: '/new', desc: 'Create a new file or project scaffold' },
       { cmd: '/clear', desc: 'Clear the chat conversation history' },
       { cmd: '/help', desc: 'Show available commands and participants' },
-      { cmd: '/review', desc: 'Request a code review of changes' },
     ]
   },
   {
@@ -60,7 +58,6 @@ const cheatsheetGroups: CheatsheetGroup[] = [
       { cmd: '@vscode', desc: 'Ask about VS Code settings and commands' },
       { cmd: '@terminal', desc: 'Explain terminal output or suggest commands' },
       { cmd: '@github', desc: 'Ask about GitHub — issues, PRs, code search' },
-      { cmd: '@docker', desc: 'Docker extension for container help' },
     ]
   },
   {

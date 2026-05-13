@@ -54,6 +54,11 @@ export function calculateProgress(current: number, total: number): number {
   return total > 0 ? Math.round((current / total) * 100) : 0
 }
 
+export function resolveCmd(cmd: string, platforms: { mac: string; win: string } | undefined, os: import('@/types').OS): string {
+  if (!platforms) return cmd
+  return os === 'mac' ? platforms.mac : platforms.win
+}
+
 export interface TextSegment {
   text: string
   match: boolean

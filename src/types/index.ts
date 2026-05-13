@@ -94,6 +94,11 @@ export interface QuizData {
   results: QuizResult[]
 }
 
+export type HistoryEntry =
+  | { kind: 'system'; text: string }
+  | { kind: 'user'; text: string; mode: PlaygroundMode }
+  | { kind: 'output'; lines: TerminalLine[] }
+
 export interface ReferenceLink {
   title: string
   url: string

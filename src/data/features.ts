@@ -76,7 +76,7 @@ const features: Feature[] = [
   { icon: '🛑', name: 'Tool Call Approval', desc: 'Review and approve each tool call before agent executes it', level: 'intermediate', category: 'IDE' },
   { icon: '↩', name: 'Agent Revert', desc: 'Undo all agent-made changes with a single click', level: 'intermediate', category: 'IDE' },
   { icon: '/', name: '/new Command', desc: 'Scaffold new files, components, or entire project structures', level: 'beginner', category: 'IDE' },
-  { icon: '/', name: '/review Command', desc: 'Request a Copilot code review of current changes', level: 'intermediate', category: 'IDE' },
+  { icon: '/', name: '/fixTestFailure Command', desc: 'Find and fix a failing test — Copilot reads the error and applies a fix', level: 'intermediate', category: 'IDE' },
   { icon: '#', name: '#terminalLastCommand', desc: 'Reference the last terminal command in a chat prompt', level: 'intermediate', category: 'IDE' },
   { icon: '🔊', name: 'Voice Input', desc: 'Dictate chat prompts using your microphone (VS Code)', level: 'intermediate', category: 'IDE' },
   { icon: '🌐', name: 'Copilot for Jupyter', desc: 'Inline completions and chat inside Jupyter notebooks', level: 'intermediate', category: 'IDE' },

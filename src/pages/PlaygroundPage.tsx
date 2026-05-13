@@ -4,12 +4,7 @@ import { Play, RotateCcw, Terminal } from 'lucide-react'
 import { usePlayground } from '@/hooks/usePlayground'
 import TabBar from '@/components/shared/TabBar'
 import NavPair from '@/components/shared/NavPair'
-import type { PlaygroundMode, TerminalLine } from '@/types'
-
-type HistoryEntry =
-  | { kind: 'system'; text: string }
-  | { kind: 'user'; text: string; mode: PlaygroundMode }
-  | { kind: 'output'; lines: TerminalLine[] }
+import type { PlaygroundMode, HistoryEntry } from '@/types'
 
 export default function PlaygroundPage() {
   const { t } = useTranslation()
