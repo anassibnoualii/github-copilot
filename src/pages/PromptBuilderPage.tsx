@@ -34,6 +34,7 @@ export default function PromptBuilderPage() {
             <div className="pb-chips">
               {PARTICIPANTS.map(p => (
                 <button
+                  type="button"
                   key={p}
                   className={`pb-chip ${participant === p ? 'active' : ''}`}
                   onClick={() => setParticipant(prev => prev === p ? '' : p)}
@@ -49,6 +50,7 @@ export default function PromptBuilderPage() {
             <div className="pb-chips">
               {SLASH_COMMANDS.map(c => (
                 <button
+                  type="button"
                   key={c}
                   className={`pb-chip pb-chip-cmd ${command === c ? 'active' : ''}`}
                   onClick={() => setCommand(prev => prev === c ? '' : c)}
@@ -64,6 +66,7 @@ export default function PromptBuilderPage() {
             <div className="pb-chips">
               {CONTEXT_VARS.map(v => (
                 <button
+                  type="button"
                   key={v}
                   className={`pb-chip pb-chip-ctx ${context.includes(v) ? 'active' : ''}`}
                   onClick={() => toggleContext(v)}

@@ -41,16 +41,16 @@ export default function Topbar({ onMenuClick, onSearch }: TopbarProps) {
 
   return (
     <header id="topbar">
-      <button id="menu-btn" aria-label={t('topbar.menuAriaLabel')} onClick={onMenuClick}>
+      <Button id="menu-btn" variant="ghost" size="icon" aria-label={t('topbar.menuAriaLabel')} onClick={onMenuClick}>
         <Menu size={18} />
-      </button>
+      </Button>
       <div className="breadcrumb">
         <span>{t('app.breadcrumbRoot')}</span>
         <span className="sep">/</span>
         <span className="current">{getBreadcrumb(location.pathname)}</span>
       </div>
       <div className="topbar-actions">
-        <button className="topbar-search-btn" onClick={onSearch} aria-label={t('search.placeholder')}>
+        <button type="button" className="topbar-search-btn" onClick={onSearch} aria-label={t('search.placeholder')}>
           <Search size={14} />
           <span className="topbar-search-label">{t('search.trigger')}</span>
           <kbd className="topbar-search-kbd">⌘K</kbd>

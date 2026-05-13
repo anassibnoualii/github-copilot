@@ -21,11 +21,11 @@ export default function NavPair({
 }: Props) {
   return (
     <div className={wrapClass}>
-      <button className={btnClass} onClick={onPrev} disabled={prevDisabled}>
+      <button type="button" className={btnClass} onClick={onPrev} disabled={prevDisabled}>
         <ChevronLeft size={iconSize} /> {prevLabel}
       </button>
       {children}
-      <button className={btnClass} onClick={onNext} disabled={nextDisabled}>
+      <button type="button" className={btnClass} onClick={onNext} disabled={nextDisabled}>
         {nextLabel} <ChevronRight size={iconSize} />
       </button>
     </div>

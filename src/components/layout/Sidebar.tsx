@@ -84,7 +84,7 @@ export default function Sidebar({ isOpen, onClose, onSearch }: SidebarProps) {
           <span>{t('app.subtitle')}</span>
         </div>
 
-        <button className="sidebar-search-btn" onClick={() => { onSearch(); onClose() }}>
+        <button type="button" className="sidebar-search-btn" onClick={() => { onSearch(); onClose() }}>
           <Search size={13} />
           <span>{t('search.trigger')}</span>
           <kbd className="sidebar-search-kbd">⌘K</kbd>

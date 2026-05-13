@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Search, BookOpen, LayoutGrid, BookMarked, X } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import featuresData from '@/data/features'
 import cheatsheetData from '@/data/cheatsheet'
@@ -82,14 +83,14 @@ export default function GlobalSearch({ open, onClose }: Props) {
   const results = useMemo(() => buildResults(query, modules), [query, modules])
 
   useEffect(() => {
-    if (open) {
+    if (!open) return
+    const id = setTimeout(() => {
       setQuery('')
       setActive(0)
       inputRef.current?.focus()
-    }
+    }, 0)
+    return () => clearTimeout(id)
   }, [open])
-
-  useEffect(() => { setActive(0) }, [query])
 
   const go = useCallback((path: string) => {
     navigate(path)
@@ -114,17 +115,18 @@ export default function GlobalSearch({ open, onClose }: Props) {
             ref={inputRef}
             className="gs-input"
             value={query}
-            onChange={e => setQuery(e.target.value)}
+            onChange={e => { setQuery(e.target.value); setActive(0) }}
             onKeyDown={onKey}
             placeholder={t('search.placeholder')}
           />
-          <button className="gs-close-btn" onClick={onClose}><X size={14} /></button>
+          <Button variant="ghost" size="icon" className="gs-close-btn" onClick={onClose}><X size={14} /></Button>
         </div>
 
         {results.length > 0 && (
           <div className="gs-results">
             {results.map((r, i) => (
               <button
+                type="button"
                 key={r.id}
                 className={`gs-result ${i === active ? 'gs-result-active' : ''}`}
                 onClick={() => go(r.path)}

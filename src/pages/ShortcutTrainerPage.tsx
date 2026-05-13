@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckCircle, XCircle, RotateCcw, Brain } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import PageHeader from '@/components/shared/PageHeader'
 import NavPair from '@/components/shared/NavPair'
 import { useLocalisedCheatsheet } from '@/hooks/useLocalisedData'
@@ -49,6 +50,8 @@ export default function ShortcutTrainerPage() {
     setPhase('quiz')
   }
 
+  if (allCards.length === 0) return null
+
   const pct = calculateProgress(idx, allCards.length)
 
   return (
@@ -85,12 +88,12 @@ export default function ShortcutTrainerPage() {
 
           {flipped ? (
             <div className="st-actions">
-              <button className="st-btn st-btn-missed" onClick={() => advance('missed')}>
+              <Button variant="ghost" className="st-btn st-btn-missed" onClick={() => advance('missed')}>
                 <XCircle size={16} /> {t('shortcutTrainer.missed')}
-              </button>
-              <button className="st-btn st-btn-gotit" onClick={() => advance('got-it')}>
+              </Button>
+              <Button variant="ghost" className="st-btn st-btn-gotit" onClick={() => advance('got-it')}>
                 <CheckCircle size={16} /> {t('shortcutTrainer.gotIt')}
-              </button>
+              </Button>
             </div>
           ) : (
             <NavPair
@@ -127,9 +130,9 @@ export default function ShortcutTrainerPage() {
             <span className="st-score st-score-green"><CheckCircle size={13} /> {gotIt} {t('shortcutTrainer.gotItLabel')}</span>
             <span className="st-score st-score-red"><XCircle size={13} /> {missed} {t('shortcutTrainer.missedLabel')}</span>
           </div>
-          <button className="st-restart-btn" onClick={restart}>
+          <Button variant="ghost" className="st-restart-btn" onClick={restart}>
             <RotateCcw size={14} /> {t('shortcutTrainer.restart')}
-          </button>
+          </Button>
         </div>
       )}
     </div>

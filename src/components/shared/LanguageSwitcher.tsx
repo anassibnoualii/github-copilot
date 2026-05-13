@@ -13,6 +13,7 @@ export default function LanguageSwitcher() {
     <div className="lang-switcher">
       {LANGUAGES.map(({ code, label }) => (
         <button
+          type="button"
           key={code}
           className={`lang-btn${current === code ? ' active' : ''}`}
           onClick={() => i18n.changeLanguage(code)}

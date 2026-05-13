@@ -10,7 +10,7 @@ export function useOSPreference() {
 
   function switchOs(value: OS) {
     setOs(value)
-    localStorage.setItem(STORAGE_KEY_OS, value)
+    try { localStorage.setItem(STORAGE_KEY_OS, value) } catch { /* storage unavailable */ }
   }
 
   return { os, switchOs }

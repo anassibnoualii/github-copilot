@@ -1,6 +1,7 @@
 import TabbedMdxPage from '@/components/shared/TabbedMdxPage'
+import type { MdxGlob } from '@/components/shared/TabbedMdxPage'
 
-const glob = import.meta.glob('../content/java-guide/*.mdx')
+const glob: MdxGlob = import.meta.glob('../content/java-guide/*.mdx')
 
 const TABS = [
   { id: 'overview',      labelKey: 'javaGuide.tabs.overview',      mdxKey: '../content/java-guide/overview.mdx' },

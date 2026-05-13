@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { Terminal } from 'lucide-react'
 import FRAMES from '@/data/hero-frames'
 
-const CHAR_DELAY = 22
-const RESPONSE_DELAY = 12
-const PAUSE = 2200
-const RESET_PAUSE = 600
+const CHAR_DELAY              = 22
+const RESPONSE_DELAY          = 12
+const PROMPT_TO_RESPONSE_DELAY = 400
+const PAUSE                   = 2200
+const RESET_PAUSE             = 600
 
 export default function HeroTerminal() {
   const [frameIdx, setFrameIdx] = useState(0)
@@ -32,7 +33,7 @@ export default function HeroTerminal() {
         charIdx++
         timerId = setTimeout(typePrompt, CHAR_DELAY)
       } else {
-        timerId = setTimeout(typeResponse, 400)
+        timerId = setTimeout(typeResponse, PROMPT_TO_RESPONSE_DELAY)
       }
     }
 

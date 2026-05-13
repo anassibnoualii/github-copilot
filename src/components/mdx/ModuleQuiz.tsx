@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckCircle, XCircle, RotateCcw, ChevronRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import type { ModuleQuizQuestion } from '@/types'
 
 interface Props {
@@ -16,8 +17,10 @@ export default function ModuleQuiz({ questions, heading }: Props) {
   const [answers, setAnswers] = useState<boolean[]>([])
   const [phase, setPhase] = useState<'question' | 'explain' | 'done'>('question')
 
-  const q = questions[current]
+  const q = questions[current] ?? questions[0]
   const score = answers.filter(Boolean).length
+
+  if (!q) return null
 
   function pick(idx: number) {
     if (phase !== 'question') return
@@ -63,7 +66,7 @@ export default function ModuleQuiz({ questions, heading }: Props) {
                 else if (i === selected) cls += ' mq-wrong'
               }
               return (
-                <button key={i} className={cls} onClick={() => pick(i)} disabled={phase === 'explain'}>
+                <button type="button" key={i} className={cls} onClick={() => pick(i)} disabled={phase === 'explain'}>
                   {phase === 'explain' && i === q.correct && <CheckCircle size={14} className="mq-icon-ok" />}
                   {phase === 'explain' && i === selected && i !== q.correct && <XCircle size={14} className="mq-icon-err" />}
                   {opt}
@@ -78,13 +81,13 @@ export default function ModuleQuiz({ questions, heading }: Props) {
                 {selected === q.correct ? t('moduleQuiz.correct') : t('moduleQuiz.incorrect')}
               </div>
               <p>{q.explanation}</p>
-              <button className="mq-next-btn" onClick={next}>
+              <Button variant="ghost" className="mq-next-btn" onClick={next}>
                 {current + 1 < questions.length ? (
                   <><ChevronRight size={14} /> {t('moduleQuiz.nextQuestion')}</>
                 ) : (
                   <><ChevronRight size={14} /> {t('moduleQuiz.seeResults')}</>
                 )}
-              </button>
+              </Button>
             </div>
           )}
         </>
@@ -100,9 +103,9 @@ export default function ModuleQuiz({ questions, heading }: Props) {
               ? t('moduleQuiz.scoreGood')
               : t('moduleQuiz.scoreRetry')}
           </p>
-          <button className="mq-restart-btn" onClick={restart}>
+          <Button variant="ghost" className="mq-restart-btn" onClick={restart}>
             <RotateCcw size={13} /> {t('moduleQuiz.tryAgain')}
-          </button>
+          </Button>
         </div>
       )}
     </div>

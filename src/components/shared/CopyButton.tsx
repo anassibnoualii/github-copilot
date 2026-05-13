@@ -19,11 +19,11 @@ export default function CopyButton({ text, className = 'copy-btn', disabled, ico
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), COPY_SUCCESS_DURATION)
-    })
+    }).catch(() => {})
   }
 
   return (
-    <button className={className} onClick={copy} disabled={disabled || !text.trim()}>
+    <button type="button" className={className} onClick={copy} disabled={disabled || !text.trim()}>
       {copied
         ? <><Check size={iconSize} /> {t('common.copied')}</>
         : <><Copy size={iconSize} /> {t('common.copy')}</>

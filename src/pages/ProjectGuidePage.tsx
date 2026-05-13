@@ -1,6 +1,6 @@
-import TabbedMdxPage from '@/components/shared/TabbedMdxPage'
+import TabbedMdxPage, { type MdxGlob } from '@/components/shared/TabbedMdxPage'
 
-const glob = import.meta.glob('../content/project-guide/*.mdx')
+const glob: MdxGlob = import.meta.glob('../content/project-guide/*.mdx')
 
 const TABS = [
   { id: 'installation', labelKey: 'projectGuide.tabs.installation', mdxKey: '../content/project-guide/installation.mdx' },

@@ -30,9 +30,9 @@ export default function HomePage() {
             <span className="completion-title">{t('home.completionTitle')}</span>
             <span className="completion-sub">{t('home.completionSub', { count: totalCount })}</span>
           </div>
-          <button className="completion-reset" onClick={reset}>
+          <Button variant="ghost" className="completion-reset" onClick={reset}>
             <RotateCcw size={13} /> {t('home.completionReset')}
-          </button>
+          </Button>
         </div>
       )}
 
@@ -65,7 +65,7 @@ export default function HomePage() {
         {modules.map(m => {
           const done = completed.includes(m.id)
           return (
-            <div key={m.id} className={`module-card ${done ? 'module-card-done' : ''}`} onClick={() => navigate(ROUTES.module(m.id))}>
+            <button type="button" key={m.id} className={`module-card ${done ? 'module-card-done' : ''}`} onClick={() => navigate(ROUTES.module(m.id))}>
               <div className="card-num-row">
                 <span className="card-num">{m.id}</span>
                 {done
@@ -77,7 +77,7 @@ export default function HomePage() {
                 <span>{m.duration}</span>
                 <LevelBadge level={m.level} />
               </div>
-            </div>
+            </button>
           )
         })}
       </div>
@@ -87,10 +87,10 @@ export default function HomePage() {
         <h2>{t('home.referenceTitle')}</h2>
         <div className="quick-links">
           {QUICK_LINK_KEYS.map(({ to, key }) => (
-            <div key={to} className="quick-link" onClick={() => navigate(to)}>
+            <button type="button" key={to} className="quick-link" onClick={() => navigate(to)}>
               <h3>{t(`home.quickLinks.${key}.title`)}</h3>
               <p>{t(`home.quickLinks.${key}.desc`)}</p>
-            </div>
+            </button>
           ))}
         </div>
       </div>

@@ -8,6 +8,7 @@ import FilterBar from '@/components/shared/FilterBar'
 import { useFeaturesFilter } from '@/hooks/useFeaturesFilter'
 import { useLocalisedFeatures } from '@/hooks/useLocalisedData'
 import { LEVEL_FILTER_VALUES, CATEGORY_FILTER_VALUES } from '@/data/features'
+import { cn } from '@/lib/utils'
 
 const LEVEL_LABEL_KEYS: Record<string, string> = {
   all: 'features.allLevels', beginner: 'levels.beginner',
@@ -63,8 +64,12 @@ export default function FeaturesPage() {
           return (
             <div
               key={i}
-              className={`feature-item ${hasExample ? 'feature-item-clickable' : ''} ${isExpanded ? 'feature-item-expanded' : ''}`}
+              className={cn('feature-item', hasExample && 'feature-item-clickable', isExpanded && 'feature-item-expanded')}
               onClick={() => hasExample && toggleExpand(i)}
+              role={hasExample ? 'button' : undefined}
+              tabIndex={hasExample ? 0 : undefined}
+              aria-expanded={hasExample ? isExpanded : undefined}
+              onKeyDown={hasExample ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleExpand(i) } } : undefined}
             >
               <div className="feature-item-row">
                 <div className="feature-item-icon">{f.icon}</div>

@@ -61,6 +61,7 @@ export default function QuizPage() {
         <div className="quiz-options">
           {q.opts.map((opt, i) => (
             <button
+              type="button"
               key={i}
               className={`quiz-option${answers[current] === opt.score ? ' selected' : ''}`}
               onClick={() => selectOption(opt.score)}

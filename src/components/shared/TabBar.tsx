@@ -19,6 +19,7 @@ export default function TabBar({ tabs, active, onChange, wrapClass, btnClass }: 
       {tabs.map(({ value, label }) => (
         <button
           key={value}
+          type="button"
           className={`${btnClass}${active === value ? ' active' : ''}`}
           onClick={() => onChange(value)}
         >

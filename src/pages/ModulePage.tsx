@@ -9,6 +9,7 @@ import ProgressBar from '@/components/shared/ProgressBar'
 import ModuleTerminal from '@/components/module/ModuleTerminal'
 import { useLocalisedModules } from '@/hooks/useLocalisedData'
 import { useProgress } from '@/hooks/useProgress'
+import { Button } from '@/components/ui/button'
 import { LEVEL_PANEL_COLORS, calculateProgress } from '@/lib/utils'
 import { ROUTES } from '@/lib/routes'
 
@@ -74,33 +75,34 @@ export default function ModulePage() {
         </div>
 
         <div className="module-panel-section">
-          <button
+          <Button
+            variant="ghost"
             className={`module-done-btn ${isDone ? 'done' : ''}`}
             onClick={() => id && markDone(id)}
           >
             <CheckCircle2 size={14} />
             {isDone ? t('module.markedDone') : t('module.markDone')}
-          </button>
+          </Button>
         </div>
 
         <div className="module-panel-nav">
           {prev ? (
-            <button className="panel-nav-btn" onClick={() => navigate(ROUTES.module(prev.id))}>
+            <Button variant="ghost" className="panel-nav-btn" onClick={() => navigate(ROUTES.module(prev.id))}>
               <ChevronLeft size={16} className="panel-nav-arrow" />
               <span className="panel-nav-info">
                 <span className="panel-nav-label">{t('module.previous')}</span>
                 <span className="panel-nav-title">{prev.title}</span>
               </span>
-            </button>
+            </Button>
           ) : <div />}
           {next ? (
-            <button className="panel-nav-btn panel-nav-btn-next" onClick={() => navigate(ROUTES.module(next.id))}>
+            <Button variant="ghost" className="panel-nav-btn panel-nav-btn-next" onClick={() => navigate(ROUTES.module(next.id))}>
               <span className="panel-nav-info">
                 <span className="panel-nav-label">{t('module.next')}</span>
                 <span className="panel-nav-title">{next.title}</span>
               </span>
               <ChevronRight size={16} className="panel-nav-arrow" />
-            </button>
+            </Button>
           ) : <div />}
         </div>
 

@@ -45,6 +45,7 @@ export default function ConfigBuilderPage() {
                     <span className="cb-toggle-desc">{t(`configBuilder.groups.${group.id}.${toggle_.key}.desc`)}</span>
                   </div>
                   <button
+                    type="button"
                     className={`cb-switch ${enabled[toggle_.key] ? 'on' : 'off'}`}
                     onClick={() => toggle(toggle_.key)}
                     role="switch"

@@ -49,6 +49,7 @@ export default function CheatSheetPage() {
         <div className="os-toggle">
           {OS_OPTIONS.map(opt => (
             <button
+              type="button"
               key={opt.value}
               className={`os-btn ${os === opt.value ? 'active' : ''}`}
               onClick={() => switchOs(opt.value)}

@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Play, RotateCcw, Terminal } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { usePlayground } from '@/hooks/usePlayground'
 import TabBar from '@/components/shared/TabBar'
 import NavPair from '@/components/shared/NavPair'
 import type { PlaygroundMode, HistoryEntry } from '@/types'
+
+const PLAYGROUND_MODES = ['normal', 'autopilot'] as const satisfies readonly PlaygroundMode[]
 
 export default function PlaygroundPage() {
   const { t } = useTranslation()
@@ -66,15 +69,15 @@ export default function PlaygroundPage() {
 
         <div className="pg-topbar-right">
           <TabBar
-            tabs={(['normal', 'autopilot'] as PlaygroundMode[]).map(m => ({ value: m, label: t(`playground.${m}`) }))}
+            tabs={PLAYGROUND_MODES.map(m => ({ value: m, label: t(`playground.${m}`) }))}
             active={mode}
             onChange={(v) => setMode(v as PlaygroundMode)}
             wrapClass="cli-mode-select"
             btnClass="cli-mode-btn"
           />
-          <button className="pg-reset-btn" onClick={reset}>
+          <Button variant="ghost" className="pg-reset-btn" onClick={reset}>
             <RotateCcw size={13} /> {t('playground.reset')}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -133,9 +136,9 @@ export default function PlaygroundPage() {
             placeholder={t('playground.inputPlaceholder')}
             autoFocus
           />
-          <button className="pg-run-btn" onClick={() => run(input)} disabled={!input.trim()}>
+          <Button variant="ghost" size="icon" className="pg-run-btn" onClick={() => run(input)} disabled={!input.trim()}>
             <Play size={13} />
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -145,6 +148,7 @@ export default function PlaygroundPage() {
           <div className="pg-chips">
             {examples.map(ex => (
               <button
+                type="button"
                 key={ex.task}
                 className={`pg-chip ${ex.mode === 'autopilot' ? 'pg-chip-autopilot' : ''}`}
                 onClick={() => run(ex.task, ex.mode)}
@@ -177,12 +181,13 @@ export default function PlaygroundPage() {
               nextDisabled={guidedStep === examples.length - 1}
               nextLabel={t('playground.next')}
             >
-              <button
+              <Button
+                variant="ghost"
                 className="pg-guided-run"
                 onClick={() => { if (currentExample) run(currentExample.task, currentExample.mode) }}
               >
                 <Play size={13} /> {t('playground.runThis')}
-              </button>
+              </Button>
             </NavPair>
           </div>
         </div>

@@ -5,7 +5,7 @@ import mdxComponents from '@/components/mdx/mdx-components'
 import PageHeader from '@/components/shared/PageHeader'
 import TabBar from '@/components/shared/TabBar'
 
-type MdxGlob = Record<string, () => Promise<unknown>>
+export type MdxGlob = Record<string, () => Promise<unknown>>
 
 interface TabDef {
   id: string

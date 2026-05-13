@@ -18,13 +18,13 @@ export function useProgress() {
     setCompleted(prev => {
       if (prev.includes(id)) return prev
       const next = [...prev, id]
-      localStorage.setItem(KEY, JSON.stringify(next))
+      try { localStorage.setItem(KEY, JSON.stringify(next)) } catch { /* storage unavailable */ }
       return next
     })
   }, [])
 
   const reset = useCallback(() => {
-    localStorage.removeItem(KEY)
+    try { localStorage.removeItem(KEY) } catch { /* storage unavailable */ }
     setCompleted([])
   }, [])
 

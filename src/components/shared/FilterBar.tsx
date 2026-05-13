@@ -15,7 +15,7 @@ export default function FilterBar({ options, active, onChange }: FilterBarProps)
   return (
     <div className="feature-filters">
       {options.map(o => (
-        <button key={o.value} className={filterBtnClass(active === o.value)} onClick={() => onChange(o.value)}>
+        <button type="button" key={o.value} className={filterBtnClass(active === o.value)} onClick={() => onChange(o.value)}>
           {o.label}
         </button>
       ))}

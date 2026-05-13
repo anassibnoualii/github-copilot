@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Play, RotateCcw, Terminal } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import TabBar from '@/components/shared/TabBar'
 import NavPair from '@/components/shared/NavPair'
 import StepDots from '@/components/shared/StepDots'
@@ -86,13 +87,13 @@ export default function ModuleTerminal({ tutorial }: Props) {
           />
           <div className="mt-free-actions">
             {ran && (
-              <button className="mt-reset-btn" onClick={reset}>
+              <Button variant="ghost" className="mt-reset-btn" onClick={reset}>
                 <RotateCcw size={11} /> {t('moduleTerminal.reset')}
-              </button>
+              </Button>
             )}
-            <button className="mt-run-btn" onClick={runFree} disabled={!freeInput.trim()}>
+            <Button variant="ghost" className="mt-run-btn" onClick={runFree} disabled={!freeInput.trim()}>
               <Play size={11} /> {t('moduleTerminal.run')}
-            </button>
+            </Button>
           </div>
           {freeOutput && (
             <pre className="mt-step-output mt-free-output">{freeOutput}</pre>

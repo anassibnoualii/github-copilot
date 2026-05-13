@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { ReferenceType } from '@/types'
 import PageHeader from '@/components/shared/PageHeader'
 import FilterBar from '@/components/shared/FilterBar'
 import { useLocalisedReferences } from '@/hooks/useLocalisedData'
@@ -15,6 +16,16 @@ export default function ReferencesPage() {
     ...REFERENCE_TYPE_KEYS.map(k => ({ value: k, label: t(`references.type.${k}`) })),
   ], [t])
 
+  const filteredSections = useMemo(() =>
+    references
+      .map(section => ({
+        ...section,
+        links: activeType === 'all' ? section.links : section.links.filter(l => l.type === activeType as ReferenceType),
+      }))
+      .filter(s => s.links.length > 0),
+    [references, activeType]
+  )
+
   return (
     <div className="page">
       <PageHeader
@@ -25,16 +36,12 @@ export default function ReferencesPage() {
 
       <FilterBar options={TYPE_OPTIONS} active={activeType} onChange={setActiveType} />
 
-      {references.map(section => {
-        const links = activeType === 'all'
-          ? section.links
-          : section.links.filter(l => l.type === activeType)
-        if (links.length === 0) return null
+      {filteredSections.map(section => {
         return (
           <div key={section.label} className="ref-section">
             <h2>{section.icon} {section.label}</h2>
             <div className="ref-grid">
-              {links.map(link => (
+              {section.links.map(link => (
                 <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="ref-card">
                   <div className="ref-card-title">{link.title}</div>
                   <div className="ref-card-desc">{link.desc}</div>

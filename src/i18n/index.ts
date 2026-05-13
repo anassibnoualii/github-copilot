@@ -11,13 +11,13 @@ i18n
       en: { translation: en },
       fr: { translation: fr },
     },
-    lng: localStorage.getItem(STORAGE_KEY_LANG) ?? 'en',
+    lng: (() => { try { return localStorage.getItem(STORAGE_KEY_LANG) ?? 'en' } catch { return 'en' } })(),
     fallbackLng: 'en',
     interpolation: { escapeValue: false },
   })
 
 i18n.on('languageChanged', (lng) => {
-  localStorage.setItem(STORAGE_KEY_LANG, lng)
+  try { localStorage.setItem(STORAGE_KEY_LANG, lng) } catch { /* storage unavailable */ }
 })
 
 export default i18n
